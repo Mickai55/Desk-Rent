@@ -19,7 +19,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
-  declarations: [
+  declarations: [      
     AppComponent,
     HomeComponent,
     LoginComponent,
