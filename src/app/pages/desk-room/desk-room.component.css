@@ -1,0 +1,31 @@
+.chair {
+  display: inline-block;
+
+  width: 6vw;
+  height: 6vw;
+  box-shadow: 5px 10px 8px #888888;
+  cursor: pointer;
+
+  border: 3px solid black;
+  border-radius: 20px;
+}
+
+.chair-green {
+  background-color: lightgreen;
+}
+
+.chair-red {
+  background-color: red;
+}
+
+.chair-content {
+  margin-left: 5%;
+  margin-top: 5%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: bold;
+}
+
+#inlineblk {
+  display: inline-block;
+  margin: 2%;
+}

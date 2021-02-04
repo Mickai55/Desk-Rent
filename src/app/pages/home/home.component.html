@@ -1,0 +1,30 @@
+<p class="p1"><b>Welcome to DeskRent!</b></p>
+
+<p class="p2">DeskRent is a place where you can rent a place in any office disposable.</p>
+<p class="p2">Simple and fast!</p>
+
+<carousel
+[arrows]="false" 
+[margin]="50"
+[cellWidth]="1100" 
+[height]="459" 
+[loop]="true" 
+[autoplay]="true" 
+[autoplayInterval]="5000"
+[transitionDuration]="1500"
+>
+    <div class="carousel-cell">
+        <img src="assets/images/office3.jpg">
+    </div>
+    <div class="carousel-cell">
+        <img src="assets/images/office1.jpg">
+    </div>
+    <div class="carousel-cell">
+        <img src="assets/images/office2.jpg">
+    </div>
+</carousel>
+
+<button [routerLink]="['/rent']" style="margin-top: 23px;" type="button"
+    class="btn btn-outline-dark btn-lg">Rent!</button>
+
+

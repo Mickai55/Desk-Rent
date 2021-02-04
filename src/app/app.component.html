@@ -1,0 +1,32 @@
+<nav style=" border-bottom: 1px solid  rgb(202, 202, 202);
+border-left: 1px solid  rgb(202, 202, 202); /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+border-right: 1px solid  rgb(202, 202, 202);
+border-bottom-left-radius: 5px;
+border-bottom-right-radius: 5px;" class="navbar navbar-expand-md navbar-light bg-light">
+  <a [routerLink]="['/']" class="navbar-brand"><img src="../assets/images/logo.png"> DeskRent
+  </a>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav">
+          <a [routerLink]="['/']" class="nav-item nav-link active">Home</a>
+          <a [routerLink]="['/rent']" class="nav-item nav-link">Rent</a>
+      </div>
+      <div class="navbar-nav ml-auto">
+          <a [routerLink]="['/login']" class="nav-item nav-link">Login</a>
+          <a [routerLink]="['/register']" class="nav-item nav-link">Register</a>
+      </div>
+  </div>
+</nav>
+<div class="space"></div>
+<div class="cnt">
+    <router-outlet></router-outlet>
+</div>
+
+
+
+<footer class="text-muted text-center" style="margin-top: 150px;">
+    <small>Fancy footer<br>-</small>
+</footer>

@@ -1,0 +1,50 @@
+<h2>Welcome to Desk {{desk.name}}</h2>
+<button class="btn btn-danger" (click)="deleteDesk()">Delete this Desk</button>
+<br><br>
+
+<ul>
+    <li>id: {{desk._id}}</li>
+    <li>Name: {{desk.name}}</li>
+    <li>Address: {{desk.address}}</li>
+    <li>Spaces left: {{desk.available_spaces}}/{{desk.total_spaces}}</li>
+</ul>
+<br>
+<div id="inlineblk" *ngFor="let chair of desk.chairs; let i = index">
+    <div [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">
+
+        <div class="chair-content">ID: {{chair._id}}</div>
+        <div *ngIf="!chair.occupied" class="chair-content">Free</div> 
+        <div *ngIf="chair.arrival_date" class="chair-content">A: {{chair.arrival_date | date}}</div>
+        <div *ngIf="chair.depart_date" class="chair-content">D: {{chair.depart_date | date}}</div>
+    </div>
+</div>
+ 
+<ng-template #template>
+  <div class="modal-header">
+    <h3 *ngIf="!this.desk.chairs[this.clickedDesk].occupied" class="modal-title pull-left">Please insert the dates in which between you want to rent Desk {{clickedDesk}}</h3> 
+    <h3 *ngIf="this.desk.chairs[this.clickedDesk].occupied" class="modal-title pull-left">Are you sure you want to free desk {{clickedDesk}}? </h3> 
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    
+    <div class="row" *ngIf="!this.desk.chairs[this.clickedDesk].occupied">
+        <div class="col-xs-12 col-12 col-md-6 form-group">
+            <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue" [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true }">
+        </div>
+        <div class="col-xs-12 col-12 col-md-5 form-group">
+            <button class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">Date Range Picker</button>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-success col-6" (click)="occupyDesk();modalRef.hide();">Confirm</button>
+    <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
+  </div> 
+</ng-template>
+
+
+
+
+

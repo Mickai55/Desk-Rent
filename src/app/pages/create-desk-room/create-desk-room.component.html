@@ -1,0 +1,17 @@
+<h2>Create a new Desk room</h2>
+<br>
+<div class="form-group">
+    <label for="name">Name</label>
+    <input [(ngModel)]="desk.name" type="text" class="form-control" placeholder="Name" id="name">
+</div>
+<div class="form-group">
+    <label for="address">Address</label>
+    <input [(ngModel)]="desk.address" type="text" class="form-control" placeholder="Address" id="address">
+</div>
+<div class="form-group">
+    <label for="total_spaces">Available total_spaces</label>
+    <input [(ngModel)]="desk.total_spaces" type="number" class="form-control" placeholder="Available total_spaces" id="total_spaces">
+</div>
+
+
+<button class="btn btn-success" (click)="add()">Confirm</button>

@@ -1,0 +1,29 @@
+<h1>Rent a desk!</h1>
+<br>
+
+<table id="example" datatable class="row-border hover stripe">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">Spaces left</th>
+    </tr>
+  </thead>
+  <tbody style="cursor: pointer;">
+    <tr [routerLink]="['/deskRoom', tx._id]" *ngFor="let tx of desks;">
+      <td>{{tx._id}}</td>
+      <td>{{tx.name}}</td>
+      <td>{{tx.address}}</td>
+      <td>{{tx.available_spaces}}/{{tx.total_spaces}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="btn btn-info col-2" [routerLink]="['/createDeskRoom']">Create a new Desk</button>
+<button style="left: 5px;" class="btn btn-danger col-2" (click)="deleteLastDesk()">Delete last Desk</button>
+
+
+
+
+

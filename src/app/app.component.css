@@ -1,0 +1,18 @@
+.cnt {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: 1px solid  rgb(202, 202, 202);
+    /* border-right: 1px solid  rgb(202, 202, 202);
+    border-bottom: 1px solid  rgb(202, 202, 202); */
+    padding: 4%;
+}
+.space {
+    padding-top: 2%;
+    /* border-left: 1px solid  rgb(238, 238, 238); */
+    /* border-bottom: 1px solid  rgb(202, 202, 202); */
+}
+
+img {
+    width: 35px;
+    height: auto;
+}
