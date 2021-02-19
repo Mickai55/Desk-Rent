@@ -1,4 +1,4 @@
-<h2>Welcome to Desk {{desk.name}}</h2>
+<p class="p2">Welcome to Desk {{desk.name}}</p>
 <button class="btn btn-danger" (click)="deleteDesk()">Delete this Desk</button>
 <br><br>
 
@@ -9,30 +9,38 @@
   <li>Spaces left: {{desk.available_spaces}}/{{desk.total_spaces}}</li>
 </ul>
 <br>
+<div class="alert alert-danger" *ngIf="failedToOccupy">The dates that you entered are not available for Desk {{clickedDesk}}</div>
 <div id="inlineblk" *ngFor="let chair of desk.chairs; let i = index">
   <div [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">
 
     <div class="chair-content">ID: {{chair._id}}</div>
-    <div *ngIf="!chair.occupied" class="chair-content">Free</div>
-    <div *ngIf="chair.arrival_date" class="chair-content">A: {{chair.arrival_date | date}}</div>
-    <div *ngIf="chair.depart_date" class="chair-content">D: {{chair.depart_date | date}}</div>
+    <div *ngIf="chair.requests.length == 0" class="chair-content">Free</div>
+    <div *ngIf="chair.occupied" class="chair-content">Occupied</div> 
+    <div *ngIf="chair.requests.length > 0 && !chair.occupied" class="chair-content">Has reservations</div>
   </div>
-</div>
+</div> 
 
 <ng-template #template>
-  <div style="padding-top: 30px;" class="modal-header">
-    <h3 *ngIf="!this.desk.chairs[this.clickedDesk].occupied" class="modal-title pull-left">Please insert the dates in
-      which between you want to rent Desk {{clickedDesk}}</h3>
-    <h3 *ngIf="this.desk.chairs[this.clickedDesk].occupied" class="modal-title pull-left">Are you sure you want to free
-      desk {{clickedDesk}}? </h3>
+  <div style="padding-top: 30px;" class="modal-header"> 
+    <p class="p3" >Location: {{this.desk.name}}, Desk {{clickedDesk}}</p> 
+    
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
 
-    <div style="padding-top: 30px; padding-bottom: 30px;" class="row"
-      *ngIf="!this.desk.chairs[this.clickedDesk].occupied">
+    <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk is occupied in the following dates: </h3>
+
+    <ul *ngFor="let req of this.desk.chairs[this.clickedDesk].requests; let i = index"> 
+      <li> {{req.arrival_date | date}} - {{req.depart_date | date}}</li>   
+    </ul>
+    <h3 class="alert alert-info" *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">Try not to intersect other dates </h3>
+
+    <h4>Please insert the dates in
+      which between you want to rent Desk {{clickedDesk}}:</h4>
+
+    <div style=" padding-bottom: 30px;" class="row">
       <div class="col-xs-12 col-12 col-md-6 form-group">
         <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue"
           [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true }">

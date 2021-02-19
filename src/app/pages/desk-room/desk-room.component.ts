@@ -18,6 +18,7 @@ export class DeskRoomComponent implements OnInit {
   modalRef: BsModalRef;
   clickedDesk: number;
   bsRangeValue: Date[];
+  failedToOccupy: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +28,16 @@ export class DeskRoomComponent implements OnInit {
     this.bsRangeValue = [new Date(), new Date()];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let spaces = 0;
+    this.desk.chairs.map((currentElement, index, arr) => {
+      if (!currentElement.occupied) {
+        spaces++;
+      }
+    })
+    this.desk.available_spaces = spaces;
+    localStorage.setItem('desks', JSON.stringify(this.desks));
+  }
   
   openModal(template: TemplateRef<any>, i: number) {
     this.modalRef = this.modalService.show(template);
@@ -46,18 +56,53 @@ export class DeskRoomComponent implements OnInit {
 
   occupyDesk() {
     let ch = this.desk.chairs[this.clickedDesk];
-    if (ch.occupied) {
-      this.desk.available_spaces++;
-      [ch.arrival_date, ch.depart_date] = [null, null];
-    } else {
-      this.desk.available_spaces--;
-      [ch.arrival_date, ch.depart_date] = this.bsRangeValue;
+    let arrival_date, depart_date;
+    [arrival_date, depart_date] = this.bsRangeValue;
+    // debugger
+    if (this.chairIsAvailable(ch, arrival_date, depart_date)) {
+      ch.requests.push({user: "user1", arrival_date: arrival_date.toISOString(), depart_date: depart_date.toISOString()})
+      this.failedToOccupy = false;
     }
-    ch.occupied = !ch.occupied;
+    else {
+      console.log("Occupied!!!!!!")
+      this.failedToOccupy = true;
+    } 
+    
+    // Date.parse(currentElement.arrival_date.toISOString()) 
+    // Parses a string containing a date, and returns the number of milliseconds between that date and midnight, January 1, 1970.
+
+    // date:'shortTime'
+
+    // this should be in ngOnInit ???
+    let isOccupied = false;
+    
+    ch.requests.map((currentElement, index, arr) => {
+      if (Date.now() - Date.parse(currentElement.arrival_date) >= 0 && Date.now() - Date.parse(currentElement.depart_date) <= 0) {
+        isOccupied = true;
+      }
+      // else if (Date.toString()- Date.parse(currentElement.arrival_date) === 0)
+      //   isOccupied = true;
+    })
+    ch.occupied = isOccupied;
 
 
     localStorage.setItem('desks', JSON.stringify(this.desks));
   }
 
+  chairIsAvailable(ch, arrive, depart) {
+    for (let i = 0; i < ch.requests.length; i++){
+      let currentElement = ch.requests[i];
+      if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(arrive) - Date.parse(currentElement.depart_date) < 0)
+        return false;
+
+      if (Date.parse(depart) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) < 0)
+        return false;
+
+      if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) < 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) > 0)
+        return false;
+    }
+
+    return true;
+  }
 
 }
