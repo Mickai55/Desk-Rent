@@ -1,3 +1,24 @@
 .form-control{
     max-width: 500px;
 }
+
+.chair {
+    display: inline-block;
+  
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.808); 
+    box-shadow: 5px 10px 8px #888888;
+    cursor: pointer;
+  
+    border: 3px solid black;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.chair-content {
+    margin-left: 5%;
+    margin-top: 5%;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-weight: bold;
+}

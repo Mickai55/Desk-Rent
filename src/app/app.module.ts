@@ -18,6 +18,7 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [      
@@ -42,7 +43,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ModalModule.forRoot(),
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),  
-    MatTooltipModule              
+    MatTooltipModule,
+    DragDropModule                   
   ],
   providers: [RentComponent],
   bootstrap: [AppComponent]

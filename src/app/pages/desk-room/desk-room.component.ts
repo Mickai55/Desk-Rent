@@ -34,9 +34,28 @@ export class DeskRoomComponent implements OnInit {
       if (!currentElement.occupied) {
         spaces++;
       }
+      // var el = document.getElementById("object-" + index);
+      // el.style.backgroundColor = 'red';
+
+      // currentElement.nativeElement.style.background = 'red';
+
+
     })
     this.desk.available_spaces = spaces;
     localStorage.setItem('desks', JSON.stringify(this.desks));
+    
+    // $("#forr").load(" #forr > *");
+  }
+
+  positionChairs() {
+    // debugger
+    for (let i = 0; i < this.desk.chairs.length; i++) {
+
+      var el = document.getElementById("object-" + i);
+      el.style.backgroundColor = 'purple';
+      el.style.transform = 'translate3d(' + this.desk.chairs[i].posX + 'px, ' + this.desk.chairs[i].posY + 'px, 0px)';
+
+    }
   }
   
   openModal(template: TemplateRef<any>, i: number) {

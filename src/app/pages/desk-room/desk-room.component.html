@@ -10,9 +10,10 @@
 </ul>
 <br>
 <div class="alert alert-danger" *ngIf="failedToOccupy">The dates that you entered are not available for Desk {{clickedDesk}}</div>
-<div id="inlineblk" *ngFor="let chair of desk.chairs; let i = index">
-  <div [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">
 
+<div *ngFor="let chair of desk.chairs; let i = index">
+  <div id="{{ 'object-' + chair._id }}" [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">
+  
     <div class="chair-content">ID: {{chair._id}}</div>
     <div *ngIf="chair.requests.length == 0" class="chair-content">Free</div>
     <div *ngIf="chair.occupied" class="chair-content">Occupied</div> 
@@ -55,3 +56,7 @@
     <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
   </div>
 </ng-template>
+ 
+<button (click) = "positionChairs()">da</button>
+
+<!-- {{positionChairs()}}  -->

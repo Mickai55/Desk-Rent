@@ -30,7 +30,7 @@ export class RentComponent implements OnInit {
   createChairs(nr) {
     let chairs: Chair[] = [];
     for (let i = 0; i < nr; i++) {
-      chairs.push({ _id: i, occupied: false, requests: []})
+      chairs.push({ _id: i, occupied: false, requests: [], posX: 0, posY: 0})
     }
     
     return chairs
