@@ -13,32 +13,39 @@
     <input [(ngModel)]="desk.total_spaces" type="number" class="form-control" placeholder="Available spaces" id="total_spaces"> 
 </div>
 
-<label for="room_design">Room Design</label>
+<p><button style="position: relative; margin-top: 25px;" class="btn btn-primary" (click)="open(content);addChairs(); ">Customize your Desk</button></p>
 
-<button style="position: relative;" class="btn btn-primary" (click)="addChairs(); ">Add chairs</button>
+<p><button style="position: relative; margin-top: 25px;" class="btn btn-success" (click)="add()">Confirm</button></p>
 
-<div id="container" style="position: relative; top: 50px; height: 800px; width: 1000px; background-color: lightgray" class="container">
-    <!-- <div id="forr" *ngFor="let a of fakeArray; let index = index;">
-        <div 
-            id="chair"
-            class="chair"
-            cdkDrag 
-            cdkDragBoundary=".container"
-            (cdkDragEnded)="onDragEnded($event)">
-        </div>
-    </div> -->
-    <div id="inlineblk" *ngFor="let chair of desk.chairs; let i = index">
-        <div 
-            id="chair"
-            class="chair"
-            cdkDrag 
-            cdkDragBoundary=".container"
-            (cdkDragEnded)="onDragEnded($event, i)"
-            >
-            
-            <div class="chair-content">ID: {{chair._id}}</div>
+
+<ng-template #content let-modal>
+
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-basic-title">Desk Design</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div id="container" style="position: relative; margin-top: 50px; margin-bottom: 50px; height: 800px; width: 1000px; background-color: lightgray" class="container">
+         <!-- era bine sa ia deja pozitia curenta TO DO!!!!! (class="inlineblk") -->
+        <div *ngFor="let chair of desk.chairs; let i = index">
+            <div 
+                id="chair" 
+                class="chair"
+                cdkDrag 
+                cdkDragBoundary=".container"
+                (cdkDragEnded)="onDragEnded($event, i)"
+                >
+                
+                <div class="chair-content">ID: {{chair._id}}</div>
+            </div>
         </div>
     </div>
-</div>  
+  </div>
 
-<button style="position: relative; margin-top: 100px;" class="btn btn-success" (click)="add()">Confirm</button>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentComponent } from '../rent/rent.component';
@@ -8,6 +8,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
   selector: 'app-desk-room',
   templateUrl: './desk-room.component.html',
   styleUrls: ['./desk-room.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class DeskRoomComponent implements OnInit {
@@ -47,12 +48,16 @@ export class DeskRoomComponent implements OnInit {
     // $("#forr").load(" #forr > *");
   }
 
+  ngAfterViewInit() {
+    this.positionChairs();
+  }
+
   positionChairs() {
     // debugger
     for (let i = 0; i < this.desk.chairs.length; i++) {
 
       var el = document.getElementById("object-" + i);
-      el.style.backgroundColor = 'purple';
+      // el.style.backgroundColor = 'purple';
       el.style.transform = 'translate3d(' + this.desk.chairs[i].posX + 'px, ' + this.desk.chairs[i].posY + 'px, 0px)';
 
     }

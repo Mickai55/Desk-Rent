@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentComponent } from '../../pages/rent/rent.component';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-desk-room',
@@ -11,9 +12,11 @@ import { RentComponent } from '../../pages/rent/rent.component';
 })
 export class CreateDeskRoomComponent implements OnInit {
   notifier: NotifierService;
+  closeResult = '';
   constructor(
     private router: Router, 
-    private rent: RentComponent
+    private rent: RentComponent,
+    private modalService: NgbModal
     ) {}
   public desks: Desk[] = JSON.parse(localStorage.getItem('desks'));
   fakeArray = null;
@@ -68,6 +71,12 @@ export class CreateDeskRoomComponent implements OnInit {
       el = el.offsetParent;
     }
     return { top: y, left: x };
+  }
+
+
+
+  open(content) {
+    this.modalService.open(content, { size: 'xl', centered: true });
   }
    
 }

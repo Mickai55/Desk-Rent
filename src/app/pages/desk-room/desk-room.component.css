@@ -1,8 +1,8 @@
 .chair {
   display: inline-block;
 
-  width: 6vw;
-  height: 6vw;
+  width: 70px;
+  height: 70px;
   box-shadow: 5px 10px 8px #888888;
   cursor: pointer;
 

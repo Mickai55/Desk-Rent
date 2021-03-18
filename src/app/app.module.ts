@@ -19,13 +19,14 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [      
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent,
+    RegisterComponent, 
     RentComponent,
     DeskRoomComponent,
     CreateDeskRoomComponent
@@ -44,7 +45,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),  
     MatTooltipModule,
-    DragDropModule                   
+    DragDropModule,
+    NgbModule,
+                            
   ],
   providers: [RentComponent],
   bootstrap: [AppComponent]
