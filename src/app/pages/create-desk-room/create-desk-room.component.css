@@ -23,7 +23,13 @@
     font-weight: bold;
 }
 
-.inlineblk {
-    display: inline-block;
-    margin: 2%;
+.roomBG {
+    position: relative; 
+    margin-top: 50px; 
+    margin-bottom: 50px;  
+    height: 800px; 
+    width: 1010px; 
+    background-image: linear-gradient(to bottom right, rgb(221, 221, 221), rgb(180, 180, 180));
+    
+    /* border: 3px solid black; */
   }

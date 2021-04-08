@@ -10,27 +10,40 @@
 </div>
 <div class="form-group">
     <label for="total_spaces">Available spaces</label>
-    <input [(ngModel)]="desk.total_spaces" type="number" class="form-control" placeholder="Available spaces" id="total_spaces"> 
+    <input [(ngModel)]="desk.total_spaces" type="number" disabled="{{isDisabled}}" class="form-control" placeholder="Available spaces" id="total_spaces"> 
+</div>
+<div class="form-group">
+  <label for="dimension">Desk dimension</label>
+  <div class="row">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button style="position: relative; margin-bottom: 10px;" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>{{desk.dimension}}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button (click)="desk.dimension = 'Small';" ngbDropdownItem>Small</button> 
+          <button (click)="desk.dimension = 'Medium';" ngbDropdownItem>Medium</button>
+          <button (click)="desk.dimension = 'Large';" ngbDropdownItem>Large</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="form-group">
+  <label for="DeskDesign">Desk design</label>
+  <p><button style="position: relative;" class="btn btn-primary" (click)="openModal(content);addChairs(); ">Customize your Desk</button></p>
 </div>
 
-<p><button style="position: relative; margin-top: 25px;" class="btn btn-primary" (click)="open(content);addChairs(); ">Customize your Desk</button></p>
-
-<p><button style="position: relative; margin-top: 25px;" class="btn btn-success" (click)="add()">Confirm</button></p>
+<p><button style="position: relative; margin-top: 25px;"  [disabled]="!isDisabled" class="btn btn-success" (click)="addDesk()">Confirm</button></p> 
 
 
 <ng-template #content let-modal>
-
   <div class="modal-header">
-    <h3 class="modal-title" id="modal-basic-title">Desk Design</h3>
+    <h2 id="modal-basic-title">Desk Design</h2>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
   <div class="modal-body">
-    <div id="container" style="position: relative; margin-top: 50px; margin-bottom: 50px; height: 800px; width: 1000px; background-color: lightgray" class="container">
-         <!-- era bine sa ia deja pozitia curenta TO DO!!!!! (class="inlineblk") -->
-        <div *ngFor="let chair of desk.chairs; let i = index">
+    <div id="container"class="container roomBG"> 
+        <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index">
             <div 
                 id="chair" 
                 class="chair"
@@ -44,8 +57,8 @@
         </div>
     </div>
   </div>
-
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <button type="button" class="btn btn-outline-primary" (click)=" resetChairs(); "> Reset position </button>
   </div>
 </ng-template>

@@ -18,15 +18,22 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [      
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent, 
+    RegisterComponent,       
     RentComponent,
     DeskRoomComponent,
     CreateDeskRoomComponent
@@ -47,8 +54,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTooltipModule,
     DragDropModule,
     NgbModule,
-                            
-  ],
+    MatMenuModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatChipsModule
+  ],       
   providers: [RentComponent],
   bootstrap: [AppComponent]
 })

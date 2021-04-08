@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentComponent } from '../../pages/rent/rent.component';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-desk-room',
@@ -11,23 +11,26 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./create-desk-room.component.css'],
 })
 export class CreateDeskRoomComponent implements OnInit {
-  notifier: NotifierService;
-  closeResult = '';
   constructor(
     private router: Router, 
     private rent: RentComponent,
     private modalService: NgbModal
     ) {}
   public desks: Desk[] = JSON.parse(localStorage.getItem('desks'));
+  notifier: NotifierService;
+  closeResult = '';
   fakeArray = null;
   clickedChairIndex: number;
+  modalOption: NgbModalOptions = {};  
+  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium' };
+  isDisabled = false;
   
-
-  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [] };
-  //     { _id: 0, name: 'aaa', address: 'Slatina', total_spaces: 10 },
   ngOnInit(): void {}
   
-  add() {
+  addDesk() {
+    if (this.isDisabled == false)
+      this.addChairs();
+
     this.desks.push(this.desk);
     localStorage.setItem('desks', JSON.stringify(this.desks));
 
@@ -35,18 +38,34 @@ export class CreateDeskRoomComponent implements OnInit {
   }
 
   addChairs() {
-    // let div = document.getElementById("chair");
-    // var cln = div.cloneNode(true);
-    // // cln.id = "";
+    let container = document.getElementById("container");
+
+    if (this.desk.dimension == 'Small') {
+      container.style.width = '1010px';
+      container.style.height = '500px';
+    }
+    else if (this.desk.dimension == 'Medium') {
+      container.style.width = '1010px';
+      container.style.height = '800px';
+    }
+    else if (this.desk.dimension == 'Large') {
+      container.style.width = '1010px';
+      container.style.height = '1200px';
+    }
     
-    // div.parentNode.appendChild(cln);
-    // this.fakeArray = new Array(this.desk.total_spaces);
+
     this.desk._id = this.desks.length; // the desk will be added as the last item on the list
     this.desk.available_spaces = this.desk.total_spaces;
-    this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces));
+    if (this.desk.chairs.length === 0)
+      this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces));
 
     $("#forr").load(" #forr > *");
-    $(this).prop("disabled",true);
+    this.isDisabled = true;
+  }
+
+  resetChairs() {
+    this.desk.chairs = [];
+    this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces));
   }
 
   onDragEnded(event, i) {
@@ -75,8 +94,12 @@ export class CreateDeskRoomComponent implements OnInit {
 
 
 
-  open(content) {
-    this.modalService.open(content, { size: 'xl', centered: true });
+  openModal(content) { 
+    this.modalOption.backdrop = 'static';
+    this.modalOption.keyboard = false;
+    this.modalOption.size = 'xl';
+    this.modalOption.centered = true;
+    this.modalService.open(content, this.modalOption );
   }
    
 }

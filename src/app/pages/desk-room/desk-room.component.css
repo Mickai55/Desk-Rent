@@ -25,7 +25,29 @@
   font-weight: bold;
 }
 
-#inlineblk {
-  display: inline-block;
-  margin: 2%;
+.roomBG {
+  position: relative; 
+  margin-top: 50px; 
+  margin-bottom: 50px;  
+  height: 800px; 
+  width: 1010px; 
+  background-image: linear-gradient(to bottom right, rgb(221, 221, 221), rgb(180, 180, 180));
+  /* background-color: rgb(238, 238, 238); */
+  
+  /* border: 1px solid black; */
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-calendar-body-cell.selected > .mat-calendar-body-cell-content,
+.mat-calendar-body-cell.selected:hover > .mat-calendar-body-cell-content,
+.mat-calendar-body-cell.selected > .mat-calendar-body-cell-content:hover {
+  background-color: #673ab7 !important;
+  color: #fff !important;
+}
+
+.cdk-overlay-container{
+  z-index:20222200 !important;
 }

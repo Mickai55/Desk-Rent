@@ -1,8 +1,9 @@
-import { Component, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentComponent } from '../rent/rent.component';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-desk-room',
@@ -12,6 +13,93 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 
 export class DeskRoomComponent implements OnInit {
+  
+
+
+
+  @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
+
+  public CLOSE_ON_SELECTED = false;
+  public init = new Date();
+  public resetModel = new Date(0);
+  public today = new Date();
+  public model = [
+    new Date('7/15/1966'),
+    new Date('3/23/1968'),
+    new Date('7/4/1992'),
+    new Date('1/25/1994'),
+    new Date('6/17/1998'),
+    new Date('4/9/2021'),
+    new Date('4/15/2021'),
+    new Date('4/16/2021'),
+    new Date('4/17/2021')
+  ];
+  // public myFilter = () => { return this.model};
+  myFilter = (d: Date | null): boolean => {
+    const ddd = (d || new Date());
+    // debugger 
+    for (const date of this.model) {
+      if (date.toString() === ddd.toString())
+        return false; 
+    }
+    return true;
+    // return day !== 0 && day !== 6;
+  }
+
+  public dateClass = (date: Date) => {
+    if (this._findDate(date) !== -1) {
+      return [ 'selected' ];
+    }
+    return [ ];
+  }
+
+  public dateChanged(event: MatDatepickerInputEvent<Date>): void {
+    if (event.value) {
+      const date = event.value;
+      const index = this._findDate(date);
+      if (index === -1) {
+        this.model.push(date);
+      } else {
+        this.model.splice(index, 1)
+      }
+      this.resetModel = new Date(0);
+      if (!this.CLOSE_ON_SELECTED) {
+        const closeFn = this._picker.close;
+        this._picker.close = () => { };
+        this._picker['_popupComponentRef'].instance._calendar.monthView._createWeekCells()
+        setTimeout(() => {
+          this._picker.close = closeFn;
+        });
+      }
+    }
+  }
+
+  public remove(date: Date): void {
+    const index = this._findDate(date);
+    this.model.splice(index, 1)
+  }
+
+  private _findDate(date: Date): number {
+    return this.model.map((m) => +m).indexOf(+date);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   _id = this.route.snapshot.paramMap.get('_id');
   desks = JSON.parse(localStorage.getItem('desks'));
   desk: Desk = this.desks[this._id];
@@ -24,7 +112,7 @@ export class DeskRoomComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private modalService: BsModalService
+    private modalService: BsModalService,
   ) {
     this.bsRangeValue = [new Date(), new Date()];
   }
@@ -33,15 +121,23 @@ export class DeskRoomComponent implements OnInit {
     let spaces = 0;
     this.desk.chairs.map((currentElement, index, arr) => {
       if (!currentElement.occupied) {
-        spaces++;
-      }
-      // var el = document.getElementById("object-" + index);
-      // el.style.backgroundColor = 'red';
-
-      // currentElement.nativeElement.style.background = 'red';
-
-
+        spaces++; 
+      } 
     })
+    
+    let container = document.getElementById("container");
+    if (this.desk.dimension == 'Small') {
+      container.style.width = '1010px';
+      container.style.height = '500px';
+    }
+    else if (this.desk.dimension == 'Medium') {
+      container.style.width = '1010px';
+      container.style.height = '800px';
+    }
+    else if (this.desk.dimension == 'Large') {
+      container.style.width = '1010px';
+      container.style.height = '1200px';
+    }
     this.desk.available_spaces = spaces;
     localStorage.setItem('desks', JSON.stringify(this.desks));
     
@@ -53,13 +149,9 @@ export class DeskRoomComponent implements OnInit {
   }
 
   positionChairs() {
-    // debugger
     for (let i = 0; i < this.desk.chairs.length; i++) {
-
       var el = document.getElementById("object-" + i);
-      // el.style.backgroundColor = 'purple';
       el.style.transform = 'translate3d(' + this.desk.chairs[i].posX + 'px, ' + this.desk.chairs[i].posY + 'px, 0px)';
-
     }
   }
   
@@ -82,15 +174,21 @@ export class DeskRoomComponent implements OnInit {
     let ch = this.desk.chairs[this.clickedDesk];
     let arrival_date, depart_date;
     [arrival_date, depart_date] = this.bsRangeValue;
-    // debugger
-    if (this.chairIsAvailable(ch, arrival_date, depart_date)) {
-      ch.requests.push({user: "user1", arrival_date: arrival_date.toISOString(), depart_date: depart_date.toISOString()})
-      this.failedToOccupy = false;
+    // let x = new Date(Date.parse(depart_date.toISOString()) + 2 * 86400000);
+    let days = []; 
+    for (let i = Date.parse(arrival_date.toISOString()); i<= Date.parse(depart_date.toISOString()); i += 86400000) {
+      days.push(new Date(i))
     }
-    else {
-      console.log("Occupied!!!!!!")
-      this.failedToOccupy = true;
-    } 
+    ch.requests.push({user: "user1", days: days})
+    console.log(ch.requests) 
+    // if (this.chairIsAvailable(ch, arrival_date, depart_date)) {
+    //   ch.requests.push({user: "user1", arrival_date: arrival_date.toISOString(), depart_date: depart_date.toISOString()})
+    //   this.failedToOccupy = false;
+    // }
+    // else {
+    //   console.log("Occupied!!!!!!")
+    //   this.failedToOccupy = true;
+    // } 
     
     // Date.parse(currentElement.arrival_date.toISOString()) 
     // Parses a string containing a date, and returns the number of milliseconds between that date and midnight, January 1, 1970.
@@ -100,33 +198,53 @@ export class DeskRoomComponent implements OnInit {
     // this should be in ngOnInit ???
     let isOccupied = false;
     
-    ch.requests.map((currentElement, index, arr) => {
-      if (Date.now() - Date.parse(currentElement.arrival_date) >= 0 && Date.now() - Date.parse(currentElement.depart_date) <= 0) {
-        isOccupied = true;
-      }
-      // else if (Date.toString()- Date.parse(currentElement.arrival_date) === 0)
-      //   isOccupied = true;
-    })
+    // ch.requests.map((currentElement, index, arr) => {
+    //   if (Date.now() - Date.parse(currentElement.arrival_date) >= 0 && Date.now() - Date.parse(currentElement.depart_date) <= 0) {
+    //     isOccupied = true;
+    //   }
+    //   // else if (Date.toString()- Date.parse(currentElement.arrival_date) === 0)
+    //   //   isOccupied = true;
+    // })
     ch.occupied = isOccupied;
 
 
     localStorage.setItem('desks', JSON.stringify(this.desks));
   }
 
-  chairIsAvailable(ch, arrive, depart) {
-    for (let i = 0; i < ch.requests.length; i++){
-      let currentElement = ch.requests[i];
-      if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(arrive) - Date.parse(currentElement.depart_date) < 0)
-        return false;
+  // chairIsAvailable(ch, arrive, depart) {
+  //   for (let i = 0; i < ch.requests.length; i++){
+  //     let currentElement = ch.requests[i];
+  //     if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(arrive) - Date.parse(currentElement.depart_date) < 0)
+  //       return false;
 
-      if (Date.parse(depart) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) < 0)
-        return false;
+  //     if (Date.parse(depart) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) < 0)
+  //       return false;
 
-      if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) < 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) > 0)
-        return false;
-    }
+  //     if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) < 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) > 0)
+  //       return false;
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
+
+
+
+
+
+
+
+
+
+
 
 }
+
+
+
+
+
+
+
+
+
+

@@ -12,8 +12,8 @@
 <div class="alert alert-danger" *ngIf="failedToOccupy">The dates that you entered are not available for Desk {{clickedDesk}}</div>
 
 
-<div id="container" style="position: relative; margin-top: 50px; margin-bottom: 50px;  height: 800px; width: 1000px; background-color: lightgray" class="container">
-  <div class="inlineblk" *ngFor="let chair of desk.chairs; let i = index"> 
+<div id="container" class=" roomBG container"> 
+  <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index"> 
     <div id="{{ 'object-' + chair._id }}" [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">
     
       <div class="chair-content">ID: {{chair._id}}</div>
@@ -24,7 +24,7 @@
   </div> 
 </div>
 
-<ng-template #template>
+<ng-template #template> 
   <div style="padding-top: 30px;" class="modal-header"> 
     <p class="p3" >Location: {{this.desk.name}}, Desk {{clickedDesk}}</p> 
     
@@ -36,13 +36,22 @@
 
     <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk is occupied in the following dates: </h3>
 
-    <ul *ngFor="let req of this.desk.chairs[this.clickedDesk].requests; let i = index"> 
-      <li> {{req.arrival_date | date}} - {{req.depart_date | date}}</li>   
-    </ul>
+    <!-- <ul *ngFor="let req of this.desk.chairs[this.clickedDesk].requests; let i = index">  -->
+      <!-- <li> {{req.arrival_date | date}} - {{req.depart_date | date}}</li>    -->
+      <!-- <div *ngFor="let ch of this.desk.chairs[this.clickedDesk].requests">
+        <mat-chip
+          *ngFor="let value of ch.days" 
+          [selectable]="false"
+          [removable]="true"
+          (removed)="remove(value)">
+          {{ value | date }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <hr>
+      </div> -->
     <h3 class="alert alert-info" *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">Try not to intersect other dates </h3>
 
-    <h4>Please insert the dates in
-      which between you want to rent Desk {{clickedDesk}}:</h4>
+    <h4>Please insert the dates in which between you want to rent Desk {{clickedDesk}}:</h4>
 
     <div style=" padding-bottom: 30px;" class="row">
       <div class="col-xs-12 col-12 col-md-6 form-group">
@@ -53,9 +62,63 @@
         <button class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">Date
           Range Picker</button>
       </div>
-    </div>
+    </div> 
+    
+    <mat-form-field class="modal fade show">
+      <mat-chip-list #chipList aria-label="Choose a date"
+        (click)="picker.open()">
+        <mat-chip
+          *ngFor="let value of model" 
+          [selectable]="false"
+          [removable]="true" 
+          (removed)="remove(value)">
+          {{ value | date }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input [value]="resetModel" matInput [matDatepicker]="picker" placeholder="Choose a date"
+              (dateChange)="dateChanged($event)" [min]="today" [matDatepickerFilter]="myFilter"
+              [matChipInputFor]="chipList" hidden />
+      </mat-chip-list>
+      <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker [startAt]="init" [dateClass]="dateClass"></mat-datepicker>
+    </mat-form-field>
 
     <button type="button" class="btn btn-success col-6" (click)="occupyDesk();modalRef.hide();">Confirm</button>
     <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
   </div>
 </ng-template>
+
+
+<!-- 
+<mat-form-field class="modal fade show">
+      <mat-chip-list #chipList aria-label="Choose a date"
+        (click)="picker.open()">
+        <mat-chip
+          *ngFor="let value of model" 
+          [selectable]="false"
+          [removable]="true" 
+          (removed)="remove(value)">
+          {{ value | date }}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input [value]="resetModel" matInput [matDatepicker]="picker" placeholder="Choose a date"
+              (dateChange)="dateChanged($event)" [min]="today" [matDatepickerFilter]="myFilter"
+              [matChipInputFor]="chipList" hidden />
+      </mat-chip-list>
+      <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker [startAt]="init" [dateClass]="dateClass"></mat-datepicker>
+    </mat-form-field>
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+

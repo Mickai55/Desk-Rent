@@ -57,7 +57,6 @@ export class MainService {
   // }
 
   login(data: any): Observable<any> {
-    // debugger 
     return this.http
       .get('http://localhost:8443/api/users/login' + '?email=' + data.email + '&password=' + data.password, this.getHeaders())
       .pipe(

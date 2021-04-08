@@ -1,5 +1,6 @@
 export interface RentRequest {
-    user: string;
-    arrival_date: string;
-    depart_date: string;
+  user: string;
+  // arrival_date: string;
+  // depart_date: string;
+  days: any[];
 }
