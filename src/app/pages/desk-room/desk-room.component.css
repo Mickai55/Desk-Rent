@@ -44,7 +44,7 @@ mat-form-field {
 .mat-calendar-body-cell.selected > .mat-calendar-body-cell-content,
 .mat-calendar-body-cell.selected:hover > .mat-calendar-body-cell-content,
 .mat-calendar-body-cell.selected > .mat-calendar-body-cell-content:hover {
-  background-color: #673ab7 !important;
+  background-color: #00af1d !important;
   color: #fff !important;
 }
 

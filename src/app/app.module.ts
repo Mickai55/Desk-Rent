@@ -25,9 +25,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input'; 
 import {MatChipsModule} from '@angular/material/chips';
 
-
+ 
 @NgModule({
   declarations: [      
     AppComponent,
@@ -59,8 +60,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatChipsModule
-  ],       
+    MatChipsModule,
+    MatInputModule 
+  ],        
   providers: [RentComponent],
   bootstrap: [AppComponent]
 })

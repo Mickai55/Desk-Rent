@@ -14,92 +14,6 @@ import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material/datepick
 
 export class DeskRoomComponent implements OnInit {
   
-
-
-
-  @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
-
-  public CLOSE_ON_SELECTED = false;
-  public init = new Date();
-  public resetModel = new Date(0);
-  public today = new Date();
-  public model = [
-    new Date('7/15/1966'),
-    new Date('3/23/1968'),
-    new Date('7/4/1992'),
-    new Date('1/25/1994'),
-    new Date('6/17/1998'),
-    new Date('4/9/2021'),
-    new Date('4/15/2021'),
-    new Date('4/16/2021'),
-    new Date('4/17/2021')
-  ];
-  // public myFilter = () => { return this.model};
-  myFilter = (d: Date | null): boolean => {
-    const ddd = (d || new Date());
-    // debugger 
-    for (const date of this.model) {
-      if (date.toString() === ddd.toString())
-        return false; 
-    }
-    return true;
-    // return day !== 0 && day !== 6;
-  }
-
-  public dateClass = (date: Date) => {
-    if (this._findDate(date) !== -1) {
-      return [ 'selected' ];
-    }
-    return [ ];
-  }
-
-  public dateChanged(event: MatDatepickerInputEvent<Date>): void {
-    if (event.value) {
-      const date = event.value;
-      const index = this._findDate(date);
-      if (index === -1) {
-        this.model.push(date);
-      } else {
-        this.model.splice(index, 1)
-      }
-      this.resetModel = new Date(0);
-      if (!this.CLOSE_ON_SELECTED) {
-        const closeFn = this._picker.close;
-        this._picker.close = () => { };
-        this._picker['_popupComponentRef'].instance._calendar.monthView._createWeekCells()
-        setTimeout(() => {
-          this._picker.close = closeFn;
-        });
-      }
-    }
-  }
-
-  public remove(date: Date): void {
-    const index = this._findDate(date);
-    this.model.splice(index, 1)
-  }
-
-  private _findDate(date: Date): number {
-    return this.model.map((m) => +m).indexOf(+date);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   _id = this.route.snapshot.paramMap.get('_id');
   desks = JSON.parse(localStorage.getItem('desks'));
   desk: Desk = this.desks[this._id];
@@ -170,17 +84,71 @@ export class DeskRoomComponent implements OnInit {
     this.router.navigate(['/rent']);
   }
 
-  occupyDesk() {
-    let ch = this.desk.chairs[this.clickedDesk];
+
+
+
+
+  public today = new Date();
+  daysSelected: Set<any> = new Set([]);
+  event: any;
+
+  myFilter = (d: Date | null): boolean => {
+    const ddd = (d || new Date());
+    for (const date of this.daysSelected) {
+      if (date.toString() === ddd.toString())
+        return false; 
+    }
+    return true;
+  }
+
+  isSelected = (event: any) => {
+    const date =
+      event.getFullYear() +
+      "-" +
+      ("00" + (event.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("00" + event.getDate()).slice(-2);
+    return this.daysSelected.has(date) ? "selected" : null;
+  };
+
+  select(event: any, calendar: any) {
+    const date =
+      event.getFullYear() +
+      "-" +
+      ("00" + (event.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("00" + event.getDate()).slice(-2);
+    // const index = this.daysSelected.findIndex(x => x == date);
+    // if (index < 0) this.daysSelected.push(date);
+    // else this.daysSelected.splice(index, 1);
+    if (this.daysSelected.has(date)) {
+      this.daysSelected.delete(date);
+    } else { 
+      this.daysSelected.add(date);
+    }
+
+    calendar.updateTodaysDate();
+  }
+
+  selectRange() {
+    console.log("sdsdsds");
+    
     let arrival_date, depart_date;
     [arrival_date, depart_date] = this.bsRangeValue;
     // let x = new Date(Date.parse(depart_date.toISOString()) + 2 * 86400000);
-    let days = []; 
     for (let i = Date.parse(arrival_date.toISOString()); i<= Date.parse(depart_date.toISOString()); i += 86400000) {
-      days.push(new Date(i))
+      this.daysSelected.add(new Date(i).toISOString().substring(0, 10)) // danger!!
     }
-    ch.requests.push({user: "user1", days: days})
+  }
+
+  occupyDesk() {
+    let ch = this.desk.chairs[this.clickedDesk];
+    // let days = []; 
+    
+    ch.requests.push({user: "user1", days: this.daysSelected})
     console.log(ch.requests) 
+
+
     // if (this.chairIsAvailable(ch, arrival_date, depart_date)) {
     //   ch.requests.push({user: "user1", arrival_date: arrival_date.toISOString(), depart_date: depart_date.toISOString()})
     //   this.failedToOccupy = false;
@@ -195,16 +163,8 @@ export class DeskRoomComponent implements OnInit {
 
     // date:'shortTime'
 
-    // this should be in ngOnInit ???
+    // e ocupart azi?????????
     let isOccupied = false;
-    
-    // ch.requests.map((currentElement, index, arr) => {
-    //   if (Date.now() - Date.parse(currentElement.arrival_date) >= 0 && Date.now() - Date.parse(currentElement.depart_date) <= 0) {
-    //     isOccupied = true;
-    //   }
-    //   // else if (Date.toString()- Date.parse(currentElement.arrival_date) === 0)
-    //   //   isOccupied = true;
-    // })
     ch.occupied = isOccupied;
 
 
@@ -228,6 +188,61 @@ export class DeskRoomComponent implements OnInit {
   // }
 
 
+
+  // !!!!!! daypickeru ala vechi
+  // @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
+
+  // public CLOSE_ON_SELECTED = false;
+  // public init = new Date();
+  // public resetModel = new Date(0);
+  // public model = [
+  //   new Date('7/15/1966'),
+  //   new Date('3/23/1968'),
+  //   new Date('7/4/1992'),
+  //   new Date('1/25/1994'),
+  //   new Date('6/17/1998'),
+  //   new Date('4/9/2021'),
+  //   new Date('4/15/2021'),
+  //   new Date('4/16/2021'),
+  //   new Date('4/17/2021')
+  // ];
+
+  // public dateClass = (date: Date) => {
+  //   if (this._findDate(date) !== -1) {
+  //     return [ 'selected' ];
+  //   }
+  //   return [ ];
+  // }
+
+  // public dateChanged(event: MatDatepickerInputEvent<Date>): void {
+  //   if (event.value) {
+  //     const date = event.value;
+  //     const index = this._findDate(date);
+  //     if (index === -1) {
+  //       this.model.push(date);
+  //     } else {
+  //       this.model.splice(index, 1)
+  //     }
+  //     this.resetModel = new Date(0);
+  //     if (!this.CLOSE_ON_SELECTED) {
+  //       const closeFn = this._picker.close;
+  //       this._picker.close = () => { };
+  //       this._picker['_popupComponentRef'].instance._calendar.monthView._createWeekCells()
+  //       setTimeout(() => {
+  //         this._picker.close = closeFn;
+  //       });
+  //     }
+  //   }
+  // }
+
+  // public remove(date: Date): void {
+  //   const index = this._findDate(date);
+  //   this.model.splice(index, 1)
+  // }
+
+  // private _findDate(date: Date): number {
+  //   return this.model.map((m) => +m).indexOf(+date);
+  // }
 
 
 
