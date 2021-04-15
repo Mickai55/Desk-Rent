@@ -1,9 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Desk } from 'src/app/interfaces/desk';
-import { RentComponent } from '../rent/rent.component';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-desk-room',
@@ -154,7 +152,6 @@ export class DeskRoomComponent implements OnInit {
       
       let arrival_date, depart_date;
       [arrival_date, depart_date] = this.bsRangeValue;
-      // let x = new Date(Date.parse(depart_date.toISOString()) + 2 * 86400000);
       for (let i = Date.parse(arrival_date.toISOString()); i<= Date.parse(depart_date.toISOString()); i += 86400000) {
         this.daysSelected.add(new Date(i).toISOString().substring(0, 10)) // danger!!
       }
@@ -186,97 +183,11 @@ export class DeskRoomComponent implements OnInit {
 
     this.daysSelected.clear();
     this.bsRangeValue = [null, null];
-    
-    // Date.parse(currentElement.arrival_date.toISOString()) 
-    // Parses a string containing a date, and returns the number of milliseconds between that date and midnight, January 1, 1970.
-
-    // date:'shortTime'
 
 
     localStorage.setItem('desks', JSON.stringify(this.desks));
     this.verifySpacesLeft();
   }
-
-  // chairIsAvailable(ch, arrive, depart) {
-  //   for (let i = 0; i < ch.requests.length; i++){
-  //     let currentElement = ch.requests[i];
-  //     if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(arrive) - Date.parse(currentElement.depart_date) < 0)
-  //       return false;
-
-  //     if (Date.parse(depart) - Date.parse(currentElement.arrival_date) >= 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) < 0)
-  //       return false;
-
-  //     if (Date.parse(arrive) - Date.parse(currentElement.arrival_date) < 0 && Date.parse(depart) - Date.parse(currentElement.depart_date) > 0)
-  //       return false;
-  //   }
-
-  //   return true;
-  // }
-
-
-
-  // !!!!!! daypickeru ala vechi
-  // @ViewChild('picker', { static: true }) _picker: MatDatepicker<Date>;
-
-  // public CLOSE_ON_SELECTED = false;
-  // public init = new Date();
-  // public resetModel = new Date(0);
-  // public model = [
-  //   new Date('7/15/1966'),
-  //   new Date('3/23/1968'),
-  //   new Date('7/4/1992'),
-  //   new Date('1/25/1994'),
-  //   new Date('6/17/1998'),
-  //   new Date('4/9/2021'),
-  //   new Date('4/15/2021'),
-  //   new Date('4/16/2021'),
-  //   new Date('4/17/2021')
-  // ];
-
-  // public dateClass = (date: Date) => {
-  //   if (this._findDate(date) !== -1) {
-  //     return [ 'selected' ];
-  //   }
-  //   return [ ];
-  // }
-
-  // public dateChanged(event: MatDatepickerInputEvent<Date>): void {
-  //   if (event.value) {
-  //     const date = event.value;
-  //     const index = this._findDate(date);
-  //     if (index === -1) {
-  //       this.model.push(date);
-  //     } else {
-  //       this.model.splice(index, 1)
-  //     }
-  //     this.resetModel = new Date(0);
-  //     if (!this.CLOSE_ON_SELECTED) {
-  //       const closeFn = this._picker.close;
-  //       this._picker.close = () => { };
-  //       this._picker['_popupComponentRef'].instance._calendar.monthView._createWeekCells()
-  //       setTimeout(() => {
-  //         this._picker.close = closeFn;
-  //       });
-  //     }
-  //   }
-  // }
-
-  // public remove(date: Date): void {
-  //   const index = this._findDate(date);
-  //   this.model.splice(index, 1)
-  // }
-
-  // private _findDate(date: Date): number {
-  //   return this.model.map((m) => +m).indexOf(+date);
-  // }
-
-
-
-
-
-
-
-
 
 }
 
