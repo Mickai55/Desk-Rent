@@ -19,7 +19,7 @@
       <div class="chair-content">ID: {{chair._id}}</div>
       <div *ngIf="chair.requests.length == 0" class="chair-content">Free</div>
       <div *ngIf="chair.occupied" class="chair-content">Occupied</div> 
-      <div *ngIf="chair.requests.length > 0 && !chair.occupied" class="chair-content">Has reservations</div>
+      <div *ngIf="chair.requests.length > 0 && !chair.occupied" class="chair-content">Has res.</div>
     </div>
   </div> 
 </div>
@@ -34,38 +34,39 @@
   </div>
   <div class="modal-body">
 
-    <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk is occupied in the following dates: </h3>
+    <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk has the following reservations: </h3>
 
-    <!-- afisare zile alese deja ????? -->
-
-    <!-- <h3 class="alert alert-info" *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">Try not to intersect other dates </h3> -->
+    <!-- acordion!!!! -->
+    <div *ngFor="let value of this.desk.chairs[this.clickedDesk].requests">
+      <mat-chip-list>
+        <mat-chip *ngFor="let day of value.days"> 
+          {{ day }} 
+        </mat-chip>
+      </mat-chip-list>
+      <hr>
+    </div>
 
     <h4>Please insert the dates in which between you want to rent Desk {{clickedDesk}}:</h4>
 
-    <div style=" padding-bottom: 30px;">
-      <!-- <div class="col-xs-12 col-12 col-md-6 form-group"> -->
+    <div>  
         <input class="form-control" 
         #drp="bsDaterangepicker" 
         bsDaterangepicker [(ngModel)]="bsRangeValue"
         [minDate]="today"
-        [datesDisabled]="daysSelected"
-        (close)="selectRange()"
+        [datesDisabled]="this.desk.chairs[this.clickedDesk].occupiedDays"
         [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true }"
-        
           /> 
-      <!-- </div> -->
-      <!-- <div class="col-xs-12 col-12 col-md-5 form-group"> -->
         <button class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">
           Rent between 2 dates
         </button>
-      <!-- </div> -->
     </div> 
     
+    <hr>
 
+    <h4>Please insert the specific dates when you want to rent Desk {{clickedDesk}}:</h4>
 
-
-    <button class="btn btn-primary" [matMenuTriggerFor]="appMenu"> Rent specific days </button>
-    <mat-menu #appMenu="matMenu" class="drop-calendar" >
+    <button style="margin-bottom: 0px" class="btn btn-primary" [matMenuTriggerFor]="appMenu"> Rent specific days </button>
+    <mat-menu #appMenu="matMenu" class="drop-calendar" > 
       <div (click)="$event.stopPropagation()">
         <mat-calendar #calendar 
         (selectedChange)="select($event,calendar)"  
@@ -75,44 +76,14 @@
         ></mat-calendar>
       </div>
     </mat-menu>
-    <pre>
-    {{daysSelected}}
-    </pre>
 
+    <hr> 
+
+    <!-- <br> -->
     <button type="button" class="btn btn-success col-6" (click)="occupyDesk();modalRef.hide();">Confirm</button>
     <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
   </div>
 </ng-template>
-
-
-<!-- 
-<mat-form-field class="modal fade show">
-      <mat-chip-list #chipList aria-label="Choose a date"
-        (click)="picker.open()">
-        <mat-chip
-          *ngFor="let value of model" 
-          [selectable]="false"
-          [removable]="true" 
-          (removed)="remove(value)">
-          {{ value | date }}
-          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-        </mat-chip>
-        <input [value]="resetModel" matInput [matDatepicker]="picker" placeholder="Choose a date"
-              (dateChange)="dateChanged($event)" [min]="today" [matDatepickerFilter]="myFilter"
-              [matChipInputFor]="chipList" hidden />
-      </mat-chip-list>
-      <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker [startAt]="init" [dateClass]="dateClass"></mat-datepicker>
-    </mat-form-field>
-
- -->
-
-
-
-
-
-
-
 
 
 

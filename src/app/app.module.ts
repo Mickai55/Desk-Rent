@@ -27,8 +27,9 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'; 
 import {MatChipsModule} from '@angular/material/chips';
+import { ClickOutsideModule } from 'ng-click-outside';
 
- 
+     
 @NgModule({
   declarations: [      
     AppComponent,
@@ -38,7 +39,7 @@ import {MatChipsModule} from '@angular/material/chips';
     RentComponent,
     DeskRoomComponent,
     CreateDeskRoomComponent
-  ],
+  ],    
   imports: [
     AppRoutingModule,
     CommonModule,
@@ -61,7 +62,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatNativeDateModule,
     MatFormFieldModule,
     MatChipsModule,
-    MatInputModule 
+    MatInputModule,
+    ClickOutsideModule 
   ],        
   providers: [RentComponent],
   bootstrap: [AppComponent]

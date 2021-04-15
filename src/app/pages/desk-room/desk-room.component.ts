@@ -28,17 +28,15 @@ export class DeskRoomComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
   ) {
-    this.bsRangeValue = [new Date(), new Date()];
+    this.bsRangeValue;
   }
 
   ngOnInit(): void {
-    let spaces = 0;
-    this.desk.chairs.map((currentElement, index, arr) => {
-      if (!currentElement.occupied) {
-        spaces++; 
-      } 
-    })
-    
+    this.deskDimensions();
+    this.verifySpacesLeft();
+  }
+
+  deskDimensions() {
     let container = document.getElementById("container");
     if (this.desk.dimension == 'Small') {
       container.style.width = '1010px';
@@ -52,10 +50,25 @@ export class DeskRoomComponent implements OnInit {
       container.style.width = '1010px';
       container.style.height = '1200px';
     }
+    localStorage.setItem('desks', JSON.stringify(this.desks));
+  }
+
+  verifySpacesLeft() {
+    let spaces = 0;
+    this.desk.chairs.map((currentElement, index, arr) => {
+
+      if (currentElement.occupiedDays)
+      currentElement.occupied = (currentElement.occupiedDays.find(item => {let k = new Date(item); k.setHours(3, 0, 0); return k.getFullYear() == this.today.getFullYear()}) != undefined &&
+                                currentElement.occupiedDays.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getMonth() == this.today.getMonth()}) != undefined &&
+                                currentElement.occupiedDays.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getDay() == this.today.getDay()}) != undefined) 
+
+      if (!currentElement.occupied) {
+        spaces++; 
+      } 
+    })
     this.desk.available_spaces = spaces;
     localStorage.setItem('desks', JSON.stringify(this.desks));
-    
-    // $("#forr").load(" #forr > *");
+
   }
 
   ngAfterViewInit() {
@@ -90,12 +103,17 @@ export class DeskRoomComponent implements OnInit {
 
   public today = new Date();
   daysSelected: Set<any> = new Set([]);
-  event: any;
+  event: any;  
 
-  myFilter = (d: Date | null): boolean => {
-    const ddd = (d || new Date());
-    for (const date of this.daysSelected) {
-      if (date.toString() === ddd.toString())
+  myFilter = (d: Date | null): boolean => { 
+    if (this.desk.chairs[this.clickedDesk].occupiedDays == null)
+      return true;
+
+    // const ddd = (d || new Date());
+    const ddd = new Date(d);
+
+    for (const date of this.desk.chairs[this.clickedDesk].occupiedDays) {
+      if (date.toString() === ddd.toString()) 
         return false; 
     }
     return true;
@@ -131,44 +149,52 @@ export class DeskRoomComponent implements OnInit {
   }
 
   selectRange() {
-    console.log("sdsdsds");
-    
-    let arrival_date, depart_date;
-    [arrival_date, depart_date] = this.bsRangeValue;
-    // let x = new Date(Date.parse(depart_date.toISOString()) + 2 * 86400000);
-    for (let i = Date.parse(arrival_date.toISOString()); i<= Date.parse(depart_date.toISOString()); i += 86400000) {
-      this.daysSelected.add(new Date(i).toISOString().substring(0, 10)) // danger!!
+    if (this.bsRangeValue[0] != null) {
+      console.log("sdsdsds");
+      
+      let arrival_date, depart_date;
+      [arrival_date, depart_date] = this.bsRangeValue;
+      // let x = new Date(Date.parse(depart_date.toISOString()) + 2 * 86400000);
+      for (let i = Date.parse(arrival_date.toISOString()); i<= Date.parse(depart_date.toISOString()); i += 86400000) {
+        this.daysSelected.add(new Date(i).toISOString().substring(0, 10)) // danger!!
+      }
     }
   }
 
-  occupyDesk() {
+  occupyDesk() {   
+    if (this.bsRangeValue != null)
+      this.selectRange();
+    let days = Array.from(this.daysSelected); 
+    days.sort()
     let ch = this.desk.chairs[this.clickedDesk];
-    // let days = []; 
-    
-    ch.requests.push({user: "user1", days: this.daysSelected})
-    console.log(ch.requests) 
+    ch.requests.push({user: "user1", days: days});
 
+    let dates: Date[] = [];
+    for (let day of days) {
+      let newDate = new Date(day);
+      newDate.setHours(0, 0, 0);
+      dates.push(newDate)
 
-    // if (this.chairIsAvailable(ch, arrival_date, depart_date)) {
-    //   ch.requests.push({user: "user1", arrival_date: arrival_date.toISOString(), depart_date: depart_date.toISOString()})
-    //   this.failedToOccupy = false;
-    // }
-    // else {
-    //   console.log("Occupied!!!!!!")
-    //   this.failedToOccupy = true;
-    // } 
+    }
+
+    if (ch.occupiedDays == null)
+      ch.occupiedDays = dates;
+    else
+      ch.occupiedDays.push(...dates);
+
+    console.log(ch.requests) ;
+
+    this.daysSelected.clear();
+    this.bsRangeValue = [null, null];
     
     // Date.parse(currentElement.arrival_date.toISOString()) 
     // Parses a string containing a date, and returns the number of milliseconds between that date and midnight, January 1, 1970.
 
     // date:'shortTime'
 
-    // e ocupart azi?????????
-    let isOccupied = false;
-    ch.occupied = isOccupied;
-
 
     localStorage.setItem('desks', JSON.stringify(this.desks));
+    this.verifySpacesLeft();
   }
 
   // chairIsAvailable(ch, arrive, depart) {
