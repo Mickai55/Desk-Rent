@@ -8,4 +8,7 @@ export interface Desk {
     total_spaces: number;
     chairs: Chair[];
     dimension: string;
+
+    lat: number;
+    long: number;
 }

@@ -9,6 +9,10 @@
     <input [(ngModel)]="desk.address" type="text" class="form-control" placeholder="Address" id="address">
 </div>
 <div class="form-group">
+    <label for="address">Location (drag the marker to the desk's location)</label>
+    <app-map2></app-map2> 
+</div>
+<div class="form-group">
     <label for="total_spaces">Available spaces</label>
     <input [(ngModel)]="desk.total_spaces" type="number" disabled="{{isDisabled}}" class="form-control" placeholder="Available spaces" id="total_spaces"> 
 </div>

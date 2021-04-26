@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentComponent } from '../../pages/rent/rent.component';
 import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import { MarkerService } from 'src/app/services/marker.service';
 
 @Component({
   selector: 'app-create-desk-room',
@@ -16,20 +17,25 @@ export class CreateDeskRoomComponent implements OnInit {
     private rent: RentComponent,
     private modalService: NgbModal
     ) {}
-  public desks: Desk[] = JSON.parse(localStorage.getItem('desks'));
+  public desks: Desk[] = JSON.parse(localStorage.getItem('desks')); 
   notifier: NotifierService;
   closeResult = '';
   fakeArray = null;
   clickedChairIndex: number;
   modalOption: NgbModalOptions = {};  
-  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium' };
+  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium', lat: 44.425, long: 26.1 };
   isDisabled = false;
-  
+
+  coords = [];
+
   ngOnInit(): void {}
   
   addDesk() {
     if (this.isDisabled == false)
       this.addChairs();
+    // console.log(MarkerService.latitude, MarkerService.longitude);
+    this.desk.lat = MarkerService.latitude;
+    this.desk.long = MarkerService.longitude;
 
     this.desks.push(this.desk);
     localStorage.setItem('desks', JSON.stringify(this.desks));
@@ -91,8 +97,6 @@ export class CreateDeskRoomComponent implements OnInit {
     }
     return { top: y, left: x };
   }
-
-
 
   openModal(content) { 
     this.modalOption.backdrop = 'static';

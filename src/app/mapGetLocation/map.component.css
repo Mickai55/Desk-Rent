@@ -1,0 +1,18 @@
+.map-container {
+  position: relative;
+  height: 200px; 
+  width: 500px;
+  margin: 30px;
+}
+
+.map-frame {
+  height: 100%;
+}
+
+#map {
+  height: 100%;
+}
+
+.leaflet-container{
+  border-radius: 20px;
+}

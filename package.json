@@ -31,6 +31,7 @@
     "datatables.net": "^1.10.20",
     "datatables.net-dt": "^1.10.20",
     "jquery": "^3.4.1",
+    "leaflet": "^1.7.1",
     "ng-click-outside": "^8.0.0",
     "ngb-modal": "^2.0.3",
     "ngx-bootstrap": "^6.2.0",

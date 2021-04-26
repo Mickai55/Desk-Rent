@@ -24,6 +24,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { MarkerService } from './services/marker.service';
+import { PopupService } from './services/popup.service';
+
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -31,18 +34,21 @@ import { RegisterComponent } from './pages/register/register.component';
 import { RentComponent } from './pages/rent/rent.component';
 import { DeskRoomComponent } from './pages/desk-room/desk-room.component';
 import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-room.component';
+import { MapComponent } from './mapGetLocation/map.component';
+import { Map2Component } from './mapPutLocation/map2.component';
 
-     
 @NgModule({
-  declarations: [      
+  declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent,       
+    RegisterComponent,
     RentComponent,
     DeskRoomComponent,
-    CreateDeskRoomComponent
-  ],    
+    CreateDeskRoomComponent,
+    MapComponent,
+    Map2Component,
+  ],
   imports: [
     AppRoutingModule,
     CommonModule,
@@ -55,7 +61,7 @@ import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-ro
     IvyCarouselModule,
     ModalModule.forRoot(),
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot(),  
+    BsDatepickerModule.forRoot(),
     MatTooltipModule,
     DragDropModule,
     NgbModule,
@@ -69,10 +75,13 @@ import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-ro
     MatSortModule,
     MatTableModule,
     MatPaginatorModule,
-  ],        
-  providers: [RentComponent],
-  bootstrap: [AppComponent]
+  ],
+  providers: [
+    RentComponent, 
+    MarkerService,
+    PopupService,
+    MapComponent
+  ],
+  bootstrap: [AppComponent],
 })
-
-
-export class AppModule { }
+export class AppModule {}

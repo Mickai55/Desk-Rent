@@ -1,16 +1,11 @@
-<p class="p2">Welcome to Desk {{desk.name}}</p>
-<button class="btn btn-danger" (click)="deleteDesk()">Delete this Desk</button>
-<br><br>
+<p class="p2" style="margin-top: 30px; padding-bottom: 0px;">Welcome to {{desk.name}}</p>
+<p class="p4" style="margin-left: 30px;">{{desk.address}}</p> 
 
-<ul>
-  <li>id: {{desk._id}}</li>
-  <li>Name: {{desk.name}}</li>
-  <li>Address: {{desk.address}}</li>
-  <li>Spaces left: {{desk.available_spaces}}/{{desk.total_spaces}}</li>
-</ul>
-<br>
-<div class="alert alert-danger" *ngIf="failedToOccupy">The dates that you entered are not available for Desk {{clickedDesk}}</div>
+<hr>
 
+<app-map></app-map>
+
+<hr>
 
 <div id="container" class=" roomBG container"> 
   <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index"> 
@@ -35,6 +30,8 @@
   <div class="modal-body">
 
     <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk has the following reservations: </h3>
+    <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length === 0">This desk has no reservations </h3>
+    <hr>
 
     <!-- acordion!!!! -->
     <div *ngFor="let value of this.desk.chairs[this.clickedDesk].requests">
@@ -56,7 +53,7 @@
         [datesDisabled]="this.desk.chairs[this.clickedDesk].occupiedDays"
         [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true }"
           /> 
-        <button class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">
+        <button  style="margin-top: 15px;" class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">
           Rent between 2 dates
         </button>
     </div> 
@@ -87,4 +84,5 @@
 
 
 
+<button class="btn btn-danger" (click)="deleteDesk()">Delete this Desk</button>
 

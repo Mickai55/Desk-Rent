@@ -57,10 +57,10 @@
       <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
 </div>
 
-<button class="btn btn-info col-2" [routerLink]="['/createDeskRoom']">Create a new Desk</button>
-<button style="left: 5px;" class="btn btn-danger col-2" (click)="deleteLastDesk()">Delete last Desk</button>
+<button style="margin-top: 30px;" class="btn btn-info col-2" [routerLink]="['/createDeskRoom']">Create a new Desk</button>
+<button style="margin-top: 30px; left: 10px;" class="btn btn-danger col-2" (click)="deleteLastDesk()">Delete last Desk</button>
 
 

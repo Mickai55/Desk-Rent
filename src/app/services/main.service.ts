@@ -38,10 +38,11 @@ export class MainService {
   // } 
 
   registerDemoAPI(data: any): Observable<any> {
+    debugger
     return this.http
       .post('http://localhost:8443/api/users/register', data, this.getHeaders())
       .pipe(
-        tap((response) => console.log(response)),
+        tap((response) => console.log(data)),
         catchError(this.handleError('registerDemoAPI'))
       );
   }
@@ -58,7 +59,7 @@ export class MainService {
 
   login(data: any): Observable<any> {
     return this.http
-      .get('http://localhost:8443/api/users/login' + '?email=' + data.email + '&password=' + data.password, this.getHeaders())
+      .post('http://localhost:8443/api/users/login', data, this.getHeaders())
       .pipe(
         tap((response) => {
           localStorage.setItem('token', response.token);

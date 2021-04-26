@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { Desk } from 'src/app/interfaces/desk';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { MapComponent } from 'src/app/mapGetLocation/map.component';
 
 @Component({
   selector: 'app-desk-room',
@@ -19,12 +20,12 @@ export class DeskRoomComponent implements OnInit {
   modalRef: BsModalRef;
   clickedDesk: number;
   bsRangeValue: Date[];
-  failedToOccupy: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private modalService: BsModalService,
+    private mapService: MapComponent
   ) {
     this.bsRangeValue;
   }
@@ -66,11 +67,12 @@ export class DeskRoomComponent implements OnInit {
     })
     this.desk.available_spaces = spaces;
     localStorage.setItem('desks', JSON.stringify(this.desks));
-
   }
 
   ngAfterViewInit() {
     this.positionChairs();
+    // debugger
+    this.mapService.posMarker(this.desk.lat, this.desk.long);
   }
 
   positionChairs() {
@@ -94,10 +96,6 @@ export class DeskRoomComponent implements OnInit {
     localStorage.setItem('desks', JSON.stringify(this.desks));
     this.router.navigate(['/rent']);
   }
-
-
-
-
 
   public today = new Date();
   daysSelected: Set<any> = new Set([]);
