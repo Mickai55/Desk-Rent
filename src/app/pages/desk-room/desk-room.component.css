@@ -26,14 +26,19 @@
 }
 
 .roomBG {
-  position: relative; 
-  margin-top: 50px; 
-  margin-bottom: 50px;  
-  height: 800px; 
-  width: 1010px; 
-  background-image: linear-gradient(to bottom right, rgb(221, 221, 221), rgb(180, 180, 180));
+  position: relative;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  height: 800px;
+  width: 1010px;
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(221, 221, 221),
+    rgb(126, 126, 126)
+  );
+  border-radius: 5px;
   /* background-color: rgb(238, 238, 238); */
-  
+
   /* border: 1px solid black; */
 }
 
@@ -48,6 +53,17 @@ mat-form-field {
   color: #fff !important;
 }
 
-.cdk-overlay-container{
-  z-index:20222200 !important;
+.cdk-overlay-container {
+  z-index: 20222200 !important;
+}
+
+.image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  border-radius: 20px;
+  height: 60vh;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }

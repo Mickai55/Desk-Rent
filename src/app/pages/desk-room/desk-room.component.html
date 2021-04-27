@@ -7,6 +7,16 @@
 
 <hr>
 
+<carousel [interval]="myInterval" [(activeSlide)]="activeSlideIndex" [isAnimated]="true" [noPause]="false">
+  <slide *ngFor="let slide of desk.images; let index=index">
+    <img [src]="slide" alt="image slide" class="image">
+
+    <div class="carousel-caption"> </div>  
+  </slide>
+</carousel>
+
+<hr>
+
 <div id="container" class=" roomBG container"> 
   <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index"> 
     <div id="{{ 'object-' + chair._id }}" [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">

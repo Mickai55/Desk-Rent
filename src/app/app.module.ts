@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
+// import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +28,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { MarkerService } from './services/marker.service';
 import { PopupService } from './services/popup.service';
+import { MapComponent } from './mapGetLocation/map.component';
+import { Map2Component } from './mapPutLocation/map2.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './pages/home/home.component';
@@ -34,8 +38,6 @@ import { RegisterComponent } from './pages/register/register.component';
 import { RentComponent } from './pages/rent/rent.component';
 import { DeskRoomComponent } from './pages/desk-room/desk-room.component';
 import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-room.component';
-import { MapComponent } from './mapGetLocation/map.component';
-import { Map2Component } from './mapPutLocation/map2.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,7 @@ import { Map2Component } from './mapPutLocation/map2.component';
     MapComponent,
     Map2Component,
   ],
-  imports: [
+  imports: [    
     AppRoutingModule,
     CommonModule,
     BrowserModule,
@@ -58,7 +60,7 @@ import { Map2Component } from './mapPutLocation/map2.component';
     HttpClientModule,
     DataTablesModule,
     BrowserAnimationsModule,
-    IvyCarouselModule,
+    CarouselModule, // for root?
     ModalModule.forRoot(),
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
@@ -75,6 +77,7 @@ import { Map2Component } from './mapPutLocation/map2.component';
     MatSortModule,
     MatTableModule,
     MatPaginatorModule,
+    MatProgressBarModule
   ],
   providers: [
     RentComponent, 

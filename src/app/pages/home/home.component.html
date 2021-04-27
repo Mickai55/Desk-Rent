@@ -3,27 +3,16 @@
 <p class="p2">DeskRent is a place for finding the perfect desk to code in harmony alongside other geeks!</p>
 <p class="p2">Look for a spot in any office disposable.</p>
 <p class="p2">Simple and fast!</p>
- 
-<carousel
-[arrows]="false" 
-[margin]="50"
-[cellWidth]="1100" 
-[height]="459" 
-[loop]="true" 
-[autoplay]="true" 
-[autoplayInterval]="5000"
-[transitionDuration]="1500"
->
-    <div class="carousel-cell">
-        <img src="assets/images/office3.jpg">
-    </div>
-    <div class="carousel-cell">
-        <img src="assets/images/office1.jpg">
-    </div>
-    <div class="carousel-cell">
-        <img src="assets/images/office2.jpg">
-    </div>
+
+<carousel [interval]="myInterval" [(activeSlide)]="activeSlideIndex" [isAnimated]="true" [noPause]="false">
+    <slide *ngFor="let slide of slides; let index=index">
+      <img [src]="slide.image" alt="image slide" style="display: block; width: 100%; border-radius: 20px; height: 60vh;">
+  
+      <div class="carousel-caption"> </div>
+    </slide>
 </carousel>
+
+ 
 
 <button [routerLink]="['/rent']" style="margin-top: 40px;" type="button"
     class="btn btn-outline-dark btn-lg" mat-raised-button

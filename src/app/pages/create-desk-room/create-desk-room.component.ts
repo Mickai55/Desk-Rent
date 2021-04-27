@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentComponent } from '../../pages/rent/rent.component';
-import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { MarkerService } from 'src/app/services/marker.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-desk-room',
@@ -15,7 +16,8 @@ export class CreateDeskRoomComponent implements OnInit {
   constructor(
     private router: Router, 
     private rent: RentComponent,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private http: HttpClient
     ) {}
   public desks: Desk[] = JSON.parse(localStorage.getItem('desks')); 
   notifier: NotifierService;
@@ -23,7 +25,7 @@ export class CreateDeskRoomComponent implements OnInit {
   fakeArray = null;
   clickedChairIndex: number;
   modalOption: NgbModalOptions = {};  
-  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium', lat: 44.425, long: 26.1 };
+  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium', lat: 44.425, long: 26.1, images: [] };
   isDisabled = false;
 
   coords = [];
@@ -33,7 +35,6 @@ export class CreateDeskRoomComponent implements OnInit {
   addDesk() {
     if (this.isDisabled == false)
       this.addChairs();
-    // console.log(MarkerService.latitude, MarkerService.longitude);
     this.desk.lat = MarkerService.latitude;
     this.desk.long = MarkerService.longitude;
 
@@ -105,5 +106,21 @@ export class CreateDeskRoomComponent implements OnInit {
     this.modalOption.centered = true;
     this.modalService.open(content, this.modalOption );
   }
-   
+
+  images = [];
+    
+  onFileChange(event) {
+    if(event.target.files && event.target.files[0]) {
+      var fileCount = event.target.files.length;
+      for (let i = 0; i < fileCount; i++) {
+        var reader = new FileReader();
+          
+        reader.onload = (event:any) => {
+            this.images.push(event.target.result);
+          this.desk.images.push(event.target.result);  
+        }
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  } 
 }

@@ -21,6 +21,10 @@ export class DeskRoomComponent implements OnInit {
   clickedDesk: number;
   bsRangeValue: Date[];
 
+  myInterval = 5000;
+  activeSlideIndex = 0;
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -71,8 +75,8 @@ export class DeskRoomComponent implements OnInit {
 
   ngAfterViewInit() {
     this.positionChairs();
-    // debugger
-    this.mapService.posMarker(this.desk.lat, this.desk.long);
+    if (this.desk.lat && this.desk.long)
+      this.mapService.posMarker(this.desk.lat, this.desk.long);
   }
 
   positionChairs() {

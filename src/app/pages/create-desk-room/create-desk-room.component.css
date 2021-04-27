@@ -30,6 +30,7 @@
     height: 800px; 
     width: 1010px; 
     background-image: linear-gradient(to bottom right, rgb(221, 221, 221), rgb(180, 180, 180));
+    border-radius: 5px;
     
     /* border: 3px solid black; */
   }

@@ -1,5 +1,5 @@
-<h2>Create a new Desk room</h2>
-<br>
+<h2>Create a new Desk Room</h2>
+
 <div class="form-group">
     <label for="name">Name</label>
     <input [(ngModel)]="desk.name" type="text" class="form-control" placeholder="Name" id="name">
@@ -13,7 +13,15 @@
     <app-map2></app-map2> 
 </div>
 <div class="form-group">
-    <label for="total_spaces">Available spaces</label>
+    <label for="address">Images</label><br>
+    <input type="file" name="image" multiple (change)="onFileChange($event)" id="image" style=" margin-bottom:10px;">
+
+    <div class="form-group">
+    <img *ngFor='let url of images' [src]="url" style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
+    </div>
+</div>
+<div class="form-group">
+    <label for="total_spaces">Total spaces</label>
     <input [(ngModel)]="desk.total_spaces" type="number" disabled="{{isDisabled}}" class="form-control" placeholder="Available spaces" id="total_spaces"> 
 </div>
 <div class="form-group">
@@ -55,7 +63,6 @@
                 cdkDragBoundary=".container"
                 (cdkDragEnded)="onDragEnded($event, i)"
                 >
-                
                 <div class="chair-content">ID: {{chair._id}}</div>
             </div>
         </div>
