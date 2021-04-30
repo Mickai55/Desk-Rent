@@ -1,10 +1,11 @@
-import { RentRequest } from './rent-request';
+import { ChairRequest } from './chair-request';
 
 export interface Chair {
   _id: number;
+  desk_id: number;
   occupied: boolean;
   occupiedDays: Date[];
-  requests: RentRequest[];
+  requests: ChairRequest[];
 
   posX: number;
   posY: number;

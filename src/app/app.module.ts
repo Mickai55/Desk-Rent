@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { IvyCarouselModule } from 'angular-responsive-carousel';
+// import { IvyCarouselModule } from 'angular-responsive-carousel';    
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -27,20 +27,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { MarkerService } from './services/marker.service';
-import { PopupService } from './services/popup.service';
+import { PopupService } from './services/popup.service';        
 import { MapComponent } from './mapGetLocation/map.component';
 import { Map2Component } from './mapPutLocation/map2.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { RentComponent } from './pages/rent/rent.component';
-import { DeskRoomComponent } from './pages/desk-room/desk-room.component';
-import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-room.component';
+import { LoginComponent } from './pages/user/login/login.component';
+import { RegisterComponent } from './pages/user/register/register.component';
+import { RentComponent } from './pages/renting/rent/rent.component';
+import { DeskRoomComponent } from './pages/renting/desk-room/desk-room.component';
+import { CreateDeskRoomComponent } from './pages/renting/create-desk-room/create-desk-room.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
+import { HistoryComponent } from './pages/user/history/history.component';
+import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component';
 
 @NgModule({
-  declarations: [
+  declarations: [  
     AppComponent,
     HomeComponent,
     LoginComponent,
@@ -50,6 +53,9 @@ import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-ro
     CreateDeskRoomComponent,
     MapComponent,
     Map2Component,
+    ProfileComponent,
+    HistoryComponent,
+    SendRentRequestComponent,
   ],
   imports: [    
     AppRoutingModule,

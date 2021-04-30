@@ -13,7 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class RentComponent implements OnInit {
   constructor() {}
-  public desks: Desk[];
+  public desks: Desk[] = [];
   // desks= [
   //         { _id: 0, name: 'Office0', address: 'Slatina', total_spaces: 6, available_spaces: 6, chairs: this.createChairs(6) },
   //         { _id: 1, name: 'Office1', address: 'Bucharest', total_spaces: 10, available_spaces: 10, chairs: this.createChairs(10) },
@@ -26,14 +26,17 @@ export class RentComponent implements OnInit {
   //       ];
 
   async ngOnInit(): Promise<void> {
-    this.desks = await JSON.parse(localStorage.getItem('desks'));
+    if (localStorage.getItem('desks'))
+      this.desks = await JSON.parse(localStorage.getItem('desks'));
+    else
+      localStorage.setItem('desks', JSON.stringify(this.desks));
     this.initializeTable();
   }
 
-  createChairs(nr) {
+  createChairs(nr, desk_id) {
     let chairs: Chair[] = [];
     for (let i = 0; i < nr; i++) {
-      chairs.push({ _id: i, occupied: false, occupiedDays: [], requests: [], posX: 0, posY: 0})
+      chairs.push({ _id: i, occupied: false, occupiedDays: [], requests: [], posX: 0, posY: 0, desk_id: desk_id})
     }
     
     return chairs

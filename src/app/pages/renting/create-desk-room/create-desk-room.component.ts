@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Desk } from 'src/app/interfaces/desk';
-import { RentComponent } from '../../pages/rent/rent.component';
+import { RentComponent } from '../rent/rent.component';
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { MarkerService } from 'src/app/services/marker.service';
 import { HttpClient } from '@angular/common/http';
@@ -19,7 +19,7 @@ export class CreateDeskRoomComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient
     ) {}
-  public desks: Desk[] = JSON.parse(localStorage.getItem('desks')); 
+  public desks: Desk[] = JSON.parse(localStorage.getItem('desks'));  
   notifier: NotifierService;
   closeResult = '';
   fakeArray = null;
@@ -35,8 +35,11 @@ export class CreateDeskRoomComponent implements OnInit {
   addDesk() {
     if (this.isDisabled == false)
       this.addChairs();
-    this.desk.lat = MarkerService.latitude;
-    this.desk.long = MarkerService.longitude;
+    
+    if (MarkerService.latitude != undefined && MarkerService.longitude != undefined) {
+      this.desk.lat = MarkerService.latitude;
+      this.desk.long = MarkerService.longitude;
+    }
 
     this.desks.push(this.desk);
     localStorage.setItem('desks', JSON.stringify(this.desks));
@@ -64,7 +67,7 @@ export class CreateDeskRoomComponent implements OnInit {
     this.desk._id = this.desks.length; // the desk will be added as the last item on the list
     this.desk.available_spaces = this.desk.total_spaces;
     if (this.desk.chairs.length === 0)
-      this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces));
+      this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces, this.desk._id));
 
     $("#forr").load(" #forr > *");
     this.isDisabled = true;
@@ -72,7 +75,7 @@ export class CreateDeskRoomComponent implements OnInit {
 
   resetChairs() {
     this.desk.chairs = [];
-    this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces));
+    this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces, this.desk._id));
   }
 
   onDragEnded(event, i) {

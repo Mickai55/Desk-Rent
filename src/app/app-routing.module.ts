@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { RentComponent } from './pages/rent/rent.component';
-import { DeskRoomComponent } from './pages/desk-room/desk-room.component';
-import { CreateDeskRoomComponent } from './pages/create-desk-room/create-desk-room.component';
+import { LoginComponent } from './pages/user/login/login.component';
+import { RegisterComponent } from './pages/user/register/register.component';
+import { RentComponent } from './pages/renting/rent/rent.component';
+import { DeskRoomComponent } from './pages/renting/desk-room/desk-room.component';
+import { CreateDeskRoomComponent } from './pages/renting/create-desk-room/create-desk-room.component';
+import { ProfileComponent } from './pages/user/profile/profile.component';
+import { HistoryComponent } from './pages/user/history/history.component';
+import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
 
 const routes : Routes = [
   {
@@ -32,6 +35,18 @@ const routes : Routes = [
   {
     path: 'createDeskRoom',
     component: CreateDeskRoomComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent
+  },
+  {
+    path: 'history',
+    component: HistoryComponent
+  },
+  {
+    path: 'send-request',
+    component: SendRentRequestComponent
   }
 ]
 
