@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { IvyCarouselModule } from 'angular-responsive-carousel';    
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -38,9 +37,9 @@ import { RegisterComponent } from './pages/user/register/register.component';
 import { RentComponent } from './pages/renting/rent/rent.component';
 import { DeskRoomComponent } from './pages/renting/desk-room/desk-room.component';
 import { CreateDeskRoomComponent } from './pages/renting/create-desk-room/create-desk-room.component';
-import { ProfileComponent } from './pages/user/profile/profile.component';
+import { ProfileComponent } from './pages/user/profile/profile.component'; 
 import { HistoryComponent } from './pages/user/history/history.component';
-import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component';
+import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
 
 @NgModule({
   declarations: [  

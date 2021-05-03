@@ -9,7 +9,7 @@
 
 <carousel [interval]="myInterval" [(activeSlide)]="activeSlideIndex" [isAnimated]="true" [noPause]="false">
   <slide *ngFor="let slide of desk.images; let index=index">
-    <img [src]="slide" alt="image slide" class="image">
+    <img [src]="slide" alt="image slide" class="image imageMedia">
 
     <div class="carousel-caption"> </div>  
   </slide>
@@ -60,7 +60,7 @@
         #drp="bsDaterangepicker" 
         bsDaterangepicker [(ngModel)]="bsRangeValue"
         [minDate]="today"
-        [datesDisabled]="this.desk.chairs[this.clickedDesk].occupiedDays"
+        [datesDisabled]="this.filter[this.clickedDesk].occupiedDays"
         [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true }"
           /> 
         <button  style="margin-top: 15px;" class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">

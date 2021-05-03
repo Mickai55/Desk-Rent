@@ -115,18 +115,29 @@ export class DeskRoomComponent implements OnInit {
   event: any;  
 
   myFilter = (d: Date | null): boolean => { 
-    if (this.desk.chairs[this.clickedDesk].occupiedDays == null)
+    if (this.desk.chairs[this.clickedDesk].occupiedDays.length === 0)
       return true;
 
     // const ddd = (d || new Date());
     const ddd = new Date(d);
 
     for (const date of this.desk.chairs[this.clickedDesk].occupiedDays) {
-      if (date.toString() === ddd.toString()) 
+      if (date.toString() === ddd.toISOString()) 
         return false; 
     }
     return true;
   }
+  filterForDateRange = (() => {
+    let occDysMat = []
+    for (let ch of this.desk.chairs) {
+      let occDys = [];
+      for (let d of ch.occupiedDays)
+        occDys.push(new Date(d))
+      occDysMat.push({"occupiedDays": occDys})
+    }
+    return occDysMat;
+  })
+  filter = this.filterForDateRange();
 
   isSelected = (event: any) => {
     const date =
@@ -155,31 +166,28 @@ export class DeskRoomComponent implements OnInit {
 
   selectRange() {
     if (this.bsRangeValue[0] != null) {
-      console.log("sdsdsds");
       
       let arrival_date, depart_date;
       [arrival_date, depart_date] = this.bsRangeValue;
       for (let i = Date.parse(arrival_date.toISOString()); i<= Date.parse(depart_date.toISOString()); i += 86400000) {
-        this.daysSelected.add(new Date(i).toISOString().substring(0, 10)) // danger!!
+        this.daysSelected.add(new Date(i).toISOString().substring(0, 10))
       }
     }
   }
 
   user: User = JSON.parse(localStorage.getItem("users"))[0];
 
-  occupyDesk() {   
+  occupyDesk() { // TODO impartit pe mai multe functii!!  
     if (this.bsRangeValue != null)
       this.selectRange();
     let days = Array.from(this.daysSelected); 
     days.sort()
     let ch = this.desk.chairs[this.clickedDesk];
-    let chReq: ChairRequest = { _id: ch.requests.length, desk_id: ch.desk_id, chair_id: ch._id, user: "user1", days: days };
+    let chReq: ChairRequest = { _id: ch.requests.length, desk_id: ch.desk_id, chair_id: ch._id, days: days };
     ch.requests.push(chReq);
     
-    let reqByUser = this.rentRequests.filter(u => u.user.name == this.user.name)
-    let reqByNr = reqByUser.filter(u => u.user.nrReq == this.user.nrReq)
-    // debugger
-    if (reqByUser.length != 0 && reqByNr.length != 0)
+    let reqByNr = this.rentRequests.filter(u => u.user.name === this.user.name && u.user.nrReq === this.user.nrReq)
+    if (reqByNr.length != 0)
       reqByNr[0].requests.push(chReq)
     else
       this.rentRequests.push({user: this.user, number: this.user.nrReq, requests: [chReq], status: 'Pending...', timestamp: new Date(Date.now())});
@@ -190,21 +198,19 @@ export class DeskRoomComponent implements OnInit {
       newDate.setHours(0, 0, 0);
       dates.push(newDate)
     }
-
     if (ch.occupiedDays == null)
       ch.occupiedDays = dates;
     else
       ch.occupiedDays.push(...dates);
 
-    console.log(ch.requests) ;
-
     this.daysSelected.clear();
     this.bsRangeValue = [null, null];
-
 
     localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
     localStorage.setItem('desks', JSON.stringify(this.desks));
     this.verifySpacesLeft();
+
+    window.location.reload();
   }
 
 }

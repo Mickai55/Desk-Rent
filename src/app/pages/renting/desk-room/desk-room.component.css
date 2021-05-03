@@ -7,7 +7,7 @@
   cursor: pointer;
 
   border: 3px solid black;
-  border-radius: 20px;
+  border-radius: 9px;
 }
 
 .chair-green {
@@ -63,7 +63,13 @@ mat-form-field {
   margin-right: auto;
   width: 90%;
   border-radius: 20px;
-  height: 60vh;
+  height: 470px;
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .imageMedia {
+    height: 39vw;
+  }
 }

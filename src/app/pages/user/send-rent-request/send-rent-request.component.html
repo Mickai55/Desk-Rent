@@ -1,6 +1,6 @@
-<div *ngIf="req"> 
-  <div *ngFor="let chReq of req.requests">  
-      <h2>Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id}}</h2>
+<div class="request" *ngIf="req"> 
+  <div *ngFor="let chReq of req.requests; let i = index;">  
+      <h2>Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id}}:</h2>
       <mat-chip-list> 
         <mat-chip *ngFor="let day of chReq.days">  
           {{ day }} 
@@ -9,9 +9,9 @@
       <hr>
   </div>
 
-  <button class="btn btn-success" (click)="confirmRequest()">Confirm</button>
-  <button style="margin-left:10px;" class="btn btn-danger">Discard</button> 
+  <button style="margin-top:10px;" class="btn btn-success" (click)="confirmRequest()">Confirm</button>
+  <button style="margin-left:10px; margin-top:10px;" class="btn btn-danger" (click)="discardRequest()">Discard</button>  
 </div>
-<div *ngIf="!req">
-  <h2>Please rent some desks!</h2>
+<div style="text-align: center;" *ngIf="!req">
+  <h2>No active requests</h2>
 </div>
