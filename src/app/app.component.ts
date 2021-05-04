@@ -9,7 +9,7 @@ export class AppComponent implements OnInit{
   users = JSON.parse(localStorage.getItem("users"));
   user = this.users[0];
 
-  req = JSON.parse(localStorage.getItem('RentRequests'))[this.user.nrReq];
+  req = JSON.parse(localStorage.getItem('RentRequests'))[this.user.requests_count];
   nr;
   
   ngOnInit() {

@@ -24,18 +24,18 @@ export class CreateDeskRoomComponent implements OnInit {
   closeResult = '';
   fakeArray = null;
   clickedChairIndex: number;
-  modalOption: NgbModalOptions = {};  
-  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium', lat: 44.425, long: 26.1, images: [] };
-  isDisabled = false;
+  modalOption: NgbModalOptions = {};   
+  public desk: Desk = { _id: 0, name: '', address: '', total_spaces: undefined, available_spaces: 0, chairs: [], dimension: 'Medium', lat: 44.425, long: 26.1, images: [], has_location: false };
+  loc = false;
+  pics = false;
 
   coords = [];
 
   ngOnInit(): void {}
   
   addDesk() {
-    if (this.isDisabled == false)
-      this.addChairs();
     
+    this.desk.has_location = this.loc;
     if (MarkerService.latitude != undefined && MarkerService.longitude != undefined) {
       this.desk.lat = MarkerService.latitude;
       this.desk.long = MarkerService.longitude;
@@ -63,14 +63,12 @@ export class CreateDeskRoomComponent implements OnInit {
       container.style.height = '1200px';
     }
     
-
+    this.desk.chairs = []
     this.desk._id = this.desks.length; // the desk will be added as the last item on the list
     this.desk.available_spaces = this.desk.total_spaces;
-    if (this.desk.chairs.length === 0)
-      this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces, this.desk._id));
+    this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces, this.desk._id));
 
-    $("#forr").load(" #forr > *");
-    this.isDisabled = true;
+    // $("#forr").load(" #forr > *");
   }
 
   resetChairs() {
@@ -84,7 +82,7 @@ export class CreateDeskRoomComponent implements OnInit {
     let parentPosition = this.getPosition(element);
     let x = boundingClientRect.x - parentPosition.left;
     let y = boundingClientRect.y - parentPosition.top;
-    console.log('Chair: ', i, ' | x: ' + x, 'y: ' + y);
+    // console.log('Chair: ', i, ' | x: ' + x, 'y: ' + y);
     
     this.clickedChairIndex = i;
     this.desk.chairs[this.clickedChairIndex].posX = x;
@@ -110,8 +108,8 @@ export class CreateDeskRoomComponent implements OnInit {
     this.modalService.open(content, this.modalOption );
   }
 
+  // add images
   images = [];
-    
   onFileChange(event) {
     if(event.target.files && event.target.files[0]) {
       var fileCount = event.target.files.length;

@@ -9,7 +9,7 @@ export interface Desk {
     chairs: Chair[];
     dimension: string;
     images: any[];
-
+    has_location: boolean;
     lat: number;
     long: number;
 }

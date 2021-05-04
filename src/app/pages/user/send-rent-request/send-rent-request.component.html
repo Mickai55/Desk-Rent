@@ -1,16 +1,33 @@
+<p class="p2">Current requests</p> 
 <div class="request" *ngIf="req"> 
   <div *ngFor="let chReq of req.requests; let i = index;">  
-      <h2>Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id}}:</h2>
+      <!-- <h2>Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id}}:</h2>
       <mat-chip-list> 
         <mat-chip *ngFor="let day of chReq.days">  
           {{ day }} 
-        </mat-chip>
-      </mat-chip-list>
-      <hr>
+        </mat-chip> 
+      </mat-chip-list> 
+      <hr> -->
+      <div *ngIf="desks[chReq.desk_id]"> 
+        <ngb-accordion  activeIds="ngb-panel-0">  
+          <ngb-panel id="ngb-panel-{{i}}">
+            <ng-template ngbPanelTitle> 
+              <div style="color:black;">Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <mat-chip-list> 
+                <mat-chip *ngFor="let day of chReq.days">  
+                  {{ day }} 
+                </mat-chip>
+              </mat-chip-list>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
   </div>
 
-  <button style="margin-top:10px;" class="btn btn-success" (click)="confirmRequest()">Confirm</button>
-  <button style="margin-left:10px; margin-top:10px;" class="btn btn-danger" (click)="discardRequest()">Discard</button>  
+  <button style="margin-top:20px;" class="btn btn-success" (click)="confirmRequest()">Confirm</button>
+  <button style="margin-left:10px; margin-top:20px;" class="btn btn-danger" (click)="discardRequest()">Discard</button>  
 </div>
 <div style="text-align: center;" *ngIf="!req">
   <h2>No active requests</h2>

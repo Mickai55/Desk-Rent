@@ -1,54 +1,44 @@
-<h2>Create a new Desk Room</h2>
-
-<!-- <mat-form-field>
+<p class="p2">Create a new Desk Room</p>  
+<!-- <form>   -->
+<mat-form-field appearance="outline">
   <mat-label>Name</mat-label> 
-  <input matInput  [(ngModel)]="desk.name" type="text" placeholder="Ex. Google" #input> 
-</mat-form-field> -->
+  <input matInput  [(ngModel)]="desk.name" type="text" placeholder="Ex. Google" name="name"> 
+</mat-form-field>
+<br>
+<mat-form-field appearance="outline">
+  <mat-label>Address</mat-label> 
+  <input matInput  [(ngModel)]="desk.address" type="text" placeholder="Ex. Bucharest 060071" name="address"> 
+</mat-form-field> 
+<br>
+<mat-form-field appearance="outline">
+  <mat-label>Desk dimension</mat-label>
+  <mat-select>
+    <mat-option (click)="desk.dimension = 'Small';" value="one">Small</mat-option>
+    <mat-option (click)="desk.dimension = 'Medium';" value="two">Medium</mat-option>
+    <mat-option (click)="desk.dimension = 'Large';" value="one">Large</mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<mat-form-field appearance="outline">
+  <mat-label>Total spaces</mat-label> 
+  <input matInput  [(ngModel)]="desk.total_spaces" type="number" placeholder="Ex. 20" name="spaces"> 
+</mat-form-field> 
 
-<div class="form-group">
-    <label for="name">Name</label>
-    <input [(ngModel)]="desk.name" type="text" class="form-control" placeholder="Name" id="name">
-</div>
-<div class="form-group">
-    <label for="address">Address</label>
-    <input [(ngModel)]="desk.address" type="text" class="form-control" placeholder="Address" id="address">
-</div>
-<div class="form-group">
-    <label for="address">Location (drag the marker to the desk's location)</label>
-    <app-map2></app-map2> 
-</div>
-<div class="form-group">
-    <label for="address">Images</label><br>
-    <input type="file" name="image" multiple (change)="onFileChange($event)" id="image" style=" margin-bottom:10px;">
+<p><button style="position: relative;" class="btn btn-outline-secondary" (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
 
-    <div class="form-group">
-    <img *ngFor='let url of images' [src]="url" style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
-    </div>
-</div>
+<mat-checkbox [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker to the Desk's location)</mat-checkbox>
+<app-map2 *ngIf="loc"></app-map2> 
+<br>
+
+<mat-checkbox [color]="'primary'" [(ngModel)]="pics">Upload images that describe the Desk</mat-checkbox> <br *ngIf="pics"> 
+
+<input *ngIf="pics" type="file" name="image" multiple (change)="onFileChange($event)" id="image" style=" margin-bottom:10px;">
 <div class="form-group">
-    <label for="total_spaces">Total spaces</label>
-    <input [(ngModel)]="desk.total_spaces" type="number" disabled="{{isDisabled}}" class="form-control" placeholder="Available spaces" id="total_spaces"> 
-</div>
-<div class="form-group">
-  <label for="dimension">Desk dimension</label>
-  <div class="row">
-    <div class="col">
-      <div ngbDropdown class="d-inline-block">
-        <button style="position: relative; margin-bottom: 10px;" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>{{desk.dimension}}</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button (click)="desk.dimension = 'Small';" ngbDropdownItem>Small</button> 
-          <button (click)="desk.dimension = 'Medium';" ngbDropdownItem>Medium</button>
-          <button (click)="desk.dimension = 'Large';" ngbDropdownItem>Large</button>
-        </div>
-      </div>
-    </div>
-</div>
-<div class="form-group">
-  <label for="DeskDesign">Desk design</label>
-  <p><button style="position: relative;" class="btn btn-primary" (click)="openModal(content);addChairs(); ">Customize your Desk</button></p>
+  <img *ngFor='let url of images' [src]="url" style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
 </div>
 
-<p><button style="position: relative; margin-top: 25px;"  [disabled]="!isDisabled" class="btn btn-success" (click)="addDesk()">Confirm</button></p> 
+<p><button style="position: relative; margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p> 
+
 
 
 <ng-template #content let-modal>
@@ -68,13 +58,13 @@
                 cdkDragBoundary=".container"
                 (cdkDragEnded)="onDragEnded($event, i)"
                 >
-                <div class="chair-content">ID: {{chair._id}}</div>
+                <div class="chair-content">ID: {{chair._id + 1}}</div>
             </div>
         </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
     <button type="button" class="btn btn-outline-primary" (click)=" resetChairs(); "> Reset position </button>
   </div>
 </ng-template>

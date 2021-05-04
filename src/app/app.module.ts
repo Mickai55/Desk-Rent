@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
+import { AppComponent } from './app.component';    
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,19 +19,23 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+// import { MatSelectModule } 
 
+// Mat-Table 
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+// Leaflet Map
 import { MarkerService } from './services/marker.service';
 import { PopupService } from './services/popup.service';        
 import { MapComponent } from './mapGetLocation/map.component';
 import { Map2Component } from './mapPutLocation/map2.component';
 
-import { AppRoutingModule } from './app-routing.module';
+// Components
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { RegisterComponent } from './pages/user/register/register.component';
@@ -40,6 +45,7 @@ import { CreateDeskRoomComponent } from './pages/renting/create-desk-room/create
 import { ProfileComponent } from './pages/user/profile/profile.component'; 
 import { HistoryComponent } from './pages/user/history/history.component';
 import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [  
@@ -65,7 +71,7 @@ import { SendRentRequestComponent } from './pages/user/send-rent-request/send-re
     HttpClientModule,
     DataTablesModule,
     BrowserAnimationsModule,
-    CarouselModule, // for root?
+    CarouselModule,         
     ModalModule.forRoot(),
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
@@ -76,13 +82,15 @@ import { SendRentRequestComponent } from './pages/user/send-rent-request/send-re
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule,
+    MatFormFieldModule, 
     MatChipsModule,
     MatInputModule,
     MatSortModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCheckboxModule,
+    MatSelectModule
   ],
   providers: [
     RentComponent, 

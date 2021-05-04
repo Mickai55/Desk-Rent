@@ -1,16 +1,25 @@
 <div *ngIf="rentRequests.length != 0"> 
   <div class="request" *ngFor="let req of rentRequests">
-      <h2><u>Request no. {{req.number}}</u></h2>
-      <h2>Status: <b [ngStyle]="(req.status === 'Waiting approval')?{'color':'blue'}:{'color':'red'}">{{req.status}}</b></h2> 
-      <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2> 
+      <p class="p3"><u>Request no. {{req._id}}</u></p>  
+      <p class="p3">Status: <b [ngStyle]="(req.status === 'Waiting approval')?{'color':'blue'}:{'color':'red'}">{{req.status}}</b></p> 
+      <p class="p3">Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</p> 
       <div *ngFor="let chReq of req.requests; let i = index;">  
-          <h2>Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id}}:</h2>
-        <mat-chip-list> 
-          <mat-chip *ngFor="let day of chReq.days">  
-            {{ day }} 
-          </mat-chip>
-        </mat-chip-list>
-        <hr *ngIf="i !== req.requests.length - 1">
+        <div *ngIf="desks[chReq.desk_id]"> 
+          <ngb-accordion> 
+            <ngb-panel>
+              <ng-template ngbPanelTitle> 
+                <div style="color:black;">Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <mat-chip-list> 
+                  <mat-chip *ngFor="let day of chReq.days">  
+                    {{ day }} 
+                  </mat-chip>
+                </mat-chip-list>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
       </div>
   </div>
 </div>

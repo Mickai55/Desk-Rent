@@ -69,10 +69,10 @@ export class DeskRoomComponent implements OnInit {
     let spaces = 0;
     this.desk.chairs.map((currentElement, index, arr) => {
 
-      if (currentElement.occupiedDays)
-      currentElement.occupied = (currentElement.occupiedDays.find(item => {let k = new Date(item); k.setHours(3, 0, 0); return k.getFullYear() == this.today.getFullYear()}) != undefined &&
-                                currentElement.occupiedDays.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getMonth() == this.today.getMonth()}) != undefined &&
-                                currentElement.occupiedDays.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getDay() == this.today.getDay()}) != undefined) 
+      if (currentElement.occupied_days)
+      currentElement.occupied = (currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0); return k.getFullYear() == this.today.getFullYear()}) != undefined &&
+                                currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getMonth() == this.today.getMonth()}) != undefined &&
+                                currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getDay() == this.today.getDay()}) != undefined) 
 
       if (!currentElement.occupied) {
         spaces++; 
@@ -84,7 +84,7 @@ export class DeskRoomComponent implements OnInit {
 
   ngAfterViewInit() {
     this.positionChairs();
-    if (this.desk.lat && this.desk.long)
+    if (this.desk.lat && this.desk.long && this.desk.has_location)
       this.mapService.posMarker(this.desk.lat, this.desk.long);
   }
 
@@ -111,17 +111,18 @@ export class DeskRoomComponent implements OnInit {
   }
 
   public today = new Date();
+  max_date = new Date(Date.now() + 86400000 * 60)
   daysSelected: Set<any> = new Set([]);
   event: any;  
 
   myFilter = (d: Date | null): boolean => { 
-    if (this.desk.chairs[this.clickedDesk].occupiedDays.length === 0)
+    if (this.desk.chairs[this.clickedDesk].occupied_days.length === 0)
       return true;
 
     // const ddd = (d || new Date());
     const ddd = new Date(d);
 
-    for (const date of this.desk.chairs[this.clickedDesk].occupiedDays) {
+    for (const date of this.desk.chairs[this.clickedDesk].occupied_days) {
       if (date.toString() === ddd.toISOString()) 
         return false; 
     }
@@ -131,9 +132,9 @@ export class DeskRoomComponent implements OnInit {
     let occDysMat = []
     for (let ch of this.desk.chairs) {
       let occDys = [];
-      for (let d of ch.occupiedDays)
+      for (let d of ch.occupied_days)
         occDys.push(new Date(d))
-      occDysMat.push({"occupiedDays": occDys})
+      occDysMat.push({"occupied_days": occDys})
     }
     return occDysMat;
   })
@@ -186,11 +187,11 @@ export class DeskRoomComponent implements OnInit {
     let chReq: ChairRequest = { _id: ch.requests.length, desk_id: ch.desk_id, chair_id: ch._id, days: days };
     ch.requests.push(chReq);
     
-    let reqByNr = this.rentRequests.filter(u => u.user.name === this.user.name && u.user.nrReq === this.user.nrReq)
+    let reqByNr = this.rentRequests.filter(u => u.user._id === this.user._id && u.user.requests_count === this.user.requests_count)
     if (reqByNr.length != 0)
       reqByNr[0].requests.push(chReq)
     else
-      this.rentRequests.push({user: this.user, number: this.user.nrReq, requests: [chReq], status: 'Pending...', timestamp: new Date(Date.now())});
+      this.rentRequests.push({user: this.user, _id: this.user.requests_count, requests: [chReq], status: 'Pending...', timestamp: new Date(Date.now())});
 
     let dates: Date[] = [];
     for (let day of days) {
@@ -198,10 +199,10 @@ export class DeskRoomComponent implements OnInit {
       newDate.setHours(0, 0, 0);
       dates.push(newDate)
     }
-    if (ch.occupiedDays == null)
-      ch.occupiedDays = dates;
+    if (ch.occupied_days == null)
+      ch.occupied_days = dates;
     else
-      ch.occupiedDays.push(...dates);
+      ch.occupied_days.push(...dates);
 
     this.daysSelected.clear();
     this.bsRangeValue = [null, null];
