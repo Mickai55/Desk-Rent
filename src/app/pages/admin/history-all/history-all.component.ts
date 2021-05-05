@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interfaces/user';
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  selector: 'app-history-all',
+  templateUrl: './history-all.component.html',
+  styleUrls: ['./history-all.component.css']
 })
-export class HistoryComponent implements OnInit {
-  
+export class HistoryAllComponent implements OnInit {
+
   users = JSON.parse(localStorage.getItem("users")); 
   user = this.users[0];
   rentRequests = JSON.parse(localStorage.getItem('RentRequests')).filter(
@@ -19,6 +19,7 @@ export class HistoryComponent implements OnInit {
   desks = JSON.parse(localStorage.getItem('desks')); // ???
   filterStatus = "";
   filterDate = "";
+  filterUser = "";
 
   constructor() { }
   ngOnInit(): void {
@@ -26,8 +27,14 @@ export class HistoryComponent implements OnInit {
 
   applyFilter(event: Event) {
     this.rentRequests = this.initialRequests.filter(req =>  req.timestamp.substring(0, 10).includes(this.filterDate) && 
-                                                    req.status.toLowerCase().includes(this.filterStatus))
-                                                    // req => req._id.toString().includes(filterValue)
+                                                    req.status.toLowerCase().includes(this.filterStatus) &&
+                                                    req.user.full_name.includes(this.filterUser))
   }
+
+  // accept(req) { 
+  //   req.status='Accepted'
+  //   localStorage.setItem('RentRequests', this.rentRequests);
+  // }
+
 
 }

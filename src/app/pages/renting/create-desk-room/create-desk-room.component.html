@@ -24,21 +24,19 @@
   <input matInput  [(ngModel)]="desk.total_spaces" type="number" placeholder="Ex. 20" name="spaces"> 
 </mat-form-field> 
 
-<p><button style="position: relative;" class="btn btn-outline-secondary" (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
+<p><button style="position: relative; margin-bottom: 10px;" class="btn btn-outline-secondary" (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
 
-<mat-checkbox [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker to the Desk's location)</mat-checkbox>
+<mat-slide-toggle style="margin-top: 10px;" [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker to the Desk's location)</mat-slide-toggle>
 <app-map2 *ngIf="loc"></app-map2> 
 <br>
-
-<mat-checkbox [color]="'primary'" [(ngModel)]="pics">Upload images that describe the Desk</mat-checkbox> <br *ngIf="pics"> 
-
+<mat-slide-toggle style="margin-top: 20px;" [color]="'primary'" [(ngModel)]="pics">Upload images that describe the Desk</mat-slide-toggle> <br *ngIf="pics"> 
+<br>
 <input *ngIf="pics" type="file" name="image" multiple (change)="onFileChange($event)" id="image" style=" margin-bottom:10px;">
 <div class="form-group">
   <img *ngFor='let url of images' [src]="url" style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
 </div>
 
-<p><button style="position: relative; margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p> 
-
+<p><button style="margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p>
 
 
 <ng-template #content let-modal>

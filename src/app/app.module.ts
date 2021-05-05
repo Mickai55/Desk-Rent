@@ -20,7 +20,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-// import { MatSelectModule } 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 // Mat-Table 
 import { MatSortModule } from '@angular/material/sort';
@@ -46,6 +47,8 @@ import { ProfileComponent } from './pages/user/profile/profile.component';
 import { HistoryComponent } from './pages/user/history/history.component';
 import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
 import { MatSelectModule } from '@angular/material/select';
+import { HistoryAllComponent } from './pages/admin/history-all/history-all.component';
+import { RolesComponent } from './pages/admin/roles/roles.component';
 
 @NgModule({
   declarations: [  
@@ -61,6 +64,8 @@ import { MatSelectModule } from '@angular/material/select';
     ProfileComponent,
     HistoryComponent,
     SendRentRequestComponent,
+    HistoryAllComponent,
+    RolesComponent,
   ],
   imports: [    
     AppRoutingModule,
@@ -74,7 +79,7 @@ import { MatSelectModule } from '@angular/material/select';
     CarouselModule,         
     ModalModule.forRoot(),
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),   
     MatTooltipModule,
     DragDropModule,
     NgbModule,
@@ -90,7 +95,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatPaginatorModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSlideToggleModule
   ],
   providers: [
     RentComponent, 

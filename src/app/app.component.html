@@ -16,6 +16,7 @@ background-color: rgba(255, 255, 255, 0.8);" class="navbar navbar-expand-md navb
           <a [routerLink]="['/rent']" class="nav-item nav-link"><b>Rent</b></a>
       </div>
       <div class="navbar-nav ml-auto">
+        <a [routerLink]="['/history-all']" class="nav-item nav-link"><b>History All</b></a>
         <a [routerLink]="['/send-request']" class="nav-item nav-link">
             <b>Send Request<sup *ngIf="nr" class="bubble">{{nr}}</sup></b>
         </a> 

@@ -10,6 +10,7 @@ import { CreateDeskRoomComponent } from './pages/renting/create-desk-room/create
 import { ProfileComponent } from './pages/user/profile/profile.component';
 import { HistoryComponent } from './pages/user/history/history.component';
 import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
+import { HistoryAllComponent } from './pages/admin/history-all/history-all.component';
 
 const routes : Routes = [
   {
@@ -47,6 +48,10 @@ const routes : Routes = [
   {
     path: 'send-request',
     component: SendRentRequestComponent
+  },
+  {
+    path: 'history-all',
+    component: HistoryAllComponent
   }
 ]
 
