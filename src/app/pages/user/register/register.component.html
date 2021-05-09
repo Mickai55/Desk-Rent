@@ -1,31 +1,43 @@
-<p class="p2">Register</p>
-<br>
-<div class="alert alert-danger" *ngIf="passEqual == false && pressed == true">Passwords do not match.</div>
-<div class="alert alert-danger" *ngIf="allFieldsRequired() == false && pressed == true">All fields are required.</div>
-<div class="alert alert-danger" *ngIf="validateEmail(user.email) == false && pressed == true">Email is invalid.</div>
-<div class="form-group">
-    <label for="email">Name:</label>
-    <input [(ngModel)]="user.name" class="form-control" placeholder="Enter name" id="name">
-</div>
-<div class="form-group">
-    <label for="email">Email address:</label>
-    <input [(ngModel)]="user.email" type="email" [class]="validateEmail(user.email) ? 'form-control' : 'form-control is-invalid'" placeholder="Enter email" id="email">
-    <div *ngIf="!validateEmail(user.email)">
-        <p style="color:red">Email is not valid</p>
+<form style="text-align:center;">
+  <p class="p2">Register</p>
+  <br>
+  <div class="alert alert-danger" *ngIf="passEqual == false && pressed == true">Passwords do not match.</div>
+  <div class="alert alert-danger" *ngIf="allFieldsRequired() == false && pressed == true">All fields are required.</div>
+  <div class="alert alert-danger" *ngIf="validateEmail(user.email) == false && pressed == true">Email is invalid.</div>
+  <div class="form-group">
+    <!-- <label for="email">Name:</label> 
+  <input [(ngModel)]="user.name" class="form-control" placeholder="Enter name" id="name"> -->
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="user.name" type="text" placeholder="Name ..." name="name">
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <!-- <label for="email">Email address:</label> 
+    <input [(ngModel)]="user.email" type="email" [class]="validateEmail(user.email) ? 'form-control' : 'form-control is-invalid'" placeholder="Enter email" id="email"> -->
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput [(ngModel)]="user.email" type="email" placeholder="E-mail ..." name="email">
+    </mat-form-field>
+    <div *ngIf="user.email && !validateEmail(user.email)">
+      <p style="color:red">Email is not valid</p>
     </div>
-</div>
-<div class="form-group">
-    <label for="pwd">Password:</label>
-    <input [(ngModel)]="user.password" type="password" class="form-control" placeholder="Enter password" id="pwd">
-</div>
-<div class="form-group">
-    <label for="pwd">Confirm Password:</label>
-    <input [(ngModel)]="user.confirmPassword" type="password" class="form-control" placeholder="Confirm password"
-        id="cpwd">
-</div>
-<div class="form-group form-check">
-    <label class="form-check-label">
-        <input class="form-check-input" type="checkbox"> Remember me
-    </label>
-</div>
-<button (click)="register()" class="btn btn-primary col-2"><b>REGISTER</b></button>
+  </div>
+  <div class="form-group">
+    <!-- <label for="pwd">Password:</label>
+  <input [(ngModel)]="user.password" type="password" class="form-control" placeholder="Enter password" id="pwd"> -->
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="user.password" type="password" placeholder="Password ..." name="password">
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <!-- <label for="pwd">Confirm Password:</label>
+  <input [(ngModel)]="user.confirmPassword" type="password" class="form-control" placeholder="Confirm password" -->
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput [(ngModel)]="user.confirmPassword" type="password" placeholder="Confirm Password ..." name="cpwd">
+    </mat-form-field>
+  </div>
+  <button (click)="register()" class="btn btn-primary col-2"><b>REGISTER</b></button>
+</form>

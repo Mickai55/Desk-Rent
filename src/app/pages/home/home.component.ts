@@ -9,16 +9,24 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 })
 export class HomeComponent implements OnInit {
   constructor() { }
-
   ngOnInit(): void {}
 
   myInterval = 5000;
   activeSlideIndex = 0;
 
   slides = [
-    {image: 'assets/images/office3.jpg'},
-    {image: 'assets/images/office1.jpg'},
-    {image: 'assets/images/office2.jpg'}
+    {image: 'assets/ss/rent.png'},
+    {image: 'assets/ss/google.png'},
+    {image: 'assets/ss/renting.png'},
+    {image: 'assets/ss/send.png'},
+    {image: 'assets/ss/history.png'},
   ];
-  
+
+  texts = [
+    'Find a Desk in your city',
+    'Choose a seat',
+    'Enter a specific date or a date-range for when you want to go coding',
+    'Confirm the request',
+    'Wait until an Admin accepts your request',
+  ]
 }

@@ -1,5 +1,5 @@
-<p class="p2" style="margin-top: 30px; padding-bottom: 0px;">Welcome to {{desk.name}}</p>
-<p class="p4" style="margin-left: 30px;">{{desk.address}}</p> 
+<p class="p2" style="text-align: center; padding-bottom: 0px;">Welcome to {{desk.name}}</p>
+<p class="p4" style="text-align: center;">{{desk.address}}</p> 
 
 <hr>
 
@@ -42,21 +42,17 @@
     <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk has the following reservations: </h3>
     <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length === 0">This desk has no reservations </h3>
 
-    <!-- acordion!!!! -->
-    <div *ngFor="let value of this.desk.chairs[this.clickedDesk].requests; let i = index;">
-      <!-- <mat-chip-list>
-        <mat-chip *ngFor="let day of value.days"> 
-          {{ day }} 
-        </mat-chip>
-      </mat-chip-list> -->
+    <div *ngFor="let req of this.desk.chairs[this.clickedDesk].requests; let i = index;">
       <ngb-accordion  activeIds="ngb-panel-0">  
         <ngb-panel id="ngb-panel-{{i}}">
           <ng-template ngbPanelTitle> 
-            <div style="color:black;">Days requested by mihai:</div>
+            <div style="color:black;"> 
+              Days requested by mihai: <b [ngStyle]="(req.status === 'Pending...') && {'color':'orange'} || (req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'}">({{req.status}})</b>
+            </div> 
           </ng-template>
           <ng-template ngbPanelContent>
             <mat-chip-list>
-              <mat-chip *ngFor="let day of value.days"> 
+              <mat-chip *ngFor="let day of req.days"> 
                 {{ day }} 
               </mat-chip>
             </mat-chip-list>

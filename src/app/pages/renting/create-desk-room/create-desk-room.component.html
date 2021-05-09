@@ -1,14 +1,14 @@
-<p class="p2">Create a new Desk Room</p>  
+<p class="p2">Create a new Desk Room</p>
 <!-- <form>   -->
 <mat-form-field appearance="outline">
-  <mat-label>Name</mat-label> 
-  <input matInput  [(ngModel)]="desk.name" type="text" placeholder="Ex. Google" name="name"> 
+  <mat-label>Name</mat-label>
+  <input matInput [(ngModel)]="desk.name" type="text" placeholder="Ex. Google" name="name">
 </mat-form-field>
 <br>
 <mat-form-field appearance="outline">
-  <mat-label>Address</mat-label> 
-  <input matInput  [(ngModel)]="desk.address" type="text" placeholder="Ex. Bucharest 060071" name="address"> 
-</mat-form-field> 
+  <mat-label>Address</mat-label>
+  <input matInput [(ngModel)]="desk.address" type="text" placeholder="Ex. Bucharest 060071" name="address">
+</mat-form-field>
 <br>
 <mat-form-field appearance="outline">
   <mat-label>Desk dimension</mat-label>
@@ -20,20 +20,25 @@
 </mat-form-field>
 <br>
 <mat-form-field appearance="outline">
-  <mat-label>Total spaces</mat-label> 
-  <input matInput  [(ngModel)]="desk.total_spaces" type="number" placeholder="Ex. 20" name="spaces"> 
-</mat-form-field> 
+  <mat-label>Total spaces</mat-label>
+  <input matInput [(ngModel)]="desk.total_spaces" type="number" placeholder="Ex. 20" name="spaces">
+</mat-form-field>
 
-<p><button style="position: relative; margin-bottom: 10px;" class="btn btn-outline-secondary" (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
+<p><button style="position: relative; margin-bottom: 10px;" class="btn btn-outline-secondary"
+    (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
 
-<mat-slide-toggle style="margin-top: 10px;" [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker to the Desk's location)</mat-slide-toggle>
-<app-map2 *ngIf="loc"></app-map2> 
+<mat-slide-toggle style="margin-top: 10px;" [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker
+  to the Desk's location)</mat-slide-toggle>
+<app-map2 *ngIf="loc"></app-map2>
 <br>
-<mat-slide-toggle style="margin-top: 20px;" [color]="'primary'" [(ngModel)]="pics">Upload images that describe the Desk</mat-slide-toggle> <br *ngIf="pics"> 
+<mat-slide-toggle style="margin-top: 20px;" [color]="'primary'" [(ngModel)]="pics">Upload images that describe the Desk
+</mat-slide-toggle> <br *ngIf="pics">
 <br>
-<input *ngIf="pics" type="file" name="image" multiple (change)="onFileChange($event)" id="image" style=" margin-bottom:10px;">
+<input *ngIf="pics" type="file" name="image" multiple (change)="onFileChange($event)" id="image"
+  style=" margin-bottom:10px;">
 <div class="form-group">
-  <img *ngFor='let url of images' [src]="url" style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
+  <img *ngFor='let url of images' [src]="url"
+    style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
 </div>
 
 <p><button style="margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p>
@@ -47,18 +52,12 @@
     </button>
   </div>
   <div class="modal-body">
-    <div id="container"class="container roomBG"> 
-        <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index">
-            <div 
-                id="chair" 
-                class="chair"
-                cdkDrag 
-                cdkDragBoundary=".container"
-                (cdkDragEnded)="onDragEnded($event, i)"
-                >
-                <div class="chair-content">ID: {{chair._id + 1}}</div>
-            </div>
+    <div id="container" class="container roomBG">
+      <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index">
+        <div id="chair" class="chair" cdkDrag cdkDragBoundary=".container" (cdkDragEnded)="onDragEnded($event, i)">
+          <div class="chair-content">ID: {{chair._id + 1}}</div>
         </div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">

@@ -3,5 +3,6 @@ export interface ChairRequest {
     _id: number;
     desk_id: number;
     chair_id: number;
+    status: string;
     days: string[];
 }

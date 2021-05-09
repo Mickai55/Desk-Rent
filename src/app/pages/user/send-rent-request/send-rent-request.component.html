@@ -1,15 +1,15 @@
-<p class="p2">Current Requests</p> 
+<p *ngIf="req" class="p2">Current Requests</p> 
 <div class="request" *ngIf="req"> 
   <div *ngFor="let chReq of req.requests; let i = index;">
       <div *ngIf="desks[chReq.desk_id]"> 
         <ngb-accordion  activeIds="ngb-panel-0">  
           <ngb-panel id="ngb-panel-{{i}}">
             <ng-template ngbPanelTitle> 
-              <div style="color:black;">Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
+              <div style="color:black;">Desk {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <mat-chip-list> 
-                <mat-chip *ngFor="let day of chReq.days">  
+              <mat-chip-list>
+                <mat-chip *ngFor="let day of chReq.days">
                   {{ day }} 
                 </mat-chip>
               </mat-chip-list>

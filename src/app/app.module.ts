@@ -3,16 +3,18 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';    
+import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+// Angular Material
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -22,12 +24,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-
-// Mat-Table 
+// Mat-Table
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';  
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 // Leaflet Map
@@ -47,7 +48,7 @@ import { ProfileComponent } from './pages/user/profile/profile.component';
 import { HistoryComponent } from './pages/user/history/history.component';
 import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
 import { MatSelectModule } from '@angular/material/select';
-import { HistoryAllComponent } from './pages/admin/history-all/history-all.component';
+import { RequestsComponent } from './pages/admin/requests/requests.component';
 import { RolesComponent } from './pages/admin/roles/roles.component';
 
 @NgModule({
@@ -64,8 +65,8 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     ProfileComponent,
     HistoryComponent,
     SendRentRequestComponent,
-    HistoryAllComponent,
-    RolesComponent,
+    RequestsComponent,
+    RolesComponent, 
   ],
   imports: [    
     AppRoutingModule,
@@ -79,7 +80,7 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     CarouselModule,         
     ModalModule.forRoot(),
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot(),   
+    BsDatepickerModule.forRoot(),
     MatTooltipModule,
     DragDropModule,
     NgbModule,
@@ -97,7 +98,7 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     MatCheckboxModule,
     MatSelectModule,
     MatSlideToggleModule
-  ],
+  ],  
   providers: [
     RentComponent, 
     MarkerService,

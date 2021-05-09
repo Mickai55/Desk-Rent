@@ -38,7 +38,7 @@ export class MainService {
   // } 
 
   registerDemoAPI(data: any): Observable<any> {
-    debugger
+
     return this.http
       .post('http://localhost:8443/api/users/register', data, this.getHeaders())
       .pipe(

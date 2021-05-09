@@ -1,24 +1,32 @@
-<p class="p2">Login</p>
- 
-<div class="alert alert-danger" *ngIf="serverError">
-  Email or password is invalid
-</div>
-<form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+<form style="text-align:center;" [formGroup]="loginForm" (ngSubmit)="doLogin()">
+  <p class="p2">Login</p>
+
+  <div class="alert alert-danger" *ngIf="serverError">
+    Email or password is invalid
+  </div>
   <div class="form-group">
-    <label>Email</label>
-    <input class="form-control" placeholder="Email ..." formControlName="email" />
+    <!-- <label>Email</label>
+    <input class="form-control" placeholder="Email ..." formControlName="email" /> -->
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label> 
+      <input matInput  formControlName="email" placeholder="E-mail ..." type="text" name="email"> 
+    </mat-form-field>
 
     <div *ngIf="f.email.errors">
       <p style="color:red" *ngIf="f.email.errors.email">Email is not valid</p>
     </div>
   </div>
   <div class="form-group">
-    <label>Password</label>
-    <input class="form-control" type="password" placeholder="Password ..." formControlName="password" />
+    <!-- <label>Password</label>
+    <input class="form-control" type="password" placeholder="Password ..." formControlName="password" /> -->
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label> 
+      <input matInput formControlName="password" placeholder="Password ..." type="text" name="password"> 
+    </mat-form-field>
 
-    <div *ngIf="f.password.errors">
+    <!-- <div *ngIf="f.password.errors">
       <p style="color:red" *ngIf="f.password.errors.required">Password is required</p>
-    </div>
+    </div> -->
 
   </div>
   <button type="submit" class="btn btn-success">

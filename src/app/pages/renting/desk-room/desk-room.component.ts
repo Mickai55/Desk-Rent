@@ -42,10 +42,7 @@ export class DeskRoomComponent implements OnInit {
     this.deskDimensions();
     this.verifySpacesLeft();
     
-    if (localStorage.getItem('RentRequests'))
-      this.rentRequests = await JSON.parse(localStorage.getItem('RentRequests'));
-    else
-      localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
+    this.rentRequests = await JSON.parse(localStorage.getItem('RentRequests'));
   }
 
   deskDimensions() {
@@ -67,13 +64,20 @@ export class DeskRoomComponent implements OnInit {
 
   verifySpacesLeft() {
     let spaces = 0;
-    this.desk.chairs.map((currentElement, index, arr) => {
+    this.desk.chairs.map((currentElement, index, arr) => { 
+
+      // if (currentElement.occupied_days) 
+      // currentElement.occupied = (currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0); return k.getFullYear() == this.today.getFullYear()}) != undefined &&
+      //                           currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getMonth() == this.today.getMonth()}) != undefined &&
+      //                           currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getDay() == this.today.getDay()}) != undefined)
+                                //  &&
+                                // currentElement.requests.find(item => item.status === 'Accepted') != undefined) 
 
       if (currentElement.occupied_days)
-      currentElement.occupied = (currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0); return k.getFullYear() == this.today.getFullYear()}) != undefined &&
-                                currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getMonth() == this.today.getMonth()}) != undefined &&
-                                currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getDay() == this.today.getDay()}) != undefined) 
-
+      currentElement.occupied = currentElement.requests.find(i =>  {return i.days.find(d => d === new Date().toISOString().substring(0, 10)) !== undefined && i.status === 'Accepted'}) !== undefined
+        // currentElement.occupied = (currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0); let u = k.toISOString().substring(0, 10); return (u === new Date().toISOString().substring(0, 10))}) !== undefined
+        // && currentElement.requests.find(item => item.status === 'Accepted') != undefined
+        // )
       if (!currentElement.occupied) {
         spaces++; 
       } 
@@ -178,21 +182,24 @@ export class DeskRoomComponent implements OnInit {
 
   user: User = JSON.parse(localStorage.getItem("users"))[0];
 
-  occupyDesk() { // TODO impartit pe mai multe functii!!  
+  occupyDesk() {
+    // put the request on ChairRequests
     if (this.bsRangeValue != null)
       this.selectRange();
     let days = Array.from(this.daysSelected); 
     days.sort()
     let ch = this.desk.chairs[this.clickedDesk];
-    let chReq: ChairRequest = { _id: ch.requests.length, desk_id: ch.desk_id, chair_id: ch._id, days: days };
+    let chReq: ChairRequest = { _id: ch.requests.length, desk_id: ch.desk_id, chair_id: ch._id, days: days, status: 'Pending...' };
     ch.requests.push(chReq);
     
+    // put the request on RentRequests
     let reqByNr = this.rentRequests.filter(u => u.user._id === this.user._id && u.user.requests_count === this.user.requests_count)
     if (reqByNr.length != 0)
       reqByNr[0].requests.push(chReq)
-    else
+    else 
       this.rentRequests.push({user: this.user, _id: this.user.requests_count, requests: [chReq], status: 'Pending...', timestamp: new Date(Date.now())});
 
+    // put the requested days on Chair's occupied_days
     let dates: Date[] = [];
     for (let day of days) {
       let newDate = new Date(day);
@@ -204,12 +211,14 @@ export class DeskRoomComponent implements OnInit {
     else
       ch.occupied_days.push(...dates);
 
+    // reset daysSelect and bsRangeValue for the next request
     this.daysSelected.clear();
     this.bsRangeValue = [null, null];
+    
+    this.verifySpacesLeft();
 
     localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
     localStorage.setItem('desks', JSON.stringify(this.desks));
-    this.verifySpacesLeft();
 
     window.location.reload();
   }

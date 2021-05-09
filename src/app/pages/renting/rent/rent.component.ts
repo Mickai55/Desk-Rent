@@ -16,10 +16,7 @@ export class RentComponent implements OnInit {
   public desks: Desk[] = [];
 
   async ngOnInit(): Promise<void> {
-    if (localStorage.getItem('desks'))
-      this.desks = await JSON.parse(localStorage.getItem('desks'));
-    else
-      localStorage.setItem('desks', JSON.stringify(this.desks));
+    this.desks = await JSON.parse(localStorage.getItem('desks'));
     this.initializeTable();
   }
 

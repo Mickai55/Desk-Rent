@@ -34,12 +34,10 @@
   background-image: linear-gradient(
     to bottom right,
     rgb(221, 221, 221),
-    rgb(126, 126, 126)
+    rgb(99, 99, 99)
   );
   border-radius: 5px;
-  /* background-color: rgb(238, 238, 238); */
-
-  /* border: 1px solid black; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 mat-form-field {

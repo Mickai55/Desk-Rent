@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Desk } from 'src/app/interfaces/desk';
@@ -34,6 +34,12 @@ export class CreateDeskRoomComponent implements OnInit {
   ngOnInit(): void {}
   
   addDesk() {
+
+    if (this.desk.chairs.length === 0) {
+      this.desk._id = this.desks.length; // the desk will be added as the last item on the list
+      this.desk.available_spaces = this.desk.total_spaces;
+      this.desk.chairs.push(...this.rent.createChairs(this.desk.total_spaces, this.desk._id));
+    }
     
     this.desk.has_location = this.loc;
     if (MarkerService.latitude != undefined && MarkerService.longitude != undefined) {
@@ -111,6 +117,7 @@ export class CreateDeskRoomComponent implements OnInit {
   // add images
   images = [];
   onFileChange(event) {
+    debugger
     if(event.target.files && event.target.files[0]) {
       var fileCount = event.target.files.length;
       for (let i = 0; i < fileCount; i++) {
@@ -123,5 +130,5 @@ export class CreateDeskRoomComponent implements OnInit {
         reader.readAsDataURL(event.target.files[i]);
       }
     }
-  } 
+  }
 }

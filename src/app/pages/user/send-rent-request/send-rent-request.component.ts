@@ -11,32 +11,33 @@ import { User } from 'src/app/interfaces/user';
 export class SendRentRequestComponent implements OnInit {
   
   rentRequests: RentRequest[] = [];  
-  desks = JSON.parse(localStorage.getItem('desks')); // ???
+  desks = JSON.parse(localStorage.getItem('desks'));
 
   users = JSON.parse(localStorage.getItem("users"));
   user = this.users[0];
 
-  req = JSON.parse(localStorage.getItem('RentRequests'))[this.user.requests_count];
+  req;
 
   constructor(
     private router: Router 
-    ) { }
+    ){}
   async ngOnInit(): Promise<void> {
-
-    //e nevoie de asta?
-    if (localStorage.getItem('RentRequests')) {
-      this.rentRequests = await JSON.parse(localStorage.getItem('RentRequests'));
+    this.rentRequests = await JSON.parse(localStorage.getItem('RentRequests'));
+    if (localStorage.getItem('RentRequests') && this.user)
       this.req = this.rentRequests[this.user.requests_count];
-    }
-    else {
-      localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
-    }
   }
 
   confirmRequest() {
     this.req.status = 'Waiting approval';
 
+    for (let x of this.req.requests) {
+      let d = this.desks[x.desk_id].chairs[x.chair_id];
+
+      d.requests.map(s => s.status = 'Waiting approval');
+    }
+
     this.user.requests_count++;
+    localStorage.setItem('desks', JSON.stringify(this.desks)); 
     localStorage.setItem('users', JSON.stringify(this.users));
     localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
     
@@ -50,10 +51,9 @@ export class SendRentRequestComponent implements OnInit {
     let req = this.rentRequests[this.user.requests_count];
 
     for (let chReq of req.requests) {
-      let desk = this.desks.filter(d => d._id === chReq.desk_id)[0];
-      let chair = desk.chairs.filter(c => c._id === chReq.chair_id)[0];
+      let chair = this.desks[chReq.desk_id].chairs[chReq.chair_id];
 
-      // delete days requested from chair occupied_days array     
+      // delete days requested from chair occupied_days array
       for (let day of chReq.days) {
         day = new Date(new Date(day).setHours(0, 0, 0)).toISOString();
         const index = chair.occupied_days.indexOf(day);

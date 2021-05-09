@@ -12,7 +12,7 @@
   
   <div class="request" *ngFor="let req of rentRequests">
       <h2><u>Request no. {{req._id}}</u></h2>  
-      <h2>Status: <b [ngStyle]="(req.status === 'Waiting approval')?{'color':'blue'}:{'color':'red'}">{{req.status}}</b></h2> 
+      <h2>Status: <b [ngStyle]="(req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'}">{{req.status}}</b></h2> 
       <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2>  
       <h2>Requests:</h2> 
       <div *ngFor="let chReq of req.requests; let i = index;">  
@@ -20,7 +20,7 @@
           <ngb-accordion> 
             <ngb-panel>
               <ng-template ngbPanelTitle> 
-                <div style="color:black;">Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
+                <div style="color:black;"> Desk {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
               </ng-template>
               <ng-template ngbPanelContent>
                 <mat-chip-list> 

@@ -1,21 +1,22 @@
 <p class="p1"><b>Welcome to DeskRent!</b></p>
 
-<p class="p2">DeskRent is a place for finding the perfect desk to code in harmony alongside other geeks!</p>
-<p class="p2">Look for a spot in any office disposable.</p>
-<p class="p2">Simple and fast!</p>
+<p style="margin-top: 50px;" class="p3">DeskRent is a place for finding the perfect desk to code in harmony alongside
+  other geeks!</p>
+<p class="p3">Look for a spot in any office disposable.</p>
+<p style="margin-bottom: 50px;" class="p3">Simple and fast!</p>
 
 <carousel [interval]="myInterval" [(activeSlide)]="activeSlideIndex" [isAnimated]="true" [noPause]="false">
-    <slide *ngFor="let slide of slides; let index=index">
-      <img [src]="slide.image" alt="image slide" class="image imageMedia">  
-  
-      <div class="carousel-caption"> </div>
-    </slide>
+  <slide *ngFor="let slide of slides; let i = index">
+    <img [src]="slide.image" alt="image slide" class="image imageMedia">
+
+    <div class="carousel-caption"> 
+      <p class="p3">{{texts[i]}}</p>  
+    </div>
+  </slide>
 </carousel>
 
- 
 
-<button [routerLink]="['/rent']" style="margin-top: 40px;" type="button"
-    class="btn btn-outline-dark btn-lg" mat-raised-button
+<div style=" text-align: center;">
+  <button [routerLink]="['/rent']" style="margin-top: 50px;" type="button" class="btn btn-outline-dark btn-lg"
     matTooltip="Go to renting page">Rent!</button>
-
-
+</div>

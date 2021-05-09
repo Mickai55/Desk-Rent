@@ -14,7 +14,7 @@ export class HistoryComponent implements OnInit {
     u => 
     u.user._id === this.user._id &&
     u.status !== 'Pending...'
-  ).reverse();
+  ) //.reverse();
   initialRequests = this.rentRequests;
   desks = JSON.parse(localStorage.getItem('desks')); // ???
   filterStatus = "";

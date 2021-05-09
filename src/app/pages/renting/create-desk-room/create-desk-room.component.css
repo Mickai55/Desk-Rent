@@ -1,5 +1,6 @@
-input{
-    max-width: 700px; 
+.mat-form-field {
+    font-size: 15px;
+    width: 33%; 
 }
 
 .chair {

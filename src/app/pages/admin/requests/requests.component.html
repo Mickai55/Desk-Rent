@@ -1,8 +1,8 @@
 <div *ngIf="initialRequests.length != 0"> 
-  <p class="p2">Accept/Reject Requests</p>  
+  <p class="p2">Requests</p>  
 
   <mat-form-field appearance="outline"> 
-    <mat-label>Search by User</mat-label> 
+    <mat-label>Filter by User</mat-label> 
     <input matInput [(ngModel)]="filterUser" (keyup)="applyFilter($event)" placeholder="Ex Steven" #input> 
   </mat-form-field>
   <mat-form-field appearance="outline">
@@ -15,17 +15,17 @@
   </mat-form-field>
 
   <div class="request" *ngFor="let req of rentRequests">
-      <h2><u>Request no. {{req._id}}</u></h2>
-      <h2>User: {{req.user.full_name}}</h2>
-      <h2>Status: <b [ngStyle]="(req.status === 'Waiting approval')?{'color':'blue'}:{'color':'red'}">{{req.status}}</b></h2> 
-      <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2>  
+      <h2><u>Request no. {{req._id}}</u></h2> 
+      <h2>User: {{req.user.full_name}}</h2>  
+      <h2>Status: <b [ngStyle]="(req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'}">{{req.status}}</b></h2> 
+      <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2>    
       <h2>Requests:</h2> 
       <div *ngFor="let chReq of req.requests; let i = index;">  
         <div *ngIf="desks[chReq.desk_id]"> 
           <ngb-accordion> 
             <ngb-panel>
               <ng-template ngbPanelTitle> 
-                <div style="color:black;">Days requested for Office {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
+                <div style="color:black;">Desk {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
               </ng-template>
               <ng-template ngbPanelContent>
                 <mat-chip-list>  
@@ -38,8 +38,10 @@
           </ngb-accordion>
         </div>
       </div>
-      <button style="margin-top: 20px;" class="btn btn-success" (click)="req.status='Accepted'">Accept</button> 
-      <button style="margin-top: 20px; margin-left: 10px;" class="btn btn-danger" (click)="req.status='Rejected'">Reject</button>
+      <div *ngIf="req.status === 'Waiting approval'"> 
+        <button style="margin-top: 20px;" class="btn btn-success" (click)="accept(req._id)">Accept</button> 
+        <button style="margin-top: 20px; margin-left: 10px;" class="btn btn-danger" (click)="reject(req._id)">Reject</button>
+      </div>
   </div>
 </div>
 <div style="text-align: center;" *ngIf="rentRequests.length == 0"> 
