@@ -1,5 +1,5 @@
 <p class="p2" style="text-align: center; padding-bottom: 0px;">Welcome to {{desk.name}}</p>
-<p class="p4" style="text-align: center;">{{desk.address}}</p> 
+<p class="p4" style="text-align: center;">{{desk.address}}</p>
 
 <hr>
 
@@ -11,49 +11,51 @@
   <slide *ngFor="let slide of desk.images; let index=index">
     <img [src]="slide" alt="image slide" class="image imageMedia">
 
-    <div class="carousel-caption"> </div>  
+    <div class="carousel-caption"> </div>
   </slide>
 </carousel>
 
 <hr *ngIf="desk.images.length !== 0">
 
-<div id="container" class=" roomBG container"> 
-  <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index"> 
-    <div id="{{ 'object-' + chair._id }}" [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'" (click)="openModal(template, i)">
-    
+<div id="container" class=" roomBG container">
+  <div style="display: inline-block;" *ngFor="let chair of desk.chairs; let i = index">
+    <div id="{{ 'object-' + chair._id }}" [ngClass]="(chair.occupied == false)?'chair chair-green':' chair chair-red'"
+      (click)="openModal(template, i)">
+
       <div class="chair-content">ID: {{chair._id + 1}}</div>
       <div *ngIf="chair.requests.length == 0" class="chair-content">Free</div>
-      <div *ngIf="chair.occupied" class="chair-content">Occupied</div> 
+      <div *ngIf="chair.occupied" class="chair-content">Occupied</div>
       <div *ngIf="chair.requests.length > 0 && !chair.occupied" class="chair-content">Has res.</div>
     </div>
-  </div> 
+  </div>
 </div>
 
-<ng-template #template> 
-  <div style="padding-top: 30px;" class="modal-header"> 
-    <p class="p3" >Location: {{this.desk.name}}, Desk {{clickedDesk}}</p> 
-    
+<ng-template #template>
+  <div style="padding-top: 30px;  text-align: center;" class="modal-header">
+    <p class="p3">Location: {{this.desk.name}}, Desk {{clickedDesk}}</p>
+
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div style="text-align: center;" class="modal-body">
 
     <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk has the following reservations: </h3>
     <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length === 0">This desk has no reservations </h3>
 
-    <div *ngFor="let req of this.desk.chairs[this.clickedDesk].requests; let i = index;">
-      <ngb-accordion  activeIds="ngb-panel-0">  
+    <div *ngFor="let req of this.clickedDeskRequests; let i = index;">
+      <ngb-accordion activeIds="ngb-panel-0">
         <ngb-panel id="ngb-panel-{{i}}">
-          <ng-template ngbPanelTitle> 
-            <div style="color:black;"> 
-              Days requested by mihai: <b [ngStyle]="(req.status === 'Pending...') && {'color':'orange'} || (req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'}">({{req.status}})</b>
-            </div> 
+          <ng-template ngbPanelTitle>
+            <div style="color:black;">
+              Days requested by {{req.username}}: <b
+                [ngStyle]="(req.status === 'Pending...') && {'color':'orange'} || (req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'}">({{req.status}})</b>
+            </div>
           </ng-template>
           <ng-template ngbPanelContent>
             <mat-chip-list>
-              <mat-chip *ngFor="let day of req.days"> 
-                {{ day }} 
+              <mat-chip *ngFor="let day of req.days">
+                {{ reverseDate(day) }}
               </mat-chip>
             </mat-chip-list>
           </ng-template>
@@ -63,46 +65,32 @@
     <hr>
     <h4>Please insert the dates in which between you want to rent Desk {{clickedDesk}}:</h4>
 
-    <div>   
-        <input class="form-control" 
-        #drp="bsDaterangepicker" 
-        bsDaterangepicker [(ngModel)]="bsRangeValue"
-        [minDate]="today"
-        [maxDate]="max_date"  
-        [datesDisabled]="this.filter[this.clickedDesk].occupied_days"
-        [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true, adaptivePosition: true }" 
-          /> 
-        <button  style="margin-top: 15px;" class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">
-          Rent between 2 dates
-        </button>
-    </div> 
-    
+    <div>
+      <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue"
+        [minDate]="today" [maxDate]="max_date" [datesDisabled]="this.filter[this.clickedDesk].occupied_days"
+        [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', isAnimated: true, adaptivePosition: true }" />
+      <button style="margin-top: 15px;" class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen"
+        type="button">
+        Rent between 2 dates
+      </button>
+    </div>
+
     <hr>
 
     <h4>Please insert the specific dates when you want to rent Desk {{clickedDesk}}:</h4>
 
-    <button style="margin-bottom: 0px" class="btn btn-success" [matMenuTriggerFor]="appMenu"> Rent specific days </button>
-    <mat-menu #appMenu="matMenu" class="drop-calendar" > 
+    <button style="margin-bottom: 0px" class="btn btn-success" [matMenuTriggerFor]="appMenu"> Rent specific days
+    </button>
+    <mat-menu #appMenu="matMenu" class="drop-calendar">
       <div (click)="$event.stopPropagation()">
-        <mat-calendar #calendar 
-        (selectedChange)="select($event,calendar)"  
-        [minDate]="today" 
-        [maxDate]="max_date"  
-        [dateClass]="isSelected"
-        [dateFilter]="myFilter"
-        ></mat-calendar>
+        <mat-calendar #calendar (selectedChange)="select($event,calendar)" [minDate]="today" [maxDate]="max_date"
+          [dateClass]="isSelected" [dateFilter]="myFilter"></mat-calendar>
       </div>
     </mat-menu>
 
-    <hr> 
+    <hr>
 
     <button type="button" class="btn btn-success col-6" (click)="occupyDesk();modalRef.hide();">Confirm</button>
     <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
   </div>
 </ng-template>
-
-
-
-
-<button class="btn btn-danger" (click)="deleteDesk()">Delete this Desk</button>
-

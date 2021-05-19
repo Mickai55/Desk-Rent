@@ -11,5 +11,5 @@ export interface Desk {
     images: any[];
     has_location: boolean;
     lat: number;
-    long: number;
+    lon: number;
 }

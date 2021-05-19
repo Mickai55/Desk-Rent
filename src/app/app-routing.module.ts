@@ -11,6 +11,9 @@ import { ProfileComponent } from './pages/user/profile/profile.component';
 import { HistoryComponent } from './pages/user/history/history.component';
 import { SendRentRequestComponent } from './pages/user/send-rent-request/send-rent-request.component'; 
 import { RequestsComponent } from './pages/admin/requests/requests.component';
+import { RolesComponent } from './pages/admin/roles/roles.component';
+import { PublicGuard } from './guards/public.guard';
+import { PrivateGuard } from './guards/private.guard';
 
 const routes : Routes = [
   {
@@ -35,23 +38,33 @@ const routes : Routes = [
   },
   {
     path: 'createDeskRoom',
-    component: CreateDeskRoomComponent
+    component: CreateDeskRoomComponent,
+    canActivate: [PublicGuard]
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [PublicGuard]
   },
   {
     path: 'history',
-    component: HistoryComponent
+    component: HistoryComponent,
+    canActivate: [PublicGuard]
   },
   {
     path: 'send-request',
-    component: SendRentRequestComponent
+    component: SendRentRequestComponent,
+    canActivate: [PublicGuard]
   },
   {
     path: 'requests',
-    component: RequestsComponent
+    component: RequestsComponent,
+    canActivate: [PublicGuard, PrivateGuard] 
+  },
+  {
+    path: 'roles',
+    component: RolesComponent,
+    canActivate: [PublicGuard, PrivateGuard]
   }
 ]
 

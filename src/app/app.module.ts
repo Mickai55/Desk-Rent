@@ -50,9 +50,9 @@ import { SendRentRequestComponent } from './pages/user/send-rent-request/send-re
 import { MatSelectModule } from '@angular/material/select';
 import { RequestsComponent } from './pages/admin/requests/requests.component';
 import { RolesComponent } from './pages/admin/roles/roles.component';
-
+          
 @NgModule({
-  declarations: [  
+  declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
@@ -68,7 +68,7 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     RequestsComponent,
     RolesComponent, 
   ],
-  imports: [    
+  imports: [
     AppRoutingModule,
     CommonModule,
     BrowserModule,
@@ -77,7 +77,7 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     HttpClientModule,
     DataTablesModule,
     BrowserAnimationsModule,
-    CarouselModule,         
+    CarouselModule,
     ModalModule.forRoot(),
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),

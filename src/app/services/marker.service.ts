@@ -27,8 +27,8 @@ export class MarkerService {
 		});
   }
 
-  posMarker(map, lat, long) {
-    const marker = L.marker([lat, long]);
+  posMarker(map, lat, lon) {
+    const marker = L.marker([lat, lon]);
     marker.addTo(map);
   }
 }

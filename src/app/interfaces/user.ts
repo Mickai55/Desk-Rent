@@ -1,12 +1,11 @@
-import { RentRequest } from "./rent-request";
-
 export interface User {
     _id: number;
-    full_name: string;
+    username: string;
     email: string;
     phone: string;
     location: string;
     website_link: string;
-    requests_count: number;
+    request_count: number;
     photo: any;
+    userType: string;
 }

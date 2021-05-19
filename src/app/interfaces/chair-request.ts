@@ -4,5 +4,6 @@ export interface ChairRequest {
     desk_id: number;
     chair_id: number;
     status: string;
+    username: string;
     days: string[];
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MainService } from 'src/app/services/main.service';
 
 @Component({
@@ -10,7 +11,8 @@ export class RegisterComponent implements OnInit {
   public user: any = {};
   public passEqual = true;
   public pressed = false;
-  constructor(private mainService: MainService) {}
+  constructor(private mainService: MainService,
+    private router: Router ) {}
 
   ngOnInit(): void {}
 
@@ -20,25 +22,20 @@ export class RegisterComponent implements OnInit {
 
     if (
       this.passEqual &&
-      this.validateEmail(this.user.email) &&
       this.allFieldsRequired()
     ) {
-      this.mainService.registerDemoAPI(this.user).subscribe((response) => {
-        console.log(response);
+      this.mainService.register(this.user).subscribe((response) => {
+        this.router.navigate(['/login'])
+        .then(() => {
+          window.location.reload();
+        });
       });
     }
   }
 
-  validateEmail(mail: string) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-      return true;
-    }
-    return false;
-  }
-
   allFieldsRequired() {
-    const { name, email, password, confirmPassword } = this.user;
-    if (name == undefined || email == undefined || password == undefined || confirmPassword == undefined)
+    const { username, password, confirmPassword } = this.user;
+    if (username == undefined || password == undefined || confirmPassword == undefined)
       return false;
     return true;
   }

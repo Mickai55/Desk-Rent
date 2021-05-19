@@ -4,6 +4,7 @@ import { Chair } from 'src/app/interfaces/chair';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MainService } from 'src/app/services/main.service';
 
 
 @Component({
@@ -12,12 +13,29 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./rent.component.css'],
 })
 export class RentComponent implements OnInit {
-  constructor() {}
-  public desks: Desk[] = [];
+  constructor(private mainService: MainService) {}
+  public desks = [];
 
-  async ngOnInit(): Promise<void> {
-    this.desks = await JSON.parse(localStorage.getItem('desks'));
-    this.initializeTable();
+  // public async getDesks(): Promise<boolean> {
+  //   return new Promise((resolve, reject) => {
+  //     this.mainService.getDesks().subscribe( 
+  //         (response) => {
+            
+  //           this.desks = JSON.parse(JSON.stringify(response));
+  //           resolve(true); 
+  //         }, err => {
+  //           console.error(err);
+  //           reject(false);
+  //         });
+  //   })
+  // }
+
+   ngOnInit()  { 
+    this.mainService.getDesks().subscribe(response => {
+      this.desks = JSON.parse(JSON.stringify(response));
+      this.initializeTable();
+    });
+    
   }
 
   createChairs(nr, desk_id) {
@@ -29,15 +47,10 @@ export class RentComponent implements OnInit {
     return chairs
   }
 
-  //TO DO
-  deleteLastDesk() {
-    this.desks.splice(this.desks.length - 1, 1);
-    localStorage.setItem('desks', JSON.stringify(this.desks));
-    
-    window.location.reload();
-  }
+  //TO DO on server
+  // deleteLastDesk() {
+  // }
 
-  // table
   displayedColumns: string[] = ['_id', 'name', 'address', 'available_spaces'];
   dataSource: any;
    

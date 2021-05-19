@@ -5,7 +5,7 @@ export interface RentRequest {
     // rent request made by an user which can contain multiple days requested for a specific chair
     _id: number;
     user: User;
-    requests: ChairRequest[];
+    requests: number[]; //ChairRequest[];
     status: string;
-    timestamp: Date;
+    timestamp: any; //string
 }

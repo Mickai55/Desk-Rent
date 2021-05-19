@@ -1,36 +1,49 @@
-<div *ngIf="initialRequests.length != 0"> 
-  <p class="p2">Requests</p>  
+<div *ngIf="initialRequests.length != 0">
+  <p class="p2">Requests</p>
 
-  <mat-form-field appearance="outline"> 
-    <mat-label>Filter by User</mat-label> 
-    <input matInput [(ngModel)]="filterUser" (keyup)="applyFilter($event)" placeholder="Ex Steven" #input> 
-  </mat-form-field>
   <mat-form-field appearance="outline">
-    <mat-label>Filter by Status</mat-label> 
-    <input matInput [(ngModel)]="filterStatus" (keyup)="applyFilter($event)" placeholder="Ex Waiting approval" #input> 
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Filter by Date</mat-label> 
-    <input matInput [(ngModel)]="filterDate" (keyup)="applyFilter($event)" placeholder="Ex 2021-05-04" #input> 
+    <mat-label>Filter by User</mat-label>
+    <input matInput [(ngModel)]="filterUser" (keyup)="applyFilter()" placeholder="Ex Steven" #input>
   </mat-form-field>
 
-  <div class="request" *ngFor="let req of rentRequests">
-      <h2><u>Request no. {{req._id}}</u></h2> 
-      <h2>User: {{req.user.full_name}}</h2>  
-      <h2>Status: <b [ngStyle]="(req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'}">{{req.status}}</b></h2> 
-      <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2>    
-      <h2>Requests:</h2> 
-      <div *ngFor="let chReq of req.requests; let i = index;">  
-        <div *ngIf="desks[chReq.desk_id]"> 
-          <ngb-accordion> 
+  <mat-form-field appearance="outline">
+    <mat-label>Filter by Status</mat-label>
+    <mat-select>
+      <mat-option (click)="filterStatus = 'Waiting approval'" (click)="applyFilter()" value="">Waiting approval
+      </mat-option>
+      <mat-option (click)="filterStatus = 'Accepted'" (click)="applyFilter()" value="">Accepted</mat-option>
+      <mat-option (click)="filterStatus = 'Rejected'" (click)="applyFilter()" value="">Rejected</mat-option>
+      <mat-option (click)="filterStatus = ''" (click)="applyFilter()" value="">None</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Filter by Date</mat-label>
+    <input matInput [(ngModel)]="filterDate" (keyup)="applyFilter()" placeholder="Ex 2021-05-04" #input>
+  </mat-form-field>
+
+  <div *ngFor="let req of rentRequests; let i = index;">
+    <div class="request">
+      <h2><u>Request no. {{this.rentRequests.length - i}}</u></h2>
+      <h2>User: {{req.user.username}}</h2>
+      <h2>Status: <b
+          [ngStyle]="(req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'} || (req.status === 'Pending...') && {'color':'orange'}">{{req.status}}</b>
+      </h2>
+      <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2>
+      <h2>Requests:</h2>
+      <div *ngFor="let chReq of req.requests; let i = index;">
+        <div *ngIf="cr(chReq) && desks[cr(chReq).desk_id]">
+          <ngb-accordion>
             <ngb-panel>
-              <ng-template ngbPanelTitle> 
-                <div style="color:black;">Desk {{desks[chReq.desk_id].name}}, Chair no. {{chReq.chair_id + 1}}:</div>
+              <ng-template ngbPanelTitle>
+                <div style="color:black;">Desk {{desks[cr(chReq).desk_id].name}}, Chair no. {{cr(chReq).chair_id +
+                  1}}:
+                </div>
               </ng-template>
               <ng-template ngbPanelContent>
-                <mat-chip-list>  
-                  <mat-chip *ngFor="let day of chReq.days">  
-                    {{ day }} 
+                <mat-chip-list>
+                  <mat-chip *ngFor="let day of cr(chReq).days">
+                    {{ reverseDate(day) }}
                   </mat-chip>
                 </mat-chip-list>
               </ng-template>
@@ -38,12 +51,13 @@
           </ngb-accordion>
         </div>
       </div>
-      <div *ngIf="req.status === 'Waiting approval'"> 
-        <button style="margin-top: 20px;" class="btn btn-success" (click)="accept(req._id)">Accept</button> 
-        <button style="margin-top: 20px; margin-left: 10px;" class="btn btn-danger" (click)="reject(req._id)">Reject</button>
+      <div *ngIf="req.status === 'Waiting approval'">
+        <button style="margin-top: 20px;" class="btn btn-success" (click)="accept(i)">Accept</button>
+        <button style="margin-top: 20px; margin-left: 10px;" class="btn btn-danger" (click)="reject(i)">Reject</button>
       </div>
+    </div>
   </div>
 </div>
-<div style="text-align: center;" *ngIf="rentRequests.length == 0"> 
+<div style="text-align: center;" *ngIf="rentRequests.length == 0">
   <h2>Couldn't find any request</h2>
 </div>

@@ -31,3 +31,17 @@ img {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+.logout {
+    cursor: pointer;
+    color:rgba(255, 0, 0, 0.596) !important;
+} 
+
+.user { 
+    color:rgb(79, 79, 150)  !important;
+}
+
+.nav-link:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+    border-radius: 5px;
+} 

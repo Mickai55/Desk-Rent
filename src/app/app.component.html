@@ -3,37 +3,55 @@ border-left: 1px solid  rgb(202, 202, 202);
 border-right: 1px solid  rgb(202, 202, 202);
 border-bottom-left-radius: 5px;
 border-bottom-right-radius: 5px;
-background-color: rgba(255, 255, 255, 0.8);" class="navbar navbar-expand-md navbar-light">
-  <a [routerLink]="['/']" class="navbar-brand"><img src="../assets/images/logo.png"> <b>DeskRent</b> 
+background-color: rgba(255, 255, 255, 0.8);" class="navbar navbar-expand-md navbar-light"> 
+  <a [routerLink]="['/']" class="navbar-brand"><img src="../assets/images/logo.png"> <b>DeskRent</b>
   </a>
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav">
-          <a [routerLink]="['/']" class="nav-item nav-link"><b>Home</b></a>
-          <a [routerLink]="['/rent']" class="nav-item nav-link"><b>Rent</b></a>
-      </div>
-      <div class="navbar-nav ml-auto">
-        <a [routerLink]="['/requests']" class="nav-item nav-link"><b>Requests</b></a>
-        <a [routerLink]="['/send-request']" class="nav-item nav-link">
-            <b>Send Request<sup *ngIf="nr" class="bubble">{{nr}}</sup></b>
-        </a> 
+    <div class="navbar-nav">
+      <a [routerLink]="['/']" class="nav-item nav-link"><b>Home</b></a>
+      <a [routerLink]="['/rent']" class="nav-item nav-link"><b>Rent</b></a>
+      <div *ngIf="isLoggedIn">
         <a [routerLink]="['/history']" class="nav-item nav-link"><b>History</b></a>
-        <a [routerLink]="['/profile']" class="nav-item nav-link"><b>Profile</b></a>
-        <a [routerLink]="['/login']" class="nav-item nav-link"><b>Login</b></a>
-        <a [routerLink]="['/register']" class="nav-item nav-link"><b>Register</b></a> 
       </div>
+      <div *ngIf="isLoggedIn && role === 'admin'">
+        <a [routerLink]="['/requests']" class="nav-item nav-link"><b>Requests</b></a>
+      </div>
+      <div *ngIf="isLoggedIn && role === 'admin'">
+        <a [routerLink]="['/roles']" class="nav-item nav-link"><b>Roles</b></a>
+      </div>
+    </div>
+    <div class="navbar-nav ml-auto"> 
+      <div *ngIf="isLoggedIn">
+        <a [routerLink]="['/send-request']" class="nav-item nav-link">
+          <b>Send Request<sup *ngIf="nr" class="bubble">{{nr}}</sup></b>
+        </a>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <a [routerLink]="['/profile']" class="nav-item nav-link user"><b>{{username}}</b></a>
+      </div>
+      <div *ngIf="!isLoggedIn">
+        <a [routerLink]="['/login']" class="nav-item nav-link"><b>Login</b></a>
+      </div>
+      <div *ngIf="!isLoggedIn">
+        <a [routerLink]="['/register']" class="nav-item nav-link"><b>Register</b></a>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <a (click)="logout()" class="nav-item nav-link logout"><b>Logout</b></a>
+      </div>
+    </div>
   </div>
 </nav>
 <div class="space"></div>
 <div class="cnt">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
 
 
 
 <footer class="text-muted text-center" style="margin-top: 150px;">
-    <small>-</small> 
+  <small>-</small>
 </footer>

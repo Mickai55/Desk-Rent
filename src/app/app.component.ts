@@ -1,36 +1,45 @@
 import { Component, OnInit } from '@angular/core';
+import { MainService } from './services/main.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit{
-  users;
-
+export class AppComponent implements OnInit {
+  constructor(private mainService: MainService) {}
+  rentRequests = [];
+  user;
   req;
   nr;
-
   desks;
-  
+  isLoggedIn = this.mainService.isUserLoggedIn();
+  username = localStorage.getItem('username');
+  role;
+
   ngOnInit() {
+    if (localStorage.getItem('username')) {
+      this.mainService
+        .getLoggedUser(localStorage.getItem('username'))
+        .subscribe((response) => {
+          this.user = JSON.parse(JSON.stringify(response));
+          console.log('user', response);
 
-    if(localStorage.getItem("users") == null || localStorage.getItem("users") == "")
-      localStorage.setItem('users', JSON.stringify([]));
-    else {
-      this.users = JSON.parse(localStorage.getItem("users"));
+          this.mainService.getRentRequests().subscribe((response) => {
+            this.rentRequests = JSON.parse(JSON.stringify(response));
+            this.rentRequests = this.rentRequests.filter(
+              (u) => u.user.username === localStorage.getItem('username')
+            );
+            this.req = this.rentRequests[this.user.request_count];
+            if (this.req) this.nr = this.req.requests.length;
+          });
+        });
+
+      this.role = localStorage.getItem('role');
     }
-    
-    if (localStorage.getItem('RentRequests') == "" || localStorage.getItem('RentRequests') == null)
-      localStorage.setItem('RentRequests', JSON.stringify([]));
+  }
 
-    if (JSON.parse(localStorage.getItem('RentRequests')).length !== 0 && this.users[0].requests_count + 1 === JSON.parse(localStorage.getItem('RentRequests')).length) {
-      this.req = JSON.parse(localStorage.getItem('RentRequests'))[this.users[0].requests_count];
-      this.nr = this.req.requests.length; 
-    }
-
-    if(localStorage.getItem('desks') == null || localStorage.getItem('desks') == "") 
-      localStorage.setItem('desks', JSON.stringify([]));
+  logout() {
+    this.mainService.logout();
   }
 }
-

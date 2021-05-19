@@ -6,6 +6,7 @@ import { MapComponent } from 'src/app/mapGetLocation/map.component';
 import { RentRequest } from 'src/app/interfaces/rent-request';
 import { ChairRequest } from 'src/app/interfaces/chair-request';
 import { User } from 'src/app/interfaces/user';
+import { MainService } from 'src/app/services/main.service';
 
 @Component({
   selector: 'app-desk-room',
@@ -17,32 +18,63 @@ import { User } from 'src/app/interfaces/user';
 export class DeskRoomComponent implements OnInit { 
   
   _id = this.route.snapshot.paramMap.get('_id');
-  desks = JSON.parse(localStorage.getItem('desks'));
-  desk: Desk = this.desks[this._id];
+  // desks = JSON.parse(localStorage.getItem('desks'));
+  // desk: Desk = this.desks[this._id]; 
+  desks = [];
+  desk = { _id: 0, name: '', address: '', total_spaces: 0, available_spaces: 0, chairs: [], dimension: 'Medium', lat: 44.425, lon: 26.1, images: [], has_location: false };
   clicked: boolean;
   modalRef: BsModalRef;
   clickedDesk: number;
   bsRangeValue: Date[];
   rentRequests: RentRequest[] = [];  
+  chairRequests: ChairRequest[] = [];  
+  user;
 
   myInterval = 5000;
   activeSlideIndex = 0;
-
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private modalService: BsModalService,
-    private mapService: MapComponent
+    private mapService: MapComponent,
+    private mainService: MainService
   ) {
     this.bsRangeValue;
   }
 
   async ngOnInit(): Promise<void> {
-    this.deskDimensions();
-    this.verifySpacesLeft();
+
+    this.mainService.getChairRequests().subscribe(response => {
+      this.chairRequests = JSON.parse(JSON.stringify(response));
+      console.log('chReq', response);
+    });
+
+    this.mainService.getLoggedUser(localStorage.getItem('username')).subscribe(response => {
+      this.user = response;
+      console.log('user', response);
+    });
+
+    this.mainService.getRentRequests().subscribe(response => {
+      this.rentRequests = JSON.parse(JSON.stringify(response));
+      console.log('rentReq', response);
+    });
     
-    this.rentRequests = await JSON.parse(localStorage.getItem('RentRequests'));
+    this.mainService.getDesks().subscribe(response => {
+      this.desks = JSON.parse(JSON.stringify(response)); 
+      this.desk = this.desks[this._id];
+      
+      this.deskDimensions();
+      this.filter = this.filterForDateRange();
+
+      setTimeout(() => {
+        if (this.desk.lat && this.desk.lon && this.desk.has_location)
+          this.mapService.posMarker(this.desk.lat, this.desk.lon);
+          this.verifySpacesLeft();
+  
+        this.positionChairs();
+      }, 100);
+    });
   }
 
   deskDimensions() {
@@ -59,38 +91,27 @@ export class DeskRoomComponent implements OnInit {
       container.style.width = '1010px';
       container.style.height = '1200px';
     }
-    localStorage.setItem('desks', JSON.stringify(this.desks));
   }
 
   verifySpacesLeft() {
     let spaces = 0;
     this.desk.chairs.map((currentElement, index, arr) => { 
 
-      // if (currentElement.occupied_days) 
-      // currentElement.occupied = (currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0); return k.getFullYear() == this.today.getFullYear()}) != undefined &&
-      //                           currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getMonth() == this.today.getMonth()}) != undefined &&
-      //                           currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0);return k.getDay() == this.today.getDay()}) != undefined)
-                                //  &&
-                                // currentElement.requests.find(item => item.status === 'Accepted') != undefined) 
-
       if (currentElement.occupied_days)
-      currentElement.occupied = currentElement.requests.find(i =>  {return i.days.find(d => d === new Date().toISOString().substring(0, 10)) !== undefined && i.status === 'Accepted'}) !== undefined
-        // currentElement.occupied = (currentElement.occupied_days.find(item => {let k = new Date(item); k.setHours(3, 0, 0); let u = k.toISOString().substring(0, 10); return (u === new Date().toISOString().substring(0, 10))}) !== undefined
-        // && currentElement.requests.find(item => item.status === 'Accepted') != undefined
-        // )
+      currentElement.occupied = currentElement.requests.find( i =>
+          {
+            let r = this.chairRequests.find(c => c._id === i);
+            return r.days.find(d => d === new Date().toISOString().substring(0, 10)) !== undefined && r.status === 'Accepted';
+          }) !== undefined;
+
       if (!currentElement.occupied) {
         spaces++; 
       } 
     })
     this.desk.available_spaces = spaces;
-    localStorage.setItem('desks', JSON.stringify(this.desks));
   }
 
-  ngAfterViewInit() {
-    this.positionChairs();
-    if (this.desk.lat && this.desk.long && this.desk.has_location)
-      this.mapService.posMarker(this.desk.lat, this.desk.long);
-  }
+  ngAfterViewInit() {}
 
   positionChairs() {
     for (let i = 0; i < this.desk.chairs.length; i++) {
@@ -99,20 +120,19 @@ export class DeskRoomComponent implements OnInit {
     }
   }
   
+  clickedDeskRequests = [];
+
   openModal(template: TemplateRef<any>, i: number) {
     this.modalRef = this.modalService.show(template);
+    
     this.clickedDesk = i;
+    let ch = this.desk.chairs[i];
+    this.clickedDeskRequests = this.chairRequests.filter(r => ch.requests.find(c => c === r._id ) != undefined);
   }
 
-  deleteDesk() {
-    this.desks.splice(+this._id, 1);
-    this.desks.map((currentElement, index, arr) => {
-      currentElement._id = index;
-    });
-
-    localStorage.setItem('desks', JSON.stringify(this.desks));
-    this.router.navigate(['/rent']);
-  }
+  //on SV
+  // deleteDesk() {
+  // }
 
   public today = new Date();
   max_date = new Date(Date.now() + 86400000 * 60)
@@ -123,7 +143,6 @@ export class DeskRoomComponent implements OnInit {
     if (this.desk.chairs[this.clickedDesk].occupied_days.length === 0)
       return true;
 
-    // const ddd = (d || new Date());
     const ddd = new Date(d);
 
     for (const date of this.desk.chairs[this.clickedDesk].occupied_days) {
@@ -132,7 +151,7 @@ export class DeskRoomComponent implements OnInit {
     }
     return true;
   }
-  filterForDateRange = (() => {
+  filterForDateRange = (() => {    
     let occDysMat = []
     for (let ch of this.desk.chairs) {
       let occDys = [];
@@ -142,7 +161,7 @@ export class DeskRoomComponent implements OnInit {
     }
     return occDysMat;
   })
-  filter = this.filterForDateRange();
+  filter; 
 
   isSelected = (event: any) => {
     const date =
@@ -180,8 +199,6 @@ export class DeskRoomComponent implements OnInit {
     }
   }
 
-  user: User = JSON.parse(localStorage.getItem("users"))[0];
-
   occupyDesk() {
     // put the request on ChairRequests
     if (this.bsRangeValue != null)
@@ -189,15 +206,32 @@ export class DeskRoomComponent implements OnInit {
     let days = Array.from(this.daysSelected); 
     days.sort()
     let ch = this.desk.chairs[this.clickedDesk];
-    let chReq: ChairRequest = { _id: ch.requests.length, desk_id: ch.desk_id, chair_id: ch._id, days: days, status: 'Pending...' };
-    ch.requests.push(chReq);
+    let chReq: ChairRequest = { _id: this.chairRequests.length + 1, desk_id: ch.desk_id, chair_id: ch._id, days: days, status: 'Pending...', username: this.user.username };
+    this.chairRequests.push(chReq);
     
+    this.mainService.addChairRequest(chReq).subscribe(response => {
+      console.log(response);
+    });
+
+    // put the request on Chair's requests
+    ch.requests.push(chReq._id);
+
     // put the request on RentRequests
-    let reqByNr = this.rentRequests.filter(u => u.user._id === this.user._id && u.user.requests_count === this.user.requests_count)
-    if (reqByNr.length != 0)
-      reqByNr[0].requests.push(chReq)
-    else 
-      this.rentRequests.push({user: this.user, _id: this.user.requests_count, requests: [chReq], status: 'Pending...', timestamp: new Date(Date.now())});
+    let reqByNr = this.rentRequests.filter(u => u.user._id === this.user._id && u.user.request_count === this.user.request_count)[0]
+    if (reqByNr) {
+      reqByNr.requests.push(chReq._id)
+      this.mainService.updateRentRequest(reqByNr).subscribe(response => {
+        console.log(response);
+      });
+    }
+    else {
+      let r = { _id: this.rentRequests.length + 1, user: this.user, requests: [chReq._id], status: 'Pending...', timestamp: new Date(Date.now())};
+      this.rentRequests.push(r);
+      
+      this.mainService.addRentRequest(r).subscribe(response => {
+        console.log(response);
+      });
+    }
 
     // put the requested days on Chair's occupied_days
     let dates: Date[] = [];
@@ -211,18 +245,23 @@ export class DeskRoomComponent implements OnInit {
     else
       ch.occupied_days.push(...dates);
 
-    // reset daysSelect and bsRangeValue for the next request
+    // reset daysSelect and bsRangeValue for the next request 
     this.daysSelected.clear();
     this.bsRangeValue = [null, null];
     
     this.verifySpacesLeft();
 
-    localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
-    localStorage.setItem('desks', JSON.stringify(this.desks));
+
+    
+    this.mainService.updateDesk(this.desk).subscribe(response => {
+      console.log(response);
+    });
 
     window.location.reload();
+    // this.ngOnInit();
   }
 
+  reverseDate(date) { return date.split("").reverse().join("").split('-').map(e => e.split("").reverse().join("")).join("-"); }
 }
 
 

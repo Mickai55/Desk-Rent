@@ -1,78 +1,153 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChairRequest } from 'src/app/interfaces/chair-request';
+import { Desk } from 'src/app/interfaces/desk';
 import { RentRequest } from 'src/app/interfaces/rent-request';
 import { User } from 'src/app/interfaces/user';
+import { MainService } from 'src/app/services/main.service';
 
 @Component({
   selector: 'app-send-rent-request',
   templateUrl: './send-rent-request.component.html',
-  styleUrls: ['./send-rent-request.component.css']
+  styleUrls: ['./send-rent-request.component.css'],
 })
 export class SendRentRequestComponent implements OnInit {
-  
-  rentRequests: RentRequest[] = [];  
-  desks = JSON.parse(localStorage.getItem('desks'));
-
-  users = JSON.parse(localStorage.getItem("users"));
-  user = this.users[0];
+  rentRequests: RentRequest[] = [];
+  rrLength;
+  chairRequests: ChairRequest[] = [];
+  desks: Desk[] = [];
+  user: User = {
+    _id: 0,
+    username: '',
+    email: '',
+    phone: '',
+    location: '',
+    website_link: '',
+    request_count: 0,
+    photo: '',
+    userType: 'normal',
+  };
 
   req;
+  reqIds;
+  reqs;
 
-  constructor(
-    private router: Router 
-    ){}
-  async ngOnInit(): Promise<void> {
-    this.rentRequests = await JSON.parse(localStorage.getItem('RentRequests'));
-    if (localStorage.getItem('RentRequests') && this.user)
-      this.req = this.rentRequests[this.user.requests_count];
+  constructor(private router: Router, private mainService: MainService) {}
+
+  ngOnInit() {
+    this.mainService.getChairRequests().subscribe((response) => {
+      this.chairRequests = JSON.parse(JSON.stringify(response));
+      console.log('chReq', this.chairRequests);
+    });
+
+    this.mainService
+      .getLoggedUser(localStorage.getItem('username'))
+      .subscribe((response) => {
+        this.user = JSON.parse(JSON.stringify(response));
+        console.log('user', response);
+      });
+
+    this.mainService.getRentRequests().subscribe((response) => {
+      this.rentRequests = JSON.parse(JSON.stringify(response));
+      this.rrLength = this.rentRequests.length;
+      this.rentRequests = this.rentRequests.filter(
+        (r) => r.user._id === this.user._id
+      );
+      this.req = this.rentRequests[this.user.request_count];
+
+      if (this.req) {
+        this.reqIds = this.rentRequests[this.user.request_count].requests;
+        this.reqs = this.chairRequests.filter(
+          (r) => this.reqIds.find((i) => i === r._id) != undefined
+        );
+      }
+
+      console.log('rentReq', this.rentRequests);
+    });
+
+    this.mainService.getDesks().subscribe((response) => {
+      this.desks = JSON.parse(JSON.stringify(response));
+      console.log('dsk', response);
+    });
   }
 
   confirmRequest() {
     this.req.status = 'Waiting approval';
 
-    for (let x of this.req.requests) {
-      let d = this.desks[x.desk_id].chairs[x.chair_id];
-
-      d.requests.map(s => s.status = 'Waiting approval');
+    for (let chReqId of this.req.requests) {
+      this.chairRequests.map((s) => {
+        if (s._id === chReqId) {
+          s.status = 'Waiting approval';
+          this.mainService
+            .updateChairRequest(s)
+            .subscribe((r) => console.log(r));
+        }
+      });
     }
 
-    this.user.requests_count++;
-    localStorage.setItem('desks', JSON.stringify(this.desks)); 
-    localStorage.setItem('users', JSON.stringify(this.users));
-    localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));
-    
-    this.router.navigate(['/rent'])
-    .then(() => {
-      window.location.reload();
-    });
+    this.user.request_count++;
+
+    this.mainService.updateUser(this.user).subscribe((r) => console.log(r));
+    this.mainService
+      .updateRentRequest(this.req)
+      .subscribe((r) => console.log(r));
+
+    setTimeout(() => {
+      this.router.navigate(['/rent']).then(() => {
+        window.location.reload();
+      });
+    }, 200);
   }
 
   discardRequest() {
-    let req = this.rentRequests[this.user.requests_count];
+    this.req.status = 'Discarded';
+    // this.req._id = this.rrLength;
 
-    for (let chReq of req.requests) {
+    for (let chReqId of this.reqIds) {
+      let chReq = this.chairRequests.find((c) => c._id === chReqId);
+
+      chReq.status = 'Discarded';
+
       let chair = this.desks[chReq.desk_id].chairs[chReq.chair_id];
 
       // delete days requested from chair occupied_days array
       for (let day of chReq.days) {
         day = new Date(new Date(day).setHours(0, 0, 0)).toISOString();
         const index = chair.occupied_days.indexOf(day);
-        if (index != -1)
-          chair.occupied_days.splice(index, 1);
+        if (index != -1) chair.occupied_days.splice(index, 1);
       }
-      // delete requests from chair requests array 
-      chair.requests = chair.requests.filter(r => r._id !== chReq._id);
+      // delete requests from chairs' request ids array
+      chair.requests = chair.requests.filter((r) => r !== chReq._id);
+
+      this.mainService
+        .updateDesk(this.desks[chReq.desk_id])
+        .subscribe((r) => console.log(r));
+
+      this.mainService
+        .updateChairRequest(chReq)
+        .subscribe((r) => console.log(r));
     }
 
-    // delete requests from RentRequests requests array
-    this.rentRequests.splice(this.rentRequests.length - 1, 1);
+    this.user.request_count++;
+    this.mainService.updateUser(this.user).subscribe((r) => console.log(r));
 
-    localStorage.setItem('desks', JSON.stringify(this.desks));
-    localStorage.setItem('RentRequests', JSON.stringify(this.rentRequests));  
+    this.mainService
+      .updateRentRequest(this.req)
+      .subscribe((r) => console.log(r));
 
-    this.router.navigate(['/rent'])
-    .then(() => {
+    this.ngOnInit();
+    this.router.navigate(['/rent']).then(() => {
       window.location.reload();
     });
+  }
+
+  reverseDate(date) {
+    return date
+      .split('')
+      .reverse()
+      .join('')
+      .split('-')
+      .map((e) => e.split('').reverse().join(''))
+      .join('-');
   }
 }

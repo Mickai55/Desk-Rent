@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @Component({
   selector: 'app-home',

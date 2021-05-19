@@ -1,48 +1,49 @@
-<p class="p2">Create a new Desk Room</p>
-<!-- <form>   -->
-<mat-form-field appearance="outline">
-  <mat-label>Name</mat-label>
-  <input matInput [(ngModel)]="desk.name" type="text" placeholder="Ex. Google" name="name">
-</mat-form-field>
-<br>
-<mat-form-field appearance="outline">
-  <mat-label>Address</mat-label>
-  <input matInput [(ngModel)]="desk.address" type="text" placeholder="Ex. Bucharest 060071" name="address">
-</mat-form-field>
-<br>
-<mat-form-field appearance="outline">
-  <mat-label>Desk dimension</mat-label>
-  <mat-select>
-    <mat-option (click)="desk.dimension = 'Small';" value="one">Small</mat-option>
-    <mat-option (click)="desk.dimension = 'Medium';" value="two">Medium</mat-option>
-    <mat-option (click)="desk.dimension = 'Large';" value="one">Large</mat-option>
-  </mat-select>
-</mat-form-field>
-<br>
-<mat-form-field appearance="outline">
-  <mat-label>Total spaces</mat-label>
-  <input matInput [(ngModel)]="desk.total_spaces" type="number" placeholder="Ex. 20" name="spaces">
-</mat-form-field>
+<div style="text-align: center;">
+  <p class="p2">Create a new Desk Room</p>
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="desk.name" type="text" placeholder="Ex. Google" name="name">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Address</mat-label>
+    <input matInput [(ngModel)]="desk.address" type="text" placeholder="Ex. Bucharest 060071" name="address">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Desk dimension</mat-label>
+    <mat-select>
+      <mat-option (click)="desk.dimension = 'Small';" value="">Small</mat-option>
+      <mat-option (click)="desk.dimension = 'Medium';" value="">Medium</mat-option>
+      <mat-option (click)="desk.dimension = 'Large';" value="">Large</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Total spaces</mat-label>
+    <input matInput [(ngModel)]="desk.total_spaces" type="number" placeholder="Ex. 20" name="spaces">
+  </mat-form-field>
 
-<p><button style="position: relative; margin-bottom: 10px;" class="btn btn-outline-secondary"
-    (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
+  <p><button style="position: relative; margin-bottom: 10px;" class="btn btn-outline-secondary"
+      (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
 
-<mat-slide-toggle style="margin-top: 10px;" [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker
-  to the Desk's location)</mat-slide-toggle>
-<app-map2 *ngIf="loc"></app-map2>
-<br>
-<mat-slide-toggle style="margin-top: 20px;" [color]="'primary'" [(ngModel)]="pics">Upload images that describe the Desk
-</mat-slide-toggle> <br *ngIf="pics">
-<br>
-<input *ngIf="pics" type="file" name="image" multiple (change)="onFileChange($event)" id="image"
-  style=" margin-bottom:10px;">
-<div class="form-group">
-  <img *ngFor='let url of images' [src]="url"
-    style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
+  <mat-slide-toggle style="margin-top: 10px;" [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker
+    to the Desk's location)</mat-slide-toggle>
+  <app-map2 *ngIf="loc"></app-map2>
+  <br>
+  <mat-slide-toggle style="margin-top: 20px;" [color]="'primary'" [(ngModel)]="pics">Upload images that describe the
+    Desk
+  </mat-slide-toggle> <br *ngIf="pics">
+  <br>
+  <input *ngIf="pics" type="file" name="image" multiple (change)="onFileChange($event)" id="image"
+    style=" margin-bottom:10px;">
+  <div class="form-group">
+    <img *ngFor='let url of images' [src]="url"
+      style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
+  </div>
+
+  <p><button style="margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p>
 </div>
-
-<p><button style="margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p>
-
 
 <ng-template #content let-modal>
   <div class="modal-header">

@@ -3,7 +3,8 @@
     height: 400px; 
     width: 500px;
     margin: 30px;
-    margin-left: 0px;
+    /* margin-left: auto;; */
+    margin-left: 27.5%;
 }
 
 .map-frame {

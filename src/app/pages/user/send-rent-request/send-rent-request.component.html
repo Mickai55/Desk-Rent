@@ -1,6 +1,6 @@
 <p *ngIf="req" class="p2">Current Requests</p> 
-<div class="request" *ngIf="req"> 
-  <div *ngFor="let chReq of req.requests; let i = index;">
+<div class="request" *ngIf="reqs"> 
+  <div *ngFor="let chReq of reqs; let i = index;">
       <div *ngIf="desks[chReq.desk_id]"> 
         <ngb-accordion  activeIds="ngb-panel-0">  
           <ngb-panel id="ngb-panel-{{i}}">
@@ -10,7 +10,7 @@
             <ng-template ngbPanelContent>
               <mat-chip-list>
                 <mat-chip *ngFor="let day of chReq.days">
-                  {{ day }} 
+                  {{ reverseDate(day) }} 
                 </mat-chip>
               </mat-chip-list>
             </ng-template>
@@ -24,4 +24,4 @@
 </div>
 <div style="text-align: center;" *ngIf="!req">
   <h2>No active requests</h2>
-</div>
+</div> 

@@ -29,9 +29,9 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  posMarker(lat, long) {
+  posMarker(lat, lon) {
     this.map = L.map('map', {
-      center: [ lat, long ],
+      center: [ lat, lon ],
       zoom: 15
     });
 
@@ -41,6 +41,6 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
-    this.markerService.posMarker(this.map, lat, long);
+    this.markerService.posMarker(this.map, lat, lon);
   }
 }

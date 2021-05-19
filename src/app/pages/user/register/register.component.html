@@ -3,18 +3,18 @@
   <br>
   <div class="alert alert-danger" *ngIf="passEqual == false && pressed == true">Passwords do not match.</div>
   <div class="alert alert-danger" *ngIf="allFieldsRequired() == false && pressed == true">All fields are required.</div>
-  <div class="alert alert-danger" *ngIf="validateEmail(user.email) == false && pressed == true">Email is invalid.</div>
+  <!-- <div class="alert alert-danger" *ngIf="validateEmail(user.email) == false && pressed == true">Email is invalid.</div> -->
   <div class="form-group">
-    <!-- <label for="email">Name:</label> 
+    <!-- <label for="email">Name:</label>  
   <input [(ngModel)]="user.name" class="form-control" placeholder="Enter name" id="name"> -->
     <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input matInput [(ngModel)]="user.name" type="text" placeholder="Name ..." name="name">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="user.username" type="text" placeholder="Username ..." name="name">
     </mat-form-field>
   </div>
-  <div class="form-group">
-    <!-- <label for="email">Email address:</label> 
-    <input [(ngModel)]="user.email" type="email" [class]="validateEmail(user.email) ? 'form-control' : 'form-control is-invalid'" placeholder="Enter email" id="email"> -->
+  <!-- <div class="form-group">
+    // <label for="email">Email address:</label> 
+    //<input [(ngModel)]="user.email" type="email" [class]="validateEmail(user.email) ? 'form-control' : 'form-control is-invalid'" placeholder="Enter email" id="email"> 
     <mat-form-field appearance="outline">
       <mat-label>E-mail</mat-label>
       <input matInput [(ngModel)]="user.email" type="email" placeholder="E-mail ..." name="email">
@@ -22,7 +22,7 @@
     <div *ngIf="user.email && !validateEmail(user.email)">
       <p style="color:red">Email is not valid</p>
     </div>
-  </div>
+  </div> -->
   <div class="form-group">
     <!-- <label for="pwd">Password:</label>
   <input [(ngModel)]="user.password" type="password" class="form-control" placeholder="Enter password" id="pwd"> -->
