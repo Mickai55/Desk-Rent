@@ -1,10 +1,5 @@
-<nav style=" border-bottom: 1px solid  rgb(202, 202, 202);
-border-left: 1px solid  rgb(202, 202, 202);
-border-right: 1px solid  rgb(202, 202, 202);
-border-bottom-left-radius: 5px;
-border-bottom-right-radius: 5px;
-background-color: rgba(255, 255, 255, 0.8);" class="navbar navbar-expand-md navbar-light"> 
-  <a [routerLink]="['/']" class="navbar-brand"><img src="../assets/images/logo.png"> <b>DeskRent</b>
+<nav class="navbar navbar-expand-md navbar-light fixed-top navStl ">
+  <a [routerLink]="['/']" class="navbar-brand"><img style="margin-bottom: 3px;" src="../assets/images/logo.png"> <b>DeskRent</b>
   </a>
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
     <span class="navbar-toggler-icon"></span>
@@ -24,9 +19,9 @@ background-color: rgba(255, 255, 255, 0.8);" class="navbar navbar-expand-md navb
         <a [routerLink]="['/roles']" class="nav-item nav-link"><b>Roles</b></a>
       </div>
     </div>
-    <div class="navbar-nav ml-auto"> 
+    <div class="navbar-nav ml-auto">
       <div *ngIf="isLoggedIn">
-        <a [routerLink]="['/send-request']" class="nav-item nav-link">
+        <a [routerLink]="['/send-request']" class="nav-item nav-link"> 
           <b>Send Request<sup *ngIf="nr" class="bubble">{{nr}}</sup></b>
         </a>
       </div>
@@ -45,13 +40,17 @@ background-color: rgba(255, 255, 255, 0.8);" class="navbar navbar-expand-md navb
     </div>
   </div>
 </nav>
-<div class="space"></div>
+
+<div class="space1"></div> 
+
 <div class="cnt">
   <router-outlet></router-outlet>
 </div>
 
+<div class="space2"></div>
 
-
-<footer class="text-muted text-center" style="margin-top: 150px;">
-  <small>-</small>
+<footer class="text-center text-lg-start">
+  <div class="text-center p-3 ftr">
+    <b>© 2021 Copyright: <a href="https://fmi.unibuc.ro/"> FMI UniBuc </a></b>   
+  </div>
 </footer>

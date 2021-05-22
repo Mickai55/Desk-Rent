@@ -1,43 +1,26 @@
-<form style="text-align:center;">
+<form style="text-align:center;" [formGroup]="registerForm" (ngSubmit)="register()">
   <p class="p2">Register</p>
   <br>
   <div class="alert alert-danger" *ngIf="passEqual == false && pressed == true">Passwords do not match.</div>
-  <div class="alert alert-danger" *ngIf="allFieldsRequired() == false && pressed == true">All fields are required.</div>
-  <!-- <div class="alert alert-danger" *ngIf="validateEmail(user.email) == false && pressed == true">Email is invalid.</div> -->
-  <div class="form-group">
-    <!-- <label for="email">Name:</label>  
-  <input [(ngModel)]="user.name" class="form-control" placeholder="Enter name" id="name"> -->
+  <div class="alert alert-danger" *ngIf="registerForm.status === 'INVALID' && pressed == true">All fields are required.</div>
+  <div class="form-group"> 
     <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="user.username" type="text" placeholder="Username ..." name="name">
+      <input matInput formControlName="username" type="text" placeholder="Username ..." name="username">
     </mat-form-field>
   </div>
-  <!-- <div class="form-group">
-    // <label for="email">Email address:</label> 
-    //<input [(ngModel)]="user.email" type="email" [class]="validateEmail(user.email) ? 'form-control' : 'form-control is-invalid'" placeholder="Enter email" id="email"> 
-    <mat-form-field appearance="outline">
-      <mat-label>E-mail</mat-label>
-      <input matInput [(ngModel)]="user.email" type="email" placeholder="E-mail ..." name="email">
-    </mat-form-field>
-    <div *ngIf="user.email && !validateEmail(user.email)">
-      <p style="color:red">Email is not valid</p>
-    </div>
-  </div> -->
   <div class="form-group">
-    <!-- <label for="pwd">Password:</label>
-  <input [(ngModel)]="user.password" type="password" class="form-control" placeholder="Enter password" id="pwd"> -->
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="user.password" type="password" placeholder="Password ..." name="password">
+      <input matInput formControlName="password" type="password" placeholder="Password ..." name="password">
     </mat-form-field>
   </div>
   <div class="form-group">
-    <!-- <label for="pwd">Confirm Password:</label>
-  <input [(ngModel)]="user.confirmPassword" type="password" class="form-control" placeholder="Confirm password" -->
     <mat-form-field appearance="outline">
       <mat-label>Confirm Password</mat-label>
-      <input matInput [(ngModel)]="user.confirmPassword" type="password" placeholder="Confirm Password ..." name="cpwd">
+      <input matInput formControlName="confirmPassword" type="password" placeholder="Confirm Password ..."
+        name="confirmPassword">
     </mat-form-field>
   </div>
-  <button (click)="register()" class="btn btn-primary col-2"><b>REGISTER</b></button>
+  <button type="submit" class="btn btn-primary col-2"><b>REGISTER</b></button>
 </form>

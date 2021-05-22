@@ -39,7 +39,7 @@ const routes : Routes = [
   {
     path: 'createDeskRoom',
     component: CreateDeskRoomComponent,
-    canActivate: [PublicGuard]
+    canActivate: [PublicGuard, PrivateGuard]
   },
   {
     path: 'profile',

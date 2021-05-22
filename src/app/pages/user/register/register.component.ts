@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MainService } from 'src/app/services/main.service';
 
@@ -11,32 +12,39 @@ export class RegisterComponent implements OnInit {
   public user: any = {};
   public passEqual = true;
   public pressed = false;
-  constructor(private mainService: MainService,
-    private router: Router ) {}
+  public registerForm: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(
+    private mainService: MainService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+    });
+  }
 
   register() {
     this.pressed = true;
-    this.passEqual = this.user.password == this.user.confirmPassword;
 
-    if (
-      this.passEqual &&
-      this.allFieldsRequired()
-    ) {
-      this.mainService.register(this.user).subscribe((response) => {
-        this.router.navigate(['/login'])
-        .then(() => {
+    let user = {
+      username: this.registerForm.value.username,
+      password: this.registerForm.value.password,
+      confirmPassword: this.registerForm.value.confirmPassword,
+    };
+
+    this.passEqual = this.user.password === this.user.confirmPassword;
+
+    if (this.passEqual && this.registerForm.status === 'VALID') {
+      this.mainService.register(user).subscribe((response) => {
+        this.router.navigate(['/login']).then(() => {
           window.location.reload();
         });
       });
     }
-  }
-
-  allFieldsRequired() {
-    const { username, password, confirmPassword } = this.user;
-    if (username == undefined || password == undefined || confirmPassword == undefined)
-      return false;
-    return true;
   }
 }

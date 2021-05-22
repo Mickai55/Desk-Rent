@@ -15,7 +15,7 @@ import { MainService } from 'src/app/services/main.service';
 export class RentComponent implements OnInit {
   constructor(private mainService: MainService) {}
   public desks = [];
-
+  role = localStorage.getItem('role');
   // public async getDesks(): Promise<boolean> {
   //   return new Promise((resolve, reject) => {
   //     this.mainService.getDesks().subscribe( 
@@ -51,7 +51,7 @@ export class RentComponent implements OnInit {
   // deleteLastDesk() {
   // }
 
-  displayedColumns: string[] = ['_id', 'name', 'address', 'available_spaces'];
+  displayedColumns: string[] = ['_id', 'name', 'address', 'dimension', 'available_spaces'];
   dataSource: any;
    
   @ViewChild(MatPaginator) paginator: MatPaginator;

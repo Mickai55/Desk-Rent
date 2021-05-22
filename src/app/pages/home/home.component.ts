@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
 
   myInterval = 5000;
   activeSlideIndex = 0;
+  public static animation = true;
 
   slides = [
     {image: 'assets/ss/rent.png'},

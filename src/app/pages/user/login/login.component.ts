@@ -6,16 +6,18 @@ import { MainService } from 'src/app/services/main.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public serverError: boolean = false;
   public submitted: boolean = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private mainService: MainService,
-    private router: Router ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -28,12 +30,11 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm);
     this.submitted = true;
     this.serverError = false;
-
+    
     if (this.loginForm.status === 'VALID') {
       this.mainService.login(this.loginForm.value).subscribe(
         (res) => {
-          this.router.navigate(['/rent'])
-          .then(() => {
+          this.router.navigate(['/rent']).then(() => {
             window.location.reload();
           });
         },
@@ -49,5 +50,4 @@ export class LoginComponent implements OnInit {
   get f() {
     return this.loginForm.controls;
   }
-
 }

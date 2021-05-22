@@ -32,11 +32,28 @@
   color: black;
 }
 
-body { 
+.bdy {
+  max-width: 1200px;
+  margin:    0 auto; 
+  background-color: rgb(238, 238, 238);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("/assets/images/bg.jpg");
+}
+
+.bdyAnimation { 
     max-width: 1200px;
     margin:    0 auto; 
     background-color: rgb(238, 238, 238);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url("/assets/images/bg.jpg");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("/assets/images/bg.jpg");
+    background-position: left center;
+    animation-name: moving;
+    animation-duration: 30s; 
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes moving {
+  from {background-position: left center;}
+  to {background-position: right center;}
 }
 
 .p2 {

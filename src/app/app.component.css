@@ -1,15 +1,29 @@
 .cnt {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.85);
     border-radius: 5px;
     border: 1px solid  rgb(202, 202, 202);
-    /* border-right: 1px solid  rgb(202, 202, 202);
-    border-bottom: 1px solid  rgb(202, 202, 202); */
     padding: 4%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.space {
+
+.space1 {
+    padding-top: 7.4%;
+}
+
+.space2 { 
     padding-top: 2%;
-    /* border-left: 1px solid  rgb(238, 238, 238); */
-    /* border-bottom: 1px solid  rgb(202, 202, 202); */
+}
+
+.navStl { 
+    border-bottom: 1px solid  rgb(202, 202, 202);
+    border-left: 1px solid  rgb(202, 202, 202);
+    border-right: 1px solid  rgb(202, 202, 202);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    max-width: 1200px;
+    margin:    0 auto; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 img {
@@ -34,14 +48,23 @@ img {
 
 .logout {
     cursor: pointer;
-    color:rgba(255, 0, 0, 0.596) !important;
+    color:rgb(216, 0, 0) !important;
 } 
 
 .user { 
     color:rgb(79, 79, 150)  !important;
+    /* border: 1px solid rgb(221, 221, 221);
+    border-radius: 5px; */
 }
 
 .nav-link:hover {
     background-color: rgba(128, 128, 128, 0.1);
     border-radius: 5px;
 } 
+
+.ftr {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+    border: 1px solid  rgb(202, 202, 202);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
