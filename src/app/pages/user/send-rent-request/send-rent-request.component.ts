@@ -101,7 +101,6 @@ export class SendRentRequestComponent implements OnInit {
 
   discardRequest() {
     this.req.status = 'Discarded';
-    // this.req._id = this.rrLength;
 
     for (let chReqId of this.reqIds) {
       let chReq = this.chairRequests.find((c) => c._id === chReqId);

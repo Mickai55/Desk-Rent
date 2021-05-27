@@ -109,6 +109,11 @@ export class DeskRoomComponent implements OnInit {
       } 
     })
     this.desk.available_spaces = spaces;
+
+    this.mainService.updateDesk(this.desk).subscribe(response => {
+      console.log(response);
+    });
+    
   }
 
   ngAfterViewInit() {}
@@ -127,7 +132,15 @@ export class DeskRoomComponent implements OnInit {
     
     this.clickedDesk = i;
     let ch = this.desk.chairs[i];
-    this.clickedDeskRequests = this.chairRequests.filter(r => ch.requests.find(c => c === r._id ) != undefined);
+    this.clickedDeskRequests = this.chairRequests.filter(r => ch.requests.find(c => c === r._id ) != undefined && r.status !== 'Discarded');
+    // this.clickedDeskRequests = this.clickedDeskRequests.filter(r => r.status !== 'Discarded');
+  }
+
+  chairStatus(i: number) {
+    let ch = this.desk.chairs[i];
+    let nrReq = this.chairRequests.filter(r => ch.requests.find(c => c === r._id ) != undefined && r.status !== 'Discarded');
+
+    return nrReq.length;
   }
 
   //on SV
@@ -255,9 +268,9 @@ export class DeskRoomComponent implements OnInit {
     
     this.mainService.updateDesk(this.desk).subscribe(response => {
       console.log(response);
+      window.location.reload();
     });
 
-    window.location.reload();
     // this.ngOnInit();
   }
 

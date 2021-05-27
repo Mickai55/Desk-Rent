@@ -52,7 +52,10 @@ export class CreateDeskRoomComponent implements OnInit {
     this.mainService
       .getDeskCount()
       .subscribe(
-        (response) => (this.deskCount = +JSON.parse(JSON.stringify(response)))
+        (response) => {
+          this.deskCount = +JSON.parse(JSON.stringify(response))
+          this.desk._id = this.deskCount;
+        }
       );
   }
 
@@ -72,8 +75,6 @@ export class CreateDeskRoomComponent implements OnInit {
       this.desk.lat = +MarkerService.latitude;
       this.desk.lon = +MarkerService.longitude;
     }
-
-    this.desk._id = this.deskCount;
 
     this.mainService.createDesk(this.desk).subscribe((response) => {
       console.log(response);

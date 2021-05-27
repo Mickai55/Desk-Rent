@@ -23,9 +23,9 @@
       (click)="openModal(template, i)">
 
       <div class="chair-content">ID: {{chair._id + 1}}</div>
-      <div *ngIf="chair.requests.length == 0" class="chair-content">Free</div>
+      <div *ngIf="chairStatus(chair._id) === 0" class="chair-content">Free</div>
       <div *ngIf="chair.occupied" class="chair-content">Occupied</div>
-      <div *ngIf="chair.requests.length > 0 && !chair.occupied" class="chair-content">Has res.</div>
+      <div *ngIf="chairStatus(chair._id) > 0 && !chair.occupied" class="chair-content">Has res.</div>
     </div>
   </div>
 </div>
@@ -40,10 +40,10 @@
   </div>
   <div style="text-align: center;" class="modal-body">
 
-    <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length > 0">This desk has the following reservations: </h3>
-    <h3 *ngIf="this.desk.chairs[this.clickedDesk].requests.length === 0">This desk has no reservations </h3>
-
-    <div *ngFor="let req of this.clickedDeskRequests; let i = index;">
+    <h3 *ngIf="clickedDeskRequests.length > 0">This desk has the following reservations: </h3>
+    <h3 *ngIf="clickedDeskRequests.length === 0">This desk has no reservations </h3>
+ 
+    <div *ngFor="let req of clickedDeskRequests; let i = index;">
       <ngb-accordion activeIds="ngb-panel-0">
         <ngb-panel id="ngb-panel-{{i}}">
           <ng-template ngbPanelTitle>

@@ -5,13 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import { DataTablesModule } from 'angular-datatables';
+import { DragDropModule } from '@angular/cdk/drag-drop';  
+
+// Bootstrap Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { DragDropModule } from '@angular/cdk/drag-drop';  
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';   
         
 // Angular Material
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -20,10 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
 // Mat-Table
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -75,7 +75,6 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    DataTablesModule,
     BrowserAnimationsModule,
     CarouselModule,
     ModalModule.forRoot(),
