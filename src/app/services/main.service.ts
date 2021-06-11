@@ -38,8 +38,7 @@ export class MainService {
 
   register(data: any): Observable<any> {
     return this.http
-      .post('http://localhost:8443/api/users/register', data, this.getHeaders())
-      .pipe(tap(), catchError(this.handleError('register ERROR')));
+      .post('http://localhost:8443/api/users/register', data, this.getHeaders());
   }
 
   login(data: any): Observable<any> {

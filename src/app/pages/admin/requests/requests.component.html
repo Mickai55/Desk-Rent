@@ -30,7 +30,7 @@
           [ngStyle]="(req.status === 'Waiting approval') && {'color':'blue'} || (req.status === 'Accepted') && {'color':'green'} || (req.status === 'Rejected') && {'color':'red'} || (req.status === 'Pending...') && {'color':'orange'}">{{req.status}}</b>
       </h2>
       <h2>Date: {{req.timestamp.slice(0, 10)}}, {{req.timestamp.slice(11, 19)}}</h2>
-      <h2>Requests:</h2>
+      <h2>Days requested:</h2>
       <div *ngFor="let chReq of req.requests; let i = index;">
         <div *ngIf="cr(chReq) && desks[cr(chReq).desk_id]">
           <ngb-accordion>

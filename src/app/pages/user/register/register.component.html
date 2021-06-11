@@ -2,8 +2,14 @@
   <p class="p2">Register</p>
   <br>
   <div class="alert alert-danger" *ngIf="passEqual == false && pressed == true">Passwords do not match.</div>
-  <div class="alert alert-danger" *ngIf="registerForm.status === 'INVALID' && pressed == true">All fields are required.</div>
-  <div class="form-group"> 
+  <div class="alert alert-danger" *ngIf="passReq == false && pressed == true">Password be at least 6 characters long and
+    must have at least one uppercase and one lowercase letter.</div>
+  <div class="alert alert-danger" *ngIf="registerForm.status === 'INVALID' && pressed == true">All fields are required.
+  </div>
+  <div class="alert alert-danger" *ngIf="serverError">
+    Choose another username
+  </div>
+  <div class="form-group">
     <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" type="text" placeholder="Username ..." name="username">
@@ -22,5 +28,5 @@
         name="confirmPassword">
     </mat-form-field>
   </div>
-  <button type="submit" class="btn btn-primary col-2"><b>REGISTER</b></button>
+  <button type="submit" class="btn btn-primary col-2"><b>Register</b></button>
 </form>

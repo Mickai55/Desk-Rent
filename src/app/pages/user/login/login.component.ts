@@ -27,14 +27,14 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
-    console.log(this.loginForm);
+    // console.log(this.loginForm);
     this.submitted = true;
     this.serverError = false;
-    
+
     if (this.loginForm.status === 'VALID') {
       this.mainService.login(this.loginForm.value).subscribe(
         (res) => {
-          this.router.navigate(['/rent']).then(() => {
+          this.router.navigate(['/']).then(() => {
             window.location.reload();
           });
         },

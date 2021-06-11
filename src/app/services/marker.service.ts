@@ -1,7 +1,6 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
-import { PopupService } from './popup.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +10,7 @@ export class MarkerService {
   public static latitude;
   public static longitude;
 
-  constructor(
-    private http: HttpClient,
-    private popupService: PopupService
-    ) { }
+  constructor() { }
 
   moveMarker(map: L.map) {
     var myMarker = L.marker([44.425, 26.1], {title: "MyPoint", alt: "The Big I", draggable: true})

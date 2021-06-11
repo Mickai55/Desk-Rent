@@ -32,11 +32,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 // Leaflet Map
-import { MarkerService } from './services/marker.service';
-import { PopupService } from './services/popup.service';        
+import { MarkerService } from './services/marker.service';   
 import { MapComponent } from './mapGetLocation/map.component';
 import { Map2Component } from './mapPutLocation/map2.component';
-
+  
 // Components
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/user/login/login.component';
@@ -99,9 +98,8 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     MatSlideToggleModule
   ],  
   providers: [
-    RentComponent, 
+    RentComponent,   
     MarkerService,
-    PopupService,
     MapComponent
   ],
   bootstrap: [AppComponent],

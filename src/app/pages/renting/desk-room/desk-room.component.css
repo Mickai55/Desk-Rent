@@ -11,11 +11,11 @@
 }
 
 .chair-green {
-  background-color: lightgreen;
+  background-color: rgb(144, 238, 144);
 }
 
 .chair-red {
-  background-color: red;
+  background-color: rgb(255, 91, 91);
 }
 
 .chair-content {

@@ -77,8 +77,6 @@ export class CreateDeskRoomComponent implements OnInit {
     }
 
     this.mainService.createDesk(this.desk).subscribe((response) => {
-      console.log(response);
-
       this.router.navigate(['/rent']);
     });
   }

@@ -25,7 +25,7 @@
   </mat-form-field>
 
   <p><button style="position: relative; margin-bottom: 10px;" class="btn btn-outline-secondary"
-      (click)="openModal(content);addChairs(); ">Customize Desk</button></p>
+      (click)="openModal(content);addChairs(); ">Customize Desk Room</button></p>
 
   <mat-slide-toggle style="margin-top: 10px;" [color]="'primary'" [(ngModel)]="loc">Add Desk's location (drag the marker
     to the Desk's location)</mat-slide-toggle>
@@ -42,12 +42,12 @@
       style="height:150px; width:200px; margin-right:3px; border: 1px solid lightgrey;">
   </div>
 
-  <p><button style="margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Confirm</button></p>
+  <p><button style="margin-top: 25px;" class="btn btn-success" (click)="addDesk()">Add Desk Room</button></p>
 </div>
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h2 id="modal-basic-title">Desk Design</h2>
+    <h2 style="margin-left: auto;" id="modal-basic-title">Desk Design</h2>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -59,10 +59,10 @@
           <div class="chair-content">ID: {{chair._id + 1}}</div>
         </div>
       </div>
-    </div>
+    </div> 
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
-    <button type="button" class="btn btn-outline-primary" (click)=" resetChairs(); "> Reset position </button>
+  <div style="text-align: center;" class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
+      <button type="button" class="btn btn-outline-primary" (click)=" resetChairs(); "> Reset position </button>
   </div>
 </ng-template>

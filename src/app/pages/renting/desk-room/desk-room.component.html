@@ -42,7 +42,7 @@
 
     <h3 *ngIf="clickedDeskRequests.length > 0">This desk has the following reservations: </h3>
     <h3 *ngIf="clickedDeskRequests.length === 0">This desk has no reservations </h3>
- 
+
     <div *ngFor="let req of clickedDeskRequests; let i = index;">
       <ngb-accordion activeIds="ngb-panel-0">
         <ngb-panel id="ngb-panel-{{i}}">
@@ -90,7 +90,9 @@
 
     <hr>
 
-    <button type="button" class="btn btn-success col-6" (click)="occupyDesk();modalRef.hide();">Confirm</button>
-    <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
+    <div *ngIf="isUserLogged">
+      <button type="button" class="btn btn-success col-6" (click)="occupyDesk();modalRef.hide();">Confirm</button>
+      <button type="button" class="btn btn-danger col-6 float-right" (click)="modalRef.hide()">Cancel</button>
+    </div>
   </div>
 </ng-template>

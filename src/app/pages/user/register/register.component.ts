@@ -11,7 +11,9 @@ import { MainService } from 'src/app/services/main.service';
 export class RegisterComponent implements OnInit {
   public user: any = {};
   public passEqual = true;
+  public passReq = true;
   public pressed = false;
+  public serverError: boolean = false;
   public registerForm: FormGroup;
 
   constructor(
@@ -28,23 +30,43 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  passRequirements(pass) {
+    if (pass.length < 6)
+      return false;
+    if (pass === pass.toUpperCase() || pass === pass.toLowerCase())
+      return false;
+    if (/[^0-9]/.test(pass) == false)
+      return false;
+
+    return true; 
+  }
+
   register() {
     this.pressed = true;
 
     let user = {
-      username: this.registerForm.value.username,
+      username: this.registerForm.value.username, 
       password: this.registerForm.value.password,
       confirmPassword: this.registerForm.value.confirmPassword,
     };
 
-    this.passEqual = this.user.password === this.user.confirmPassword;
+    this.passEqual = user.password === user.confirmPassword;
+    
+    this.passReq = this.passRequirements(user.password);
 
-    if (this.passEqual && this.registerForm.status === 'VALID') {
-      this.mainService.register(user).subscribe((response) => {
+    if (this.passReq && this.passEqual && this.registerForm.status === 'VALID') {
+      this.mainService.register(user).subscribe(
+        (res) => {
         this.router.navigate(['/login']).then(() => {
           window.location.reload();
         });
-      });
+      },
+      (err) => {
+        if (err) {
+          this.serverError = true;
+        }
+      }
+      );
     }
   }
 }
