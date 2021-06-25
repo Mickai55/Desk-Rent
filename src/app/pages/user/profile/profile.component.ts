@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 import { User } from 'src/app/interfaces/user';
 import { MainService } from 'src/app/services/main.service';
 
@@ -8,7 +9,9 @@ import { MainService } from 'src/app/services/main.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-  constructor(private mainService: MainService) {}
+  constructor(private mainService: MainService,
+    private notifierService: NotifierService
+  ) {}
   user: User = { _id: 0, username: '', email: '', phone: '', location: '', website_link: '', request_count: 0, photo: '', userType: 'normal'};
   role = localStorage.getItem('role');
 
@@ -30,6 +33,7 @@ export class ProfileComponent implements OnInit {
 
   saveChanges() {
     this.mainService.updateUser(this.user).subscribe();
+    this.notifierService.notify('success', 'The profile was updated!');
   }
 
   changePhoto() {

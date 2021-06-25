@@ -1,15 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from './services/main.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
+
+
 export class AppComponent implements OnInit {
-  constructor(private mainService: MainService) {}
+  constructor(private mainService: MainService,
+    private notifierService: NotifierService
+  ) {}
+
   rentRequests = [];
-  user;
+  user = {
+    _id: 0,
+    username: '',
+    email: '',
+    phone: '',
+    location: '',
+    website_link: '',
+    request_count: 0,
+    photo: '',
+    userType: 'normal',
+  };
   req;
   nr;
   desks;

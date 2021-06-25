@@ -21,8 +21,8 @@ export class CreateDeskRoomComponent implements OnInit {
     private router: Router,
     private rent: RentComponent,
     private modalService: NgbModal,
-    private http: HttpClient,
-    private mainService: MainService
+    private mainService: MainService,
+    private notifierService: NotifierService
   ) {}
   notifier: NotifierService;
   closeResult = '';
@@ -78,6 +78,7 @@ export class CreateDeskRoomComponent implements OnInit {
 
     this.mainService.createDesk(this.desk).subscribe((response) => {
       this.router.navigate(['/rent']);
+      this.notifierService.notify('info', 'The Desk Room was created!');
     });
   }
 

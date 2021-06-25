@@ -82,6 +82,7 @@ export class DeskRoomComponent implements OnInit {
     this.mainService.getDesks().subscribe((response) => {
       this.desks = JSON.parse(JSON.stringify(response));
       this.desk = this.desks[this._id];
+      
 
       this.deskDimensions();
       this.filter = this.filterForDateRange();
@@ -160,7 +161,8 @@ export class DeskRoomComponent implements OnInit {
     this.clickedDeskRequests = this.chairRequests.filter(
       (r) =>
         ch.requests.find((c) => c === r._id) != undefined &&
-        r.status !== 'Discarded'
+        r.status !== 'Discarded' && 
+        this.showDate(r.days[r.days.length - 1])
     );
     // this.clickedDeskRequests = this.clickedDeskRequests.filter(r => r.status !== 'Discarded');
   }
@@ -170,7 +172,8 @@ export class DeskRoomComponent implements OnInit {
     let nrReq = this.chairRequests.filter(
       (r) =>
         ch.requests.find((c) => c === r._id) != undefined &&
-        r.status !== 'Discarded'
+        r.status !== 'Discarded' && 
+        this.showDate(r.days[r.days.length - 1])
     );
 
     return nrReq.length;
@@ -248,8 +251,11 @@ export class DeskRoomComponent implements OnInit {
 
   occupyDesk() {
     // put the request on ChairRequests
-    if (this.bsRangeValue != null) this.selectRange();
+    if (this.bsRangeValue != null) 
+      this.selectRange();
     let days = Array.from(this.daysSelected);
+    if (days.length === 0)
+      return;
     days.sort();
     let ch = this.desk.chairs[this.clickedDesk];
     let chReq: ChairRequest = {
@@ -317,6 +323,10 @@ export class DeskRoomComponent implements OnInit {
     });
 
     // this.ngOnInit();
+  }
+
+  showDate(day) { 
+    return (new Date().getTime() - new Date(day).getTime()) < 86399999; 
   }
 
   reverseDate(date) {

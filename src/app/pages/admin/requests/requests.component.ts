@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 import { ChairRequest } from 'src/app/interfaces/chair-request';
 import { Desk } from 'src/app/interfaces/desk';
 import { RentRequest } from 'src/app/interfaces/rent-request';
@@ -31,7 +32,9 @@ export class RequestsComponent implements OnInit {
   filterDate = '';
   filterUser = '';
 
-  constructor(private mainService: MainService) {}
+  constructor(private mainService: MainService,
+    private notifierService: NotifierService
+  ) {}
 
   ngOnInit(): void {
     this.mainService
@@ -83,6 +86,8 @@ export class RequestsComponent implements OnInit {
   }
 
   accept(id) {
+    this.notifierService.notify('success', 'The request was accepted!');
+
     this.rentRequests[id].status = 'Accepted';
 
     this.mainService
@@ -100,6 +105,8 @@ export class RequestsComponent implements OnInit {
   }
 
   reject(id) {
+    this.notifierService.notify('warning', 'The request was rejected!');
+
     this.rentRequests[id].status = 'Rejected';
 
     for (let chReqId of this.rentRequests[id].requests) {

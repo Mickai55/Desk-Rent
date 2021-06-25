@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   constructor() { }
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   myInterval = 5000;
   activeSlideIndex = 0;
@@ -15,10 +15,11 @@ export class HomeComponent implements OnInit {
 
   slides = [
     {image: 'assets/ss/rent.png'},
-    {image: 'assets/ss/google.png'},
+    {image: 'assets/ss/microsoft.png'},
     {image: 'assets/ss/renting.png'},
     {image: 'assets/ss/send.png'},
-    {image: 'assets/ss/history.png'},
+    {image: 'assets/ss/acc.png'},
+    {image: 'assets/ss/result.png'},
   ];
 
   texts = [
@@ -27,5 +28,6 @@ export class HomeComponent implements OnInit {
     'Enter a specific date or a date-range for when you want to go coding',
     'Confirm the request',
     'Wait until an Admin accepts your request',
+    'You are done!',
   ]
 }

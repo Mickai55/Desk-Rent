@@ -13,7 +13,7 @@
         <a [routerLink]="['/history']" class="nav-item nav-link"><b>History</b></a>
       </div>
       <div *ngIf="isLoggedIn && role === 'admin'">
-        <a [routerLink]="['/requests']" class="nav-item nav-link"><b>Requests</b></a>
+        <a [routerLink]="['/requests']" class="nav-item nav-link"><b>Requests</b></a> 
       </div>
       <div *ngIf="isLoggedIn && role === 'admin'">
         <a [routerLink]="['/roles']" class="nav-item nav-link"><b>Roles</b></a>
@@ -26,10 +26,13 @@
         </a>
       </div>
       <div *ngIf="isLoggedIn">
-        <a [routerLink]="['/profile']" class="nav-item nav-link user"><b>{{username}}</b></a>
+        <a [routerLink]="['/profile']" class="nav-item nav-link user">
+          <img src="{{user.photo}}" alt="Admin" class="rounded-circle" style="width:20px; height:20px; margin-right: 5px;">
+          <b> {{username}}</b>  
+        </a>
       </div>
       <div *ngIf="!isLoggedIn">
-        <a [routerLink]="['/login']" class="nav-item nav-link"><b>Login</b></a>
+        <a [routerLink]="['/login']" class="nav-item nav-link p4"><b>Login</b></a>
       </div>
       <div *ngIf="!isLoggedIn">
         <a [routerLink]="['/register']" class="nav-item nav-link"><b>Register</b></a>
@@ -54,3 +57,5 @@
     <b>© 2021 Copyright: <a href="https://fmi.unibuc.ro/"> FMI UniBuc </a></b>   
   </div>
 </footer>
+
+<notifier-container></notifier-container>

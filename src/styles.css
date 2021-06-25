@@ -36,14 +36,14 @@
   max-width: 1200px;
   margin:    0 auto; 
   background-color: rgb(238, 238, 238);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("/assets/images/bg.jpg");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("/assets/images/bga.gif");
 }
 
 .bdyAnimation { 
     max-width: 1200px;
     margin:    0 auto; 
     background-color: rgb(238, 238, 238);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("/assets/images/bg.jpg");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("/assets/images/bga.gif");
     background-position: left center;
     animation-name: moving;
     animation-duration: 30s; 

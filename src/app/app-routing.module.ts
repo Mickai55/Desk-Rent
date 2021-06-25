@@ -14,6 +14,7 @@ import { RequestsComponent } from './pages/admin/requests/requests.component';
 import { RolesComponent } from './pages/admin/roles/roles.component';
 import { PublicGuard } from './guards/public.guard';
 import { PrivateGuard } from './guards/private.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes : Routes = [
   {
@@ -22,11 +23,13 @@ const routes : Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'rent',

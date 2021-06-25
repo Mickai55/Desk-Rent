@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotifierService } from 'angular-notifier';
 import { MainService } from 'src/app/services/main.service';
 
 @Component({
@@ -13,7 +14,9 @@ export class RolesComponent implements OnInit {
 
   users = [];
 
-  constructor(private mainService: MainService) { }
+  constructor(private mainService: MainService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
     this.mainService.getAllUsers().subscribe(response => {
@@ -28,7 +31,8 @@ export class RolesComponent implements OnInit {
     let u = this.users.find(u => u._id === id)
     u.userType = role;
     this.mainService.updateUser(u).subscribe();
-    
+
+    this.notifierService.notify('success', u.username + ' is now ' + role.toLowerCase() + '!');
   }
 
   displayedColumns: string[] = ['_id', 'username', 'role'];

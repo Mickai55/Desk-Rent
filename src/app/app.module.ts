@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';  
+import { NotifierModule } from 'angular-notifier';
 
 // Bootstrap Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -71,7 +72,7 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     AppRoutingModule,
     CommonModule,
     BrowserModule,
-    FormsModule,
+    FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -95,7 +96,8 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     MatProgressBarModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NotifierModule
   ],  
   providers: [
     RentComponent,   
@@ -103,5 +105,5 @@ import { RolesComponent } from './pages/admin/roles/roles.component';
     MapComponent
   ],
   bootstrap: [AppComponent],
-})
+})      
 export class AppModule {}
