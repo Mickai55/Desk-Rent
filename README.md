@@ -1,4 +1,9 @@
 # Deskrent
+DeskRent is a place for finding the perfect desk to code in harmony alongside other geeks! The app can be
+used by IT companies so they can manage every place from the offices in their building, useful in the
+context of COVID-19. It is made using Angular for front-end and for back-end I used Spring Boot and I MMongoDB.
+
+DEMO: https://youtu.be/dwvO1Dv_mSs
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.6.
 
